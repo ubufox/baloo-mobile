@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: RoutePaths.Home,
+      initialRoute: RoutePaths.Action,
       onGenerateRoute: Router.generateRoute,
     );
   }

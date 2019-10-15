@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:baloo/core/constants/routes.dart';
 import 'package:baloo/ui/components/impact_box.dart';
 import 'package:baloo/ui/screens/Communities/discover.dart';
+import 'package:baloo/ui/components/Navigation/nav_bar.dart';
 
 
 class CommunitiesScreen extends StatelessWidget{
@@ -77,14 +78,14 @@ class CommunitiesScreen extends StatelessWidget{
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        child: Container(height: 60.0),
+        child: NavBar(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, RoutePaths.Home);
+          Navigator.pushNamed(context, RoutePaths.Action);
         },
         tooltip: 'Go Home',
-        child: Icon(Icons.home),
+        child: Icon(Icons.flash_on),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
