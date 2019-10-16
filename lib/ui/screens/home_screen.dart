@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget{
         style: TextStyle(
           color: Color(0xFF2F2F33),
           fontFamily: 'Muli',
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           fontSize: 32,
         ),
       ),
@@ -155,7 +155,7 @@ class _rowItem extends StatelessWidget{
         style: TextStyle(
           color: Color(0xFF2F2F33),
           fontFamily: 'Muli',
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           fontSize: 14,
         ),
       ),

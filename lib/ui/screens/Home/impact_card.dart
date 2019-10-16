@@ -109,7 +109,7 @@ class _headerText extends StatelessWidget {
         style: TextStyle(
           color: Color(0xFF2F2F33),
           fontFamily: 'Muli',
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           fontSize: 22,
         ),
       ),
@@ -133,7 +133,7 @@ class _subheaderText extends StatelessWidget {
         style: TextStyle(
           color: Color(0xFF595959),
           fontFamily: 'Muli',
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           fontSize: 16,
         ),
       ),
@@ -158,7 +158,7 @@ class _valueText extends StatelessWidget {
         style: TextStyle(
           color: Color(0xFF2F2F33),
           fontFamily: 'Muli',
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           fontSize: 20,
         ),
       ),
