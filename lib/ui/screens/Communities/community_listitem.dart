@@ -1,30 +1,37 @@
 import 'package:flutter/material.dart';
 
+import 'package:baloo/core/constants/routes.dart';
+
+// Models
+import 'package:baloo/core/models/community.dart';
+
 
 class CommunityListItem extends StatelessWidget {
-  CommunityListItem({
-    @required this.imageURL,
-    @required this.name,
-    @required this.location,
-  });
+  CommunityListItem({ @required this.community });
 
-  final String imageURL;
-  final String name;
-  final String location;
-
+  final Community community;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 221,
       margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 32.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          _communityImage(imageURL: '$imageURL'),
-          _name(name: '$name'),
-          _location(location: '$location'),
-        ],
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            RoutePaths.CommunityDetail,
+            arguments: community,
+          );
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            _communityImage(imageURL: community.getBanner()),
+            _name(name: community.getName()),
+            _location(location: community.getLocation()),
+          ],
+        ),
       ),
     );
   }

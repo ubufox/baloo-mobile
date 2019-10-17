@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
+import 'package:baloo/core/constants/routes.dart';
+
+// Models
+import 'package:baloo/core/models/community.dart';
+
 
 class CommunityCard extends StatelessWidget{
   CommunityCard({
-    @required this.id,
-    @required this.name,
-    @required this.members,
-    @required this.location,
+    @required this.community,
   });
 
-  final int id;
-  final String name;
-  final String members;
-  final String location;
+  final Community community;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,11 @@ class CommunityCard extends StatelessWidget{
       margin: new EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
       child: GestureDetector(
         onTap: () {
-          print('$name');
+          Navigator.pushNamed(
+            context,
+            RoutePaths.CommunityDetail,
+            arguments: community,
+          );
         },
         child: Container(
           height: 224,
@@ -42,10 +45,10 @@ class CommunityCard extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               _nameAndMembers(
-                name: '$name',
-                members: '$members',
+                name: community.name,
+                members: community.members,
               ),
-              _location(location: '$location'),
+              _location(location: community.location),
             ]
           ),
         ),

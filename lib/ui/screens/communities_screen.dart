@@ -6,29 +6,36 @@ import 'package:baloo/ui/screens/Communities/community_listitem.dart';
 import 'package:baloo/ui/screens/Communities/discover.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
 
+// Models
+import 'package:baloo/core/models/community.dart';
+
 
 class CommunitiesScreen extends StatelessWidget{
   Widget _yourCommunitiesListView(BuildContext context) {
     final communities = [{
-        'id': 1,
         'name': 'Heal the Bay',
         'members': '14.2K members',
         'location': 'Los Angeles, CA',
+        'bannerImage': 'assets/images/default_community.jpg',
+        'about': 'About text',
       }, {
-        'id': 2,
         'name': 'The Sierra Club',
         'members': '67.8K members',
         'location': 'Oakland, CA',
+        'bannerImage': 'assets/images/sierraclub.jpg',
+        'about': "The Sierra Club is the most enduring and influential grassroots environmental organization in the United States. We amplify the power of our 3.5+ million members and supporters to defend everyone’s right to a healthy world.",
       }, {
-        'id': 3,
         'name': 'Surfrider Foundation',
         'members': '683 members',
         'location': 'Santa Monica, CA',
+        'bannerImage': 'assets/images/default_community.jpg',
+        'about': 'About text',
       }, {
-        'id': 4,
         'name': "Grand View Farmer's Market",
         'members': '888 members',
         'location': 'Los Angeles, CA',
+        'bannerImage': 'assets/images/default_community.jpg',
+        'about': 'About text',
       },
     ];
 
@@ -41,10 +48,13 @@ class CommunitiesScreen extends StatelessWidget{
           itemCount: communities.length,
           itemBuilder: (BuildContext context, int index) {
             return CommunityCard(
-              id: communities[index]['id'],
-              name: communities[index]['name'],
-              members: communities[index]['members'],
-              location: communities[index]['location'],
+              community: Community(
+                communities[index]['name'],
+                communities[index]['members'],
+                communities[index]['location'],
+                communities[index]['bannerImage'],
+                communities[index]['about'],
+              ),
             );
           },
         ),
@@ -74,23 +84,35 @@ class CommunitiesScreen extends StatelessWidget{
       'imageURL': 'assets/images/sierraclub.jpg',
       'name': 'The Sierra Club',
       'location': 'Oakland, CA',
+      'members': '188K',
+      'about': "The Sierra Club is the most enduring and influential grassroots environmental organization in the United States. We amplify the power of our 3.5+ million members and supporters to defend everyone’s right to a healthy world.",
     }, {
       'imageURL': 'assets/images/npca.jpg',
       'name': 'National Parks Conservation Association',
       'location': 'Washington, DC',
+      'members': '268K',
+      'about': 'About text',
     }, {
       'imageURL': 'assets/images/treepeople.jpg',
       'name': 'TreePeople',
       'location': 'Beverly Hills, CA',
+      'members': '5.8K',
+      'about': 'About text',
     }];
 
     return SliverList(
       delegate: new SliverChildBuilderDelegate(
         (BuildContext context, int index) {
+          final Community comm =  new Community(
+              searchResults[index]['name'],
+              searchResults[index]['members'],
+              searchResults[index]['location'],
+              searchResults[index]['imageURL'],
+              searchResults[index]['about'],
+            );
+
           return CommunityListItem(
-            imageURL: searchResults[index]['imageURL'],
-            name: searchResults[index]['name'],
-            location: searchResults[index]['location'],
+            community: comm,
           );
         },
         childCount: searchResults.length,

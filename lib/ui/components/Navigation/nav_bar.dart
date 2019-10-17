@@ -12,6 +12,14 @@ class NavBar extends StatelessWidget{
     'icon': Icons.beach_access,
     'tooltip': 'Community',
     'location': RoutePaths.Communities,
+  }, {
+    'icon': Icons.spa,
+    'tooltip': 'Goal',
+    'location': RoutePaths.Goal,
+  }, {
+    'icon': Icons.perm_identity,
+    'tooltip': 'Profile',
+    'location': RoutePaths.Profile,
   }];
 
 
@@ -31,6 +39,16 @@ class NavBar extends StatelessWidget{
             icon: _items[1]['icon'],
             tooltip: _items[1]['tooltip'],
             location: _items[1]['location'],
+          ),
+          _navItem(
+            icon: _items[2]['icon'],
+            tooltip: _items[2]['tooltip'],
+            location: _items[2]['location'],
+          ),
+          _navItem(
+            icon: _items[3]['icon'],
+            tooltip: _items[3]['tooltip'],
+            location: _items[3]['location'],
           ),
         ],
       ),
