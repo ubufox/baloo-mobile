@@ -124,13 +124,21 @@ class CommunitiesScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverToBoxAdapter(child: _header()),
-          _yourCommunitiesListView(context),
-          CommunityDiscover(),
-          _discoverCommunitiesListView(context),
-        ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/communities_bg.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(child: _header()),
+            _yourCommunitiesListView(context),
+            CommunityDiscover(),
+            _discoverCommunitiesListView(context),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),

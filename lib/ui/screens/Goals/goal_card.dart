@@ -56,6 +56,7 @@ class GoalCard extends StatelessWidget {
       child: Container(
         height: 280,
         width: 260,
+        margin: const EdgeInsets.only(right: 20.0),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.bottomLeft,

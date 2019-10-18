@@ -43,6 +43,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/images/impact_bg.jpg
+   - assets/images/communities_bg.jpg
+   - assets/images/goals_bg.jpg
+   - assets/images/profile_bg.jpg
    - assets/images/sierraclub.jpg
    - assets/images/npca.jpg
    - assets/images/treepeople.jpg
