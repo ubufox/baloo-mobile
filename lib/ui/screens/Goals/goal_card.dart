@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:baloo/core/constants/routes.dart';
 // Models
 import 'package:baloo/core/models/goal.dart';
 
@@ -53,33 +54,41 @@ class GoalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Container(
-        height: 280,
-        width: 260,
-        margin: const EdgeInsets.only(right: 20.0),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            stops: [0.0, 1.0],
-            colors: goal.getColors(),
-          ),
-          borderRadius: BorderRadius.circular(16.0),
-          boxShadow: [
-            new BoxShadow(
-              color: Color(0x28000000),
-              offset: new Offset(0.0, 4.0),
-              blurRadius: 12.0,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            RoutePaths.GoalDetail,
+          );
+        },
+        child: Container(
+          height: 280,
+          width: 260,
+          margin: const EdgeInsets.only(right: 20.0),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              stops: [0.0, 1.0],
+              colors: goal.getColors(),
             ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            _topSection(),
-            _progressSection(),
-          ],
+            borderRadius: BorderRadius.circular(16.0),
+            boxShadow: [
+              new BoxShadow(
+                color: Color(0x28000000),
+                offset: new Offset(0.0, 4.0),
+                blurRadius: 12.0,
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              _topSection(),
+              _progressSection(),
+            ],
+          ),
         ),
       ),
     );

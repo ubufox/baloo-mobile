@@ -5,6 +5,7 @@ import 'package:baloo/ui/screens/home_screen.dart';
 import 'package:baloo/ui/screens/Action/action_screen.dart';
 import 'package:baloo/ui/screens/communities_screen.dart';
 import 'package:baloo/ui/screens/Goals/goal_screen.dart';
+import 'package:baloo/ui/screens/Goals/goal_detail.dart';
 import 'package:baloo/ui/screens/Profile/profile_screen.dart';
 import 'package:baloo/ui/screens/Communities/community_detail.dart';
 import 'package:baloo/ui/screens/does_not_exist_screen.dart';
@@ -35,6 +36,10 @@ class Router {
         final Community comm = settings.arguments;
         return MaterialPageRoute(
           builder: (_) => CommunityDetail(community: comm),
+        );
+      case RoutePaths.GoalDetail:
+        return MaterialPageRoute(
+          builder: (_) => GoalDetail(),
         );
       default:
         return MaterialPageRoute(builder: (_) => DoesNotExistScreen());
