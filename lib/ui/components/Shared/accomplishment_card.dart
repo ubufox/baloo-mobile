@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:baloo/core/constants/routes.dart';
+
 
 class AccomplishmentCard extends StatelessWidget {
   AccomplishmentCard({
@@ -91,32 +93,37 @@ class AccomplishmentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Container(
-        height: 304,
-        width: 260,
-        margin: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 12.0),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            stops: [0.0, 1.0],
-            colors: colors,
-          ),
-          borderRadius: BorderRadius.circular(16.0),
-          boxShadow: [
-            new BoxShadow(
-              color: Color(0x28000000),
-              offset: new Offset(0.0, 4.0),
-              blurRadius: 12.0,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, RoutePaths.Accomplishment);
+        },
+        child: Container(
+          height: 304,
+          width: 260,
+          margin: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 12.0),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              stops: [0.0, 1.0],
+              colors: colors,
             ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            _topSection(),
-            _bottomSection(),
-          ],
+            borderRadius: BorderRadius.circular(16.0),
+            boxShadow: [
+              new BoxShadow(
+                color: Color(0x28000000),
+                offset: new Offset(0.0, 4.0),
+                blurRadius: 12.0,
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              _topSection(),
+              _bottomSection(),
+            ],
+          ),
         ),
       ),
     );

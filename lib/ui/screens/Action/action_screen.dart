@@ -48,6 +48,7 @@ class _actionButton extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(top: 56.0),
       height: 188,
       width: 188,
       decoration: BoxDecoration(

@@ -6,6 +6,7 @@ import 'package:baloo/ui/screens/Action/action_screen.dart';
 import 'package:baloo/ui/screens/communities_screen.dart';
 import 'package:baloo/ui/screens/Goals/goal_screen.dart';
 import 'package:baloo/ui/screens/Goals/goal_detail.dart';
+import 'package:baloo/ui/screens/accomplishment_detail.dart';
 import 'package:baloo/ui/screens/Profile/profile_screen.dart';
 import 'package:baloo/ui/screens/Communities/community_detail.dart';
 import 'package:baloo/ui/screens/does_not_exist_screen.dart';
@@ -40,6 +41,10 @@ class Router {
       case RoutePaths.GoalDetail:
         return MaterialPageRoute(
           builder: (_) => GoalDetail(),
+        );
+      case RoutePaths.Accomplishment:
+        return MaterialPageRoute(
+          builder: (_) => AccomplishmentDetail(),
         );
       default:
         return MaterialPageRoute(builder: (_) => DoesNotExistScreen());

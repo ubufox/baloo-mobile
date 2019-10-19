@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 
 import 'package:baloo/core/constants/routes.dart';
-
 import 'package:baloo/ui/components/Buttons/wide_button.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
 
 
-class GoalDetail extends StatelessWidget {
+class AccomplishmentDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverToBoxAdapter(child: _goalBox()),
-          SliverToBoxAdapter(child: WideButton()),
+          SliverToBoxAdapter(child: _accomplishmentBox()),
+          SliverToBoxAdapter(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 60.0),
+              child: WideButton(),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -33,7 +37,7 @@ class GoalDetail extends StatelessWidget {
 }
 
 
-class _goalBox extends StatelessWidget {
+class _accomplishmentBox extends StatelessWidget {
   Widget _topSection(BuildContext context) {
     return Container(
       child: Column(
@@ -45,7 +49,7 @@ class _goalBox extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 12.0),
                   child: Text(
-                    'Help Surfrider pick up 20 trash cans worth of plastic',
+                    'Reduce your plastic impact by five years',
                     style: TextStyle(
                       color: Color(0xFF2F2F33),
                       fontSize: 22,
@@ -72,8 +76,9 @@ class _goalBox extends StatelessWidget {
             ],
           ),
           Container(
+            margin: const EdgeInsets.only(bottom: 24.0),
             child: Text(
-              'There are numerous threats to clean water and healthy beaches, including polluted runoff, offshore oil drilling, habitat loss, development, climate change, plastic in the ocean and trash on the shore.',
+              "Your family might use plastic straws, water bottles, and bags for just a few minutes, but those items don’t disappear when they’re thrown out. Single-use items like these account for more than 40 percent of plastic waste, and each year about 8.8 million tons of plastic trash flows into the ocean. This waste endangers wildlife, pollutes the water, and puts human health at risk.",
               style: TextStyle(
                 color: Color(0xFF595959),
                 fontSize: 16,
@@ -87,15 +92,16 @@ class _goalBox extends StatelessWidget {
     );
   }
 
-  Widget _bottomSection() {
+  Widget _statGroup(String label, String value) {
     return Container(
+      margin: const EdgeInsets.only(top: 32.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
-            margin: const EdgeInsets.only(bottom: 12.0),
+            margin: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              "This week's focus",
+              '$label',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -105,7 +111,7 @@ class _goalBox extends StatelessWidget {
             ),
           ),
           Text(
-            'Attend a Venice Beach clean up event',
+            '$value',
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w700,
@@ -118,10 +124,23 @@ class _goalBox extends StatelessWidget {
     );
   }
 
+  Widget _bottomSection() {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          _statGroup('Started', '5.28.19'),
+          _statGroup('Completed', '9.16.19'),
+          _statGroup('Actions', '241'),
+          _statGroup('Total Plastic Savings', '630.8 kg'),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
       margin: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 40.0),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -129,8 +148,8 @@ class _goalBox extends StatelessWidget {
           end: Alignment.topRight,
           stops: [0.0, 1.0],
           colors: [
-            Color(0xFF8BEBE4),
-            Color(0xFFD6FEEF),
+            Color(0xFFE1D0F9),
+            Color(0xFFF7D5EB),
           ],
         ),
         boxShadow: [
@@ -145,7 +164,6 @@ class _goalBox extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.fromLTRB(20.0, 72.0, 20.0, 36.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _topSection(context),
             _bottomSection(),
