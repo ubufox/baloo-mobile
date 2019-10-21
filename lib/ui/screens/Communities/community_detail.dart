@@ -120,7 +120,11 @@ class CommunityDetail extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(child: _header()),
-          SliverToBoxAdapter(child: WideButton()),
+          SliverToBoxAdapter(
+            child: WideButton(
+              label: "Join " + community.getName()
+            ),
+          ),
           _currentGoal(),
           SliverToBoxAdapter(
             child: Container(

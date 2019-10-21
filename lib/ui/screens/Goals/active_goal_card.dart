@@ -5,7 +5,6 @@ class ActiveGoalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 373,
       margin: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
@@ -16,6 +15,7 @@ class ActiveGoalCard extends StatelessWidget {
             blurRadius: 12.0,
           ),
         ],
+        borderRadius: BorderRadius.circular(12.0),
       ),
       child: Container(
         margin: const EdgeInsets.fromLTRB(20.0, 28.0, 20.0, 32.0),
@@ -47,6 +47,7 @@ class ActiveGoalCard extends StatelessWidget {
               ),
             ),
             Container(
+              margin: const EdgeInsets.only(bottom: 32.0),
               child: Text(
                 "Eat two plant-based meals in one week",
                 style: TextStyle(
@@ -56,6 +57,70 @@ class ActiveGoalCard extends StatelessWidget {
                   fontSize: 14,
                 ),
               ),
+            ),
+            Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                Container(
+                  height: 160,
+                  width: 160,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      const BoxShadow(
+                        color: const Color(0x1F000000),
+                        offset: const Offset(0.0, 1.0),
+                      ),
+                      const BoxShadow(
+                        color: const Color(0xFFFFFFFF),
+                        spreadRadius: 0.0,
+                        blurRadius: 7.0,
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(94.0),
+                  ),
+                ),
+                Container(
+                  height: 132,
+                  width: 132,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFFFFF),
+                    boxShadow: [
+                      const BoxShadow(
+                        color: const Color(0x1F000000),
+                        offset: const Offset(0.0, 5.0),
+                        blurRadius: 14.0,
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(89.0),
+                  ),
+                  child: Center(
+                    child: Container(
+                      width: 116,
+                      child: Center(
+                        child: Text(
+                          '43%',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF2F2F33),
+                            fontFamily: 'Muli',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 146.0,
+                  width: 146.0,
+                  child: CircularProgressIndicator(
+                    value: 0.48,
+                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1DC8F1)),
+                    strokeWidth: 14.0,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

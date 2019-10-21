@@ -14,6 +14,7 @@ class GoalCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 0.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
             margin: const EdgeInsets.only(bottom: 12.0),
@@ -46,7 +47,48 @@ class GoalCard extends StatelessWidget {
   Widget _progressSection() {
     return Container(
       margin: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 32.0),
-      child: Text('Progress'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(bottom: 8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Progress',
+                  style: TextStyle(
+                    fontFamily: 'Muli',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: Color(0xFF2F2F33),
+                  ),
+                ),
+                Text(
+                  goal.getProgress().toString() + '%',
+                  style: TextStyle(
+                    fontFamily: 'Muli',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: Color(0xFF2F2F33),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              LinearProgressIndicator(
+                value: (goal.getProgress() / 100),
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1BF1F9)),
+                backgroundColor: Color(0x99FFFFFF),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

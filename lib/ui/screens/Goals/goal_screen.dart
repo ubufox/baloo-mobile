@@ -24,7 +24,7 @@ class GoalScreen extends StatelessWidget {
           slivers: <Widget>[
             SliverToBoxAdapter(
               child: Container(
-                margin: const EdgeInsets.fromLTRB(20.0, 96.0, 20.0, 24.0),
+                margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 24.0),
                 child: const Text(
                   'Goals',
                   style: TextStyle(

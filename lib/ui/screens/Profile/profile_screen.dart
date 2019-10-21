@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
           slivers: <Widget>[
             SliverToBoxAdapter(
               child: Container(
-                margin: const EdgeInsets.fromLTRB(20.0, 96.0, 20.0, 24.0),
+                margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget> [
@@ -52,7 +52,11 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SliverToBoxAdapter(child: WideButton()),
+            SliverToBoxAdapter(
+              child: WideButton(
+                label: 'Log actions'
+              ),
+            ),
             SliverToBoxAdapter(
               child: Container(
                 margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),

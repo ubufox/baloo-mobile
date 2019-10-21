@@ -13,7 +13,11 @@ class GoalDetail extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(child: _goalBox()),
-          SliverToBoxAdapter(child: WideButton()),
+          SliverToBoxAdapter(
+            child: WideButton(
+              label: 'Focus on this goal',
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(

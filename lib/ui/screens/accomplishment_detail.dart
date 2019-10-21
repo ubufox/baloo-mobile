@@ -15,7 +15,7 @@ class AccomplishmentDetail extends StatelessWidget {
           SliverToBoxAdapter(
             child: Container(
               margin: const EdgeInsets.only(bottom: 60.0),
-              child: WideButton(),
+              child: WideButton(label: 'Close'),
             ),
           ),
         ],

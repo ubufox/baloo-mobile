@@ -5,7 +5,6 @@ class AllowSMS extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 196,
       margin: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 12.0),
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),

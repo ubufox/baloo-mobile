@@ -14,7 +14,6 @@ class CommunityListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 221,
       margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 32.0),
       child: GestureDetector(
         onTap: () {

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 
 class WideButton extends StatelessWidget {
+  WideButton({ @required this.label });
+
+  final String label;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +27,7 @@ class WideButton extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.only(left: 16.0),
           child: Text(
-            'DEFAULT TEXT',
+            '$label'.toUpperCase(),
             style: TextStyle(
               fontFamily: 'Muli',
               fontWeight: FontWeight.w700,

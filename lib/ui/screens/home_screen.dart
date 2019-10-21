@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget{
   Widget _header() {
     return Container (
       height: 40,
-      margin: const EdgeInsets.fromLTRB(20.0, 96.0, 20.0, 4.0),
+      margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 4.0),
       child: Text(
         'Impact',
         textDirection: TextDirection.ltr,
