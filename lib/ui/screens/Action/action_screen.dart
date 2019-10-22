@@ -99,7 +99,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 Future.delayed(
                   const Duration(milliseconds: 2000),
                   () {
-                    Navigator.pushNamed(context, RoutePaths.Home);
+                    Navigator.pushNamed(context, RoutePaths.Impact);
                   }
                 );
               });

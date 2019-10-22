@@ -1,41 +1,43 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 import 'package:baloo/core/constants/routes.dart';
-import 'package:baloo/ui/screens/Home/impact_card.dart';
+import 'package:baloo/ui/screens/Impact/impact_card.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
 
 
-class HomeScreen extends StatelessWidget{
-  final impactCards = [{
-      'header': 'Eat two plant-based meals',
-      'subheader': "This week's focus",
-      'value': '1/2',
-      'isFocus': true,
-      'startColor': Color(0xFFFDEEE4),
-      'endColor': Color(0xFFD9FCF4),
-    }, {
-      'header': 'Water Saved',
-      'subheader': "You've completed 236 water saving actions",
-      'value': '46,458.5 l',
-      'isFocus': false,
-      'startColor': Color(0xFF9DE2F1),
-      'endColor': Color(0xFFD7FCF4),
-    }, {
-      'header': 'CO2 Saved',
-      'subheader': "You've completed 132 CO2 saving actions",
-      'value': '158.8 kg',
-      'isFocus': false,
-      'startColor': Color(0xFFA6EDB9),
-      'endColor': Color(0xFFF2FABF),
-    }, {
-      'header': 'Actions Completed',
-      'subheader': '',
-      'value': '253',
-      'isFocus': false,
-      'startColor': Color(0xFFFEDBCA),
-      'endColor': Color(0xFFFAF2C1),
-    },
-  ];
+class ImpactScreen extends StatefulWidget {
+  @override
+  _ImpactScreenState createState() => _ImpactScreenState();
+}
+
+
+class _ImpactScreenState extends State<ImpactScreen> {
+  String activeRange = 'P'; // P = personal G = global
+
+  int previousActiveCard = 0;
+  int activeCard = 0;
+  double componentWidth = 252.0; // impact card width after margins
+
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController()
+      ..addListener(() {
+        activeCard = (_scrollController.offset/componentWidth).round();
+        if (activeCard != previousActiveCard) {
+          _scrollController.animateTo(
+            activeCard * componentWidth,
+            duration: Duration(milliseconds: 250),
+            curve: Curves.ease,
+          );
+          previousActiveCard = activeCard;
+        }
+        setState(() {});
+      });
+  }
 
 
   Widget _header() {
@@ -61,7 +63,6 @@ class HomeScreen extends StatelessWidget{
       child: Row(
         children: <Widget>[
           _rowItem(title: 'PERSONAL'),
-          _rowItem(title: 'REGIONAL'),
           _rowItem(title: 'GLOBAL'),
         ]
       ),
@@ -69,23 +70,71 @@ class HomeScreen extends StatelessWidget{
   }
 
   Widget _yourImpactListView(BuildContext context) {
+    final impactCards = [{
+        'header': 'Eat two plant-based meals',
+        'subheader': "This week's focus",
+        'value': '1/2',
+        'isFocus': true,
+        'startColor': Color(0xFFFDEEE4),
+        'endColor': Color(0xFFD9FCF4),
+      }, {
+        'header': 'Water Saved',
+        'subheader': "You've completed 236 water saving actions",
+        'value': '46,458.5 l',
+        'isFocus': false,
+        'startColor': Color(0xFF9DE2F1),
+        'endColor': Color(0xFFD7FCF4),
+      }, {
+        'header': 'CO2 Saved',
+        'subheader': "You've completed 132 CO2 saving actions",
+        'value': '158.8 kg',
+        'isFocus': false,
+        'startColor': Color(0xFFA6EDB9),
+        'endColor': Color(0xFFF2FABF),
+      }, {
+        'header': 'Actions Completed',
+        'subheader': '',
+        'value': '253',
+        'isFocus': false,
+        'startColor': Color(0xFFFEDBCA),
+        'endColor': Color(0xFFFAF2C1),
+      }, {
+        'value': 'spacer',
+      }
+    ];
+
     return ListView.builder(
       scrollDirection: Axis.horizontal,
+      controller: _scrollController,
       itemCount: impactCards.length,
       itemBuilder: (context, index) {
-        if (index != 0) {
-          return ImpactCard(
-            header: impactCards[index]['header'],
-            subheader: impactCards[index]['subheader'],
-            value: impactCards[index]['value'],
-            isFocus: impactCards[index]['isFocus'],
-            startColor: impactCards[index]['startColor'],
-            endColor: impactCards[index]['endColor'],
-          );
+        // scale based on the distance from active position
+        double position = componentWidth * index;
+        double distance = (position - _scrollController.offset).abs();
+        double scale = max(1.0 - (distance / componentWidth), 0.75);
+
+        if (impactCards[index]['value'] == 'spacer') {
+          return Container(width: 120);
         }
 
-        return Padding(
-          padding: EdgeInsets.only(left: 20.0),
+        if (index == 0) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Transform.scale(
+              scale: scale,
+              child: ImpactCard(
+                header: impactCards[index]['header'],
+                subheader: impactCards[index]['subheader'],
+                value: impactCards[index]['value'],
+                isFocus: impactCards[index]['isFocus'],
+                startColor: impactCards[index]['startColor'],
+                endColor: impactCards[index]['endColor'],
+              ),
+            ),
+          );
+        }
+        return Transform.scale(
+          scale: scale,
           child: ImpactCard(
             header: impactCards[index]['header'],
             subheader: impactCards[index]['subheader'],

@@ -6,8 +6,8 @@ import 'package:baloo/core/constants/routes.dart';
 class NavBar extends StatelessWidget{
   final _items = [{
     'icon': Icons.home,
-    'tooltip': 'Home',
-    'location': RoutePaths.Home,
+    'tooltip': 'Impact',
+    'location': RoutePaths.Impact,
   }, {
     'icon': Icons.beach_access,
     'tooltip': 'Community',
