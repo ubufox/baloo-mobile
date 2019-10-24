@@ -46,8 +46,8 @@ class ActionButtonState extends State<ActionButton> with SingleTickerProviderSta
         alignment: Alignment.center,
         children: <Widget>[
           Container(
-            height: 188,
-            width: 188,
+            height: 160,
+            width: 160,
             decoration: BoxDecoration(
               boxShadow: [
                 const BoxShadow(
@@ -64,8 +64,8 @@ class ActionButtonState extends State<ActionButton> with SingleTickerProviderSta
             ),
           ),
           Container(
-            height: 168,
-            width: 168,
+            height: 140,
+            width: 140,
             decoration: BoxDecoration(
               color: const Color(0xFFFFFFFF),
               boxShadow: [
@@ -88,7 +88,7 @@ class ActionButtonState extends State<ActionButton> with SingleTickerProviderSta
                       color: Color(0xFF2F2F33),
                       fontFamily: 'Muli',
                       fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                      fontSize: 14,
                     ),
                   ),
                 ),
@@ -96,8 +96,8 @@ class ActionButtonState extends State<ActionButton> with SingleTickerProviderSta
             ),
           ),
           SizedBox(
-            height: 178.0,
-            width: 178.0,
+            height: 150.0,
+            width: 150.0,
             child: CircularProgressIndicator(
               value: animationController.value,
               valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1DC8F1)),

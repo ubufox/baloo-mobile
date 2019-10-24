@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
           slivers: <Widget>[
             SliverToBoxAdapter(
               child: Container(
-                margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 24.0),
+                margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget> [
@@ -105,17 +105,11 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: NavBar(),
+        child: Hero(
+          tag: 'navBar',
+          child: NavBar(),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, RoutePaths.Action);
-        },
-        tooltip: 'Go Home',
-        child: Icon(Icons.flash_on),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

@@ -30,17 +30,11 @@ class ActionScreen extends StatelessWidget{
         child: VideoPlayerScreen(),
       ),
       bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: NavBar(),
+        child: Hero(
+          tag: 'navBar',
+          child: NavBar(),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, RoutePaths.Action);
-        },
-        tooltip: 'Weekly action',
-        child: Icon(Icons.flash_on),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

@@ -26,8 +26,8 @@ class CommunityCard extends StatelessWidget{
           );
         },
         child: Container(
-          height: 224,
-          width: 224,
+          height: 200,
+          width: 200,
           margin: new EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 0.0),
           decoration: BoxDecoration(
             color: Colors.white,

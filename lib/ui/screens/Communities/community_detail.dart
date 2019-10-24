@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:baloo/ui/components/Navigation/nested_top_bar.dart';
 import 'package:baloo/ui/components/Buttons/wide_button.dart';
 import 'package:baloo/ui/components/Shared/accomplishment_card.dart';
 import 'package:baloo/ui/screens/Goals/goal_card.dart';
+import 'package:baloo/ui/components/base_data_widget.dart';
 
 // Models
 import 'package:baloo/core/models/community.dart';
 import 'package:baloo/core/models/goal.dart';
+import 'package:baloo/core/viewmodels/user_communities_model.dart';
 
 
 class CommunityDetail extends StatelessWidget {
@@ -24,7 +27,7 @@ class CommunityDetail extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              community.getName(),
+              community.name,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w700,
@@ -36,7 +39,7 @@ class CommunityDetail extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              community.getLocation(),
+              community.location,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w500,
@@ -48,7 +51,7 @@ class CommunityDetail extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 24.0),
             child: Text(
-              community.getMembers(),
+              community.members,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w500,
@@ -61,7 +64,7 @@ class CommunityDetail extends StatelessWidget {
             height: 161,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(community.getBanner()),
+                image: AssetImage(community.bannerImage),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(12.0),
@@ -91,7 +94,7 @@ class CommunityDetail extends StatelessWidget {
             ),
           ),
           Text(
-            community.getAbout(),
+            community.about,
             style: TextStyle(
               fontFamily: 'Muli',
               fontWeight: FontWeight.w500,
@@ -117,32 +120,49 @@ class CommunityDetail extends StatelessWidget {
           },
         ),
       ),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverToBoxAdapter(child: _header()),
-          SliverToBoxAdapter(
-            child: WideButton(
-              label: "Join " + community.getName()
-            ),
-          ),
-          _currentGoal(),
-          SliverToBoxAdapter(
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
-              child: const Text(
-                'Accomplishments',
-                style: TextStyle(
-                  fontFamily: 'Muli',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 22,
-                  color: Color(0xFF2F2F33),
+      body: BaseDataWidget<UserCommunitiesModel>(
+        model: UserCommunitiesModel(api: Provider.of(context)),
+        onModelReady: (model) => { /* TODO mjf: fetch data */ },
+        builder: (context, communities, child) {
+          bool inCommunity = communities.inUserCommunities(community);
+
+          Function joinOrLeave = () {
+            if (inCommunity) {
+              communities.leaveCommunity(community);
+            } else {
+              communities.joinCommunity(community);
+            }
+          };
+
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverToBoxAdapter(child: _header()),
+              SliverToBoxAdapter(
+                child: WideButton(
+                  label: inCommunity ? 'Leave ' + community.name : 'Join ' + community.name,
+                  onFill: joinOrLeave, 
                 ),
               ),
-            ),
-          ),
-          SliverToBoxAdapter(child: _communityAccomplishments()),
-          SliverToBoxAdapter(child: _about()),
-        ],
+              _currentGoal(),
+              SliverToBoxAdapter(
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
+                  child: const Text(
+                    'Accomplishments',
+                    style: TextStyle(
+                      fontFamily: 'Muli',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 22,
+                      color: Color(0xFF2F2F33),
+                    ),
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(child: _communityAccomplishments()),
+              SliverToBoxAdapter(child: _about()),
+            ],
+          );
+        }
       ),
     );
   }

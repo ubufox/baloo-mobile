@@ -22,8 +22,8 @@ class ImpactCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 240,
-      margin: const EdgeInsets.fromLTRB(0.0, 20.0, 12.0, 20.0),
+      width: 210,
+      margin: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.bottomLeft,

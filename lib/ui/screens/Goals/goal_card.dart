@@ -104,8 +104,8 @@ class GoalCard extends StatelessWidget {
           );
         },
         child: Container(
-          height: 280,
-          width: 260,
+          height: 260,
+          width: 232,
           margin: const EdgeInsets.only(right: 20.0),
           decoration: BoxDecoration(
             gradient: LinearGradient(

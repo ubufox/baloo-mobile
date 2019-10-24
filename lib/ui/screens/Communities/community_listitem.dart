@@ -26,9 +26,9 @@ class CommunityListItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            _communityImage(imageURL: community.getBanner()),
-            _name(name: community.getName()),
-            _location(location: community.getLocation()),
+            _communityImage(imageURL: community.bannerImage),
+            _name(name: community.name),
+            _location(location: community.location),
           ],
         ),
       ),

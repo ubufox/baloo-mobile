@@ -17,7 +17,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
 
   int previousActiveCard = 0;
   int activeCard = 0;
-  double componentWidth = 252.0; // impact card width after margins
+  double componentWidth = 210.0; // impact card width after margins
 
   ScrollController _scrollController;
 
@@ -43,7 +43,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
   Widget _header() {
     return Container (
       height: 40,
-      margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 4.0),
+      margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 4.0),
       child: Text(
         'Impact',
         textDirection: TextDirection.ltr,
@@ -111,7 +111,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
         // scale based on the distance from active position
         double position = componentWidth * index;
         double distance = (position - _scrollController.offset).abs();
-        double scale = max(1.0 - (distance / componentWidth), 0.75);
+        double scale = max(1.0 - (distance / componentWidth), 0.8);
 
         if (impactCards[index]['value'] == 'spacer') {
           return Container(width: 120);
@@ -165,25 +165,19 @@ class _ImpactScreenState extends State<ImpactScreen> {
             _header(),
             _rangeRow(),
             Container(
-              height: 320,
-              margin: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+              height: 280,
+              margin: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
               child: _yourImpactListView(context),
             ),
           ]
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: NavBar(),
+        child: Hero(
+          tag: 'navBar',
+          child: NavBar(),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, RoutePaths.Action);
-        },
-        tooltip: 'Record Action',
-        child: Icon(Icons.flash_on),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

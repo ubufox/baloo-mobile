@@ -11,6 +11,7 @@ import 'package:baloo/ui/screens/Profile/profile_screen.dart';
 import 'package:baloo/ui/screens/Communities/community_detail.dart';
 import 'package:baloo/ui/screens/does_not_exist_screen.dart';
 
+// Models
 import 'package:baloo/core/models/community.dart';
 
 
@@ -22,9 +23,7 @@ class Router {
       case RoutePaths.Impact:
         return MaterialPageRoute(builder: (_) => ImpactScreen());
       case RoutePaths.Communities:
-        return MaterialPageRoute(
-          builder: (_) => CommunitiesScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => CommunitiesScreen());
       case RoutePaths.Goal:
         return MaterialPageRoute(
           builder: (_) => GoalScreen(),
@@ -34,9 +33,8 @@ class Router {
           builder: (_) => ProfileScreen(),
         );
       case RoutePaths.CommunityDetail:
-        final Community comm = settings.arguments;
         return MaterialPageRoute(
-          builder: (_) => CommunityDetail(community: comm),
+          builder: (_) => CommunityDetail(community: settings.arguments),
         );
       case RoutePaths.GoalDetail:
         return MaterialPageRoute(

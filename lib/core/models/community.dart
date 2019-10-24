@@ -1,35 +1,24 @@
 class Community {
-  final String name;
-  final String members;
-  final String location;
-  final String bannerImage;
-  final String about;
+  final int _id;
+  final String _name;
+  final String _members;
+  final String _location;
+  final String _bannerImage;
+  final String _about;
 
   Community(
-    this.name,
-    this.members,
-    this.location,
-    this.bannerImage,
-    this.about,
+    this._id,
+    this._name,
+    this._members,
+    this._location,
+    this._bannerImage,
+    this._about,
   );
 
-  String getName() {
-    return '$name';
-  }
-
-  String getMembers() {
-    return '$members';
-  }
-
-  String getLocation() {
-    return '$location';
-  }
-
-  String getBanner() {
-    return '$bannerImage';
-  }
-
-  String getAbout() {
-    return '$about';
-  }
+  int get id => _id;
+  String get name => _name;
+  String get members => _members;
+  String get location => _location;
+  String get bannerImage => _bannerImage;
+  String get about => _about;
 }
