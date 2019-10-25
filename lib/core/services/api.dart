@@ -1,10 +1,13 @@
 import 'package:baloo/core/models/community.dart';
-
+import 'package:baloo/core/models/impact_action.dart';
+import 'package:baloo/core/models/user_impact.dart';
 
 
 class AppData {
   List<Community> userCommunities;
   List<Community> communitySearchResults;
+  List<ImpactAction> pendingActions;
+  UserImpact userImpact;
 
   AppData();
 }
@@ -25,7 +28,22 @@ class Api {
     return appData.communitySearchResults;
   }
 
+  List<ImpactAction> getPendingActions() {
+    return appData.pendingActions;
+  }
+
+  UserImpact getUserImpact() {
+    return appData.userImpact;
+  }
+
   void _initializeAppData() {
+    appData.pendingActions = [];
+    appData.userImpact = new UserImpact(
+      46458.5,
+      158.8,
+      260,
+    );
+
     appData.userCommunities = [
       new Community(
         101,

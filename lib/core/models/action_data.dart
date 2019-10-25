@@ -1,12 +1,13 @@
 class ActionData {
-  final String material;
-  final double amount;
-  final String unit;
+  final String _material;
+  final double _amount;
 
-  const ActionData({
-    this.material,
-    this.amount,
-    this.unit,
-  });
+  const ActionData(
+    this._material,
+    this._amount,
+  );
+
+  String get material => _material;
+  double get amount => _amount;
 }
 

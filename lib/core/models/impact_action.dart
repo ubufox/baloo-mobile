@@ -2,29 +2,14 @@ import 'package:baloo/core/models/action_data.dart';
 
 
 class ImpactAction {
-  final String message;
-  final List<ActionData> impact;
+  final List<ActionData> _impact;
+  bool _isCurrentFocus;
 
-  const ImpactAction({
-    this.message,
-    this.impact,
-  });
+  ImpactAction(
+    this._impact,
+    this._isCurrentFocus,
+  );
+
+  List<ActionData> get impact => _impact;
+  bool get isCurrentFocus => !!_isCurrentFocus;
 }
-
-final actions = [
-  new ImpactAction(
-    message: "I ate a plant-based meal",
-    impact: [
-      new ActionData(
-        material: 'water',
-        amount: 165.85,
-        unit: 'gal',
-      ),
-      new ActionData(
-        material: 'CO2',
-        amount: 0.63,
-        unit: 'kg',
-      ),
-    ],
-  ),
-]

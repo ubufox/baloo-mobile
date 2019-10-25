@@ -4,14 +4,19 @@ import 'package:flutter/material.dart';
 class ActionButton extends StatefulWidget {
   final onPressed;
 
-  ActionButton({ Key key, @required this.onPressed }) : super(key: key);
+  ActionButton({
+    Key key,
+    @required this.onPressed,
+  }) : super(key: key);
 
   @override
   ActionButtonState createState() => ActionButtonState();
 }
 
+
 class ActionButtonState extends State<ActionButton> with SingleTickerProviderStateMixin{
   AnimationController animationController;
+
   bool calledCompleteAction = false;
 
   @override

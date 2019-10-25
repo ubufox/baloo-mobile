@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:baloo/ui/components/Animated/animated_value.dart';
+
 
 class ImpactCard extends StatelessWidget {
+  final String header;
+  final String subheader;
+  final value;
+  final bool isFocus;
+  final Color startColor;
+  final Color endColor;
+
   ImpactCard({
+    Key key,
     @required this.header,
     this.subheader,
     @required this.value,
     this.isFocus,
     @required this.startColor,
     @required this.endColor,
-  });
-
-  final String header;
-  final String subheader;
-  final String value;
-  final bool isFocus;
-  final Color startColor;
-  final Color endColor;
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +55,21 @@ class ImpactCard extends StatelessWidget {
               subheader: '$subheader',
               isFocus: isFocus,
             ),
-            _valueText(
-              value: '$value',
-            ),
+            value is String
+              ? Container(
+                  margin: const EdgeInsets.all(20.0),
+                  child: Text(
+                    value,
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Color(0xFF2F2F33),
+                      fontFamily: 'Muli',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
+                  ),
+              )
+              : AnimatedValue(value: value, duration: Duration(milliseconds: 1000)),
           ],
       ),
     );
@@ -149,18 +164,5 @@ class _valueText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(20.0),
-      child: Text(
-        '$value',
-        textAlign: TextAlign.right,
-        style: TextStyle(
-          color: Color(0xFF2F2F33),
-          fontFamily: 'Muli',
-          fontWeight: FontWeight.w600,
-          fontSize: 20,
-        ),
-      ),
-    );
   }
 }
