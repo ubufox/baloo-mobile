@@ -98,8 +98,8 @@ class AccomplishmentCard extends StatelessWidget {
           Navigator.pushNamed(context, RoutePaths.Accomplishment);
         },
         child: Container(
-          height: 304,
-          width: 260,
+          height: 260,
+          width: 232,
           margin: const EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 12.0),
           decoration: BoxDecoration(
             gradient: LinearGradient(

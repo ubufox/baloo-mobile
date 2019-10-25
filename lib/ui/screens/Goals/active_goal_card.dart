@@ -23,9 +23,9 @@ class ActiveGoalCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(bottom: 24.0),
+              margin: const EdgeInsets.only(bottom: 16.0),
               child: Text(
-                'Active',
+                'Active Goal',
                 style: TextStyle(
                   color: Color(0xFFF4AD43),
                   fontFamily: 'Muli',
@@ -62,8 +62,8 @@ class ActiveGoalCard extends StatelessWidget {
               alignment: Alignment.center,
               children: <Widget>[
                 Container(
-                  height: 160,
-                  width: 160,
+                  height: 128,
+                  width: 128,
                   decoration: BoxDecoration(
                     boxShadow: [
                       const BoxShadow(
@@ -80,8 +80,8 @@ class ActiveGoalCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 132,
-                  width: 132,
+                  height: 104,
+                  width: 104,
                   decoration: BoxDecoration(
                     color: const Color(0xFFFFFFFF),
                     boxShadow: [
@@ -94,30 +94,25 @@ class ActiveGoalCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(89.0),
                   ),
                   child: Center(
-                    child: Container(
-                      width: 116,
-                      child: Center(
-                        child: Text(
-                          '43%',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFF2F2F33),
-                            fontFamily: 'Muli',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 24,
-                          ),
-                        ),
+                    child: Text(
+                      '43%',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF2F2F33),
+                        fontFamily: 'Muli',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
                       ),
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 146.0,
-                  width: 146.0,
+                  height: 116.0,
+                  width: 116.0,
                   child: CircularProgressIndicator(
                     value: 0.48,
                     valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1DC8F1)),
-                    strokeWidth: 14.0,
+                    strokeWidth: 12.0,
                   ),
                 ),
               ],

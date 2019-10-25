@@ -102,6 +102,9 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
+            SliverToBoxAdapter(
+              child: Container(height: 72),
+            ),
           ],
         ),
       ),
