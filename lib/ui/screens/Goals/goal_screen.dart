@@ -102,6 +102,7 @@ class GoalScreen extends StatelessWidget {
 class _personalGoalsList extends StatelessWidget {
   final List<Goal> personal_goals = [
     new Goal(
+      302,
       "Save the average person's yearly water usage",
       "Default description text",
       "Take a shower that is shorter than five minutes",
@@ -109,6 +110,7 @@ class _personalGoalsList extends StatelessWidget {
       [Color(0xFFF8D6A2), Color(0xFFFCF4BC)],
     ),
     new Goal(
+      303,
       "Reduce your plastic impact by five years",
       "Default description text",
       "Skip the straw",
@@ -136,6 +138,7 @@ class _personalGoalsList extends StatelessWidget {
 class _communitiesGoalsList extends StatelessWidget {
   final List<Goal> personal_goals = [
     new Goal(
+      301,
       'Help Surfrider pick up 20 trash cans worth of plastic',
       'Default description text',
       "Attend a Venice Beach clean up event",
@@ -143,6 +146,7 @@ class _communitiesGoalsList extends StatelessWidget {
       [Color(0xFF8BEBE4), Color(0xFFD0FFEC)],
     ),
     new Goal(
+      304,
       "Increase the attendance of Grand View farmer's market by 10%",
       'Default description text',
       "Invite two friends to this week's market",

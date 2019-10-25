@@ -16,7 +16,7 @@ class NavActionButton extends StatelessWidget {
       height: 60,
       width: 60,
       child: FloatingActionButton(
-        backgroundColor: Color(0xFF7DF5F5),
+        backgroundColor: Color(0xFFA8F4F4),
         child: Center(
           child: Image(
             image: AssetImage('assets/images/Icons/moon.png'),

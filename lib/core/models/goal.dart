@@ -2,37 +2,26 @@ import 'package:flutter/material.dart';
 
 
 class Goal {
-  final String title;
-  final String description;
-  final String focus; // this will be dynamic and change weekly
-  final int progress;
-  final List<Color> colors;
+  final int _id;
+  final String _title;
+  final String _description;
+  final String _focus; // this will be dynamic and change weekly
+  final int _progress;
+  final List<Color> _colors;
 
   Goal(
-    this.title,
-    this.description,
-    this.focus,
-    this.progress,
-    this.colors,
+    this._id,
+    this._title,
+    this._description,
+    this._focus,
+    this._progress,
+    this._colors,
   );
 
-  String getTitle() {
-    return '$title';
-  }
-
-  String getDescription() {
-    return '$description';
-  }
-
-  String getFocus() {
-    return '$focus';
-  }
-
-  int getProgress() {
-    return progress;
-  }
-
-  List<Color> getColors() {
-    return colors;
-  }
+  int get id => _id;
+  String get title => _title;
+  String get description => _description;
+  String get focus => _focus;
+  int get progress => _progress;
+  List<Color> get colors => _colors;
 }

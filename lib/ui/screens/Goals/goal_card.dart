@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:baloo/core/constants/routes.dart';
+
 // Models
 import 'package:baloo/core/models/goal.dart';
 
@@ -19,7 +20,7 @@ class GoalCard extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 12.0),
             child: Text(
-              goal.getTitle(),
+              goal.title,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w600,
@@ -30,7 +31,7 @@ class GoalCard extends StatelessWidget {
           ),
           Container(
             child: Text(
-              goal.getFocus(),
+              goal.focus,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w500,
@@ -66,7 +67,7 @@ class GoalCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  goal.getProgress().toString() + '%',
+                  goal.progress.toString() + '%',
                   style: TextStyle(
                     fontFamily: 'Muli',
                     fontWeight: FontWeight.w600,
@@ -81,7 +82,7 @@ class GoalCard extends StatelessWidget {
             alignment: Alignment.center,
             children: <Widget>[
               LinearProgressIndicator(
-                value: (goal.getProgress() / 100),
+                value: (goal.progress / 100),
                 valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1BF1F9)),
                 backgroundColor: Color(0x99FFFFFF),
               ),
@@ -101,6 +102,7 @@ class GoalCard extends StatelessWidget {
           Navigator.pushNamed(
             context,
             RoutePaths.GoalDetail,
+            arguments: goal,
           );
         },
         child: Container(
@@ -112,7 +114,7 @@ class GoalCard extends StatelessWidget {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               stops: [0.0, 1.0],
-              colors: goal.getColors(),
+              colors: goal.colors,
             ),
             borderRadius: BorderRadius.circular(16.0),
             boxShadow: [

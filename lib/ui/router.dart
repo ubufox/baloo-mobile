@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:baloo/core/constants/routes.dart';
+import 'package:baloo/ui/components/Transitions/scale_route_transition.dart';
+
 import 'package:baloo/ui/screens/Impact/impact_screen.dart';
 import 'package:baloo/ui/screens/Action/action_screen.dart';
 import 'package:baloo/ui/screens/communities_screen.dart';
@@ -38,7 +40,7 @@ class Router {
         );
       case RoutePaths.GoalDetail:
         return MaterialPageRoute(
-          builder: (_) => GoalDetail(),
+          builder: (_) => GoalDetail(goal: settings.arguments),
         );
       case RoutePaths.Accomplishment:
         return MaterialPageRoute(
