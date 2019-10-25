@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:baloo/core/constants/routes.dart';
 import 'package:baloo/ui/screens/Communities/user_communities_list.dart';
 import 'package:baloo/ui/screens/Communities/community_search_results.dart';
 import 'package:baloo/ui/screens/Communities/community_search_bar.dart';
 
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
+import 'package:baloo/ui/components/Navigation/nav_action_button.dart';
 
 
 class CommunitiesScreen extends StatelessWidget{
@@ -32,6 +34,7 @@ class CommunitiesScreen extends StatelessWidget{
           child: NavBar(),
         ),
       ),
+      floatingActionButton: NavActionButton(),
     );
   }
 }

@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:baloo/core/constants/routes.dart';
+import 'package:baloo/core/viewmodels/nav_bar_model.dart';
+
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
 import 'package:baloo/ui/screens/Action/action_button.dart';
 
@@ -71,6 +74,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final nav = Provider.of<NavBarModel>(context);
+
     return Stack(
       children: <Widget>[
         Container(
@@ -93,6 +98,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 Future.delayed(
                   const Duration(milliseconds: 2000),
                   () {
+                    nav.updateRoute(RoutePaths.Impact);
                     Navigator.pushNamed(context, RoutePaths.Impact);
                   }
                 );

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:baloo/core/constants/routes.dart';
 import 'package:baloo/ui/screens/Impact/impact_card.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
+import 'package:baloo/ui/components/Navigation/nav_action_button.dart';
 
 
 class ImpactScreen extends StatefulWidget {
@@ -178,6 +179,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
           child: NavBar(),
         ),
       ),
+      floatingActionButton: NavActionButton(),
     );
   }
 }

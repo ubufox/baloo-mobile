@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:baloo/core/constants/routes.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
+import 'package:baloo/ui/components/Navigation/nav_action_button.dart';
 import 'package:baloo/ui/components/Buttons/wide_button.dart';
 import 'package:baloo/ui/components/Shared/accomplishment_card.dart';
 import 'package:baloo/ui/components/Inputs/Settings/default_input.dart';
@@ -110,6 +111,7 @@ class ProfileScreen extends StatelessWidget {
           child: NavBar(),
         ),
       ),
+      floatingActionButton: NavActionButton(),
     );
   }
 }

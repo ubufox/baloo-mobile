@@ -48,7 +48,7 @@ class NavBar extends StatelessWidget{
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: _tabs.map((t) =>
@@ -61,6 +61,7 @@ class NavBar extends StatelessWidget{
                   context,
                   t.route,
                 );
+                nav.updateRoute(t.route);
               },
             ),
           ).toList(),
@@ -88,9 +89,50 @@ class _Tab extends StatelessWidget{
       ? tabData.baseImageUrl + '_active.png'
       : tabData.baseImageUrl + '_default.png';
 
+    if (isActive) {
+      return Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            stops: [0.0, 1.0],
+            colors: [Color(0xFFC8F6F3), Color(0xFFC9EEFC)],
+          ),
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12.0, 4.0, 16.0, 4.0),
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                height: 28,
+                width: 28,
+                child: Image(
+                  image: AssetImage(_imageUrl),
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 4.0),
+                child: Text(
+                  tabData.tooltip,
+                  style: TextStyle(
+                    color: Color(0xFF595959),
+                    fontFamily: 'Muli',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return GestureDetector(
       child: Container(
-        height: 32,
+        height: 28,
           child: Image(
             image: AssetImage(_imageUrl),
             fit: BoxFit.scaleDown,

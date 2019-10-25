@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:baloo/core/constants/routes.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
+import 'package:baloo/ui/components/Navigation/nav_action_button.dart';
 import 'package:baloo/ui/screens/Goals/goal_card.dart';
 import 'package:baloo/ui/screens/Goals/active_goal_card.dart';
 
@@ -93,6 +94,7 @@ class GoalScreen extends StatelessWidget {
           child: NavBar(),
         ),
       ),
+      floatingActionButton: NavActionButton(),
     );
   }
 }
