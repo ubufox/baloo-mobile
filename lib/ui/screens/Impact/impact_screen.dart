@@ -176,7 +176,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
       model: ImpactModel(api : Provider.of(context)),
       onModelReady: (model) {
         /* TODO mjf: fetch data */
-        Timer(Duration(milliseconds: 250), () => recurringPull(model));
+        Timer(Duration(milliseconds: 500), () => recurringPull(model));
       },
       builder: (context, impact, child) =>
         Scaffold(

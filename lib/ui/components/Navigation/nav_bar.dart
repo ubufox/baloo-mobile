@@ -131,12 +131,16 @@ class _Tab extends StatelessWidget{
     }
 
     return GestureDetector(
-      child: Container(
-        height: 28,
+      child: SizedBox(
+        height: 52,
+        width: 52,
+        child: Center(
           child: Image(
             image: AssetImage(_imageUrl),
-            fit: BoxFit.scaleDown,
+            height: 28.0,
+            width: 28.0,
           ),
+        ),
       ),
       onTap: onTap,
     );
