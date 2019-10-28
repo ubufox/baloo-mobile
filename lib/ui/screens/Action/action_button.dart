@@ -25,7 +25,7 @@ class ActionButtonState extends State<ActionButton> with SingleTickerProviderSta
 
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 750),
+      duration: Duration(milliseconds: 500),
     );
     animationController.addListener(() {
       // this causes a rerender of the widget

@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:baloo/ui/components/Inputs/filter_row_item.dart';
 
 
-class CommunitySearchBar extends StatefulWidget {
+class ActionSearchBar extends StatefulWidget {
   @override
-  _CommunitySearchState createState() => _CommunitySearchState();
+  _ActionSearchState createState() => _ActionSearchState();
 }
 
-class _CommunitySearchState extends State<CommunitySearchBar> {
+class _ActionSearchState extends State<ActionSearchBar> {
   String filter;
   String search;
   bool searchActive;
 
   @override void initState() {
-    filter = 'Nearby';
+    filter = 'Frequent';
     searchActive = false;
 
     super.initState();
@@ -26,10 +26,9 @@ class _CommunitySearchState extends State<CommunitySearchBar> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container (
-          height: 40,
-          margin: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 4.0),
+          margin: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 4.0),
           child: Text(
-            'Discover',
+            'Log Actions',
             textDirection: TextDirection.ltr,
             textAlign: TextAlign.left,
             style: TextStyle(
@@ -49,15 +48,38 @@ class _CommunitySearchState extends State<CommunitySearchBar> {
 class _filters extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final options = [{
+      'title': 'Frequent',
+      'isActive': true,
+    }, {
+      'title': 'Popular',
+      'isActive': false,
+    }, {
+      'title': 'Newest',
+      'isActive': false,
+    }, {
+      'title': 'Water',
+      'isActive': false,
+    }, {
+      'title': 'CO2',
+      'isActive': false,
+    }, {
+      'title': 'Engagement',
+      'isActive': false,
+    }];
+
     return Container(
       margin: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 32.0),
+      height: 28,
       width: 280,
-      child: Row(
-        children: <Widget>[
-          FilterRowItem(title: 'NEARBY', isActive: true),
-          FilterRowItem(title: 'POPULAR'),
-          FilterRowItem(title: 'NEWEST'),
-        ],
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: options.length,
+        itemBuilder: (BuildContext context, int index) =>
+          FilterRowItem(
+            title: options[index]['title'],
+            isActive: options[index]['isActive'],
+          ),
       ),
     );
   }

@@ -20,7 +20,7 @@ class FilterRowItem extends StatelessWidget{
       height: 18.0,
       margin: const EdgeInsets.only(right: 28.0),
       child: Text(
-        '$title',
+        title.toUpperCase(),
         style: isActive
           ? TextStyle(
               color: Color(0xFF2F2F33),

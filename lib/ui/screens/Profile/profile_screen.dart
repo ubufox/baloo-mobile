@@ -55,7 +55,8 @@ class ProfileScreen extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: WideButton(
-                label: 'Log actions'
+                label: 'Log actions',
+                onFill: () => Navigator.pushNamed(context, RoutePaths.ActionReport),
               ),
             ),
             SliverToBoxAdapter(

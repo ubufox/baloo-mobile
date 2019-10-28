@@ -58,6 +58,8 @@ class VideoPlayerScreen extends StatefulWidget {
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   VideoPlayerController _controller;
   Future<void> _initializeVideoPlayerFuture;
+  bool showPressAndHold = false;
+  bool pressed = false;
 
   // TODO mjf: get this action from an action button model
   ImpactAction action = new ImpactAction(
@@ -79,8 +81,17 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     _controller = VideoPlayerController.network(
       "https://storage.googleapis.com/baloo-media/video/action_complete.mp4",
     );
-
     _initializeVideoPlayerFuture = _controller.initialize();
+
+    Timer(
+      Duration(milliseconds: 2500),
+      () {
+        if (!pressed) {
+          showPressAndHold = true;
+          setState(() => {});
+        }
+      },
+    );
 
     super.initState();
   }
@@ -111,25 +122,48 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           ),
         ),
         Center(
-          child: BaseDataWidget<ImpactModel>(
-            model: ImpactModel(api: Provider.of(context)),
-            onModelReady: (model) => { /* TODO mjf: fetch data */ },
-            builder: (context, impact, child) =>
-              ActionButton(
-                onPressed: () {
-                  setState(() {
-                    _controller.play();
-                    Future.delayed(
-                      const Duration(milliseconds: 2000),
-                      () {
-                        impact.completeActions([action]);
-                        nav.updateRoute(RoutePaths.Impact);
-                        Navigator.pushNamed(context, RoutePaths.Impact);
-                      }
-                    );
-                  });
-                }
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              AnimatedOpacity(
+                opacity: showPressAndHold ? 1.0 : 0.0,
+                duration: Duration(milliseconds: 750),
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 56.0),
+                  child: Text(
+                    'Press and hold to complete',
+                    style: TextStyle(
+                      fontFamily: 'Muli',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF979797),
+                    ),
+                  ),
+                ),
               ),
+              BaseDataWidget<ImpactModel>(
+                model: ImpactModel(api: Provider.of(context)),
+                onModelReady: (model) => { /* TODO mjf: fetch data */ },
+                builder: (context, impact, child) =>
+                  ActionButton(
+                    onPressed: () {
+                      pressed = true;
+
+                      setState(() {
+                        _controller.play();
+                        Future.delayed(
+                          const Duration(milliseconds: 2000),
+                          () {
+                            impact.completeActions([action]);
+                            nav.updateRoute(RoutePaths.Impact);
+                            Navigator.pushNamed(context, RoutePaths.Impact);
+                          }
+                        );
+                      });
+                    }
+                  ),
+              ),
+            ],
           ),
         ),
       ],

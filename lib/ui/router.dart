@@ -11,6 +11,7 @@ import 'package:baloo/ui/screens/Goals/goal_detail.dart';
 import 'package:baloo/ui/screens/accomplishment_detail.dart';
 import 'package:baloo/ui/screens/Profile/profile_screen.dart';
 import 'package:baloo/ui/screens/Communities/community_detail.dart';
+import 'package:baloo/ui/screens/ActionReport/action_report_screen.dart';
 import 'package:baloo/ui/screens/does_not_exist_screen.dart';
 
 // Models
@@ -45,6 +46,10 @@ class Router {
       case RoutePaths.Accomplishment:
         return MaterialPageRoute(
           builder: (_) => AccomplishmentDetail(),
+        );
+      case RoutePaths.ActionReport:
+        return MaterialPageRoute(
+          builder: (_) => ActionReport(),
         );
       default:
         return MaterialPageRoute(builder: (_) => DoesNotExistScreen());

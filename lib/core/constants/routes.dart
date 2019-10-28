@@ -7,5 +7,5 @@ class RoutePaths {
   static const String GoalDetail = '/goalDetail';
   static const String Profile = '/profile';
   static const String Accomplishment = '/accomplishment';
-  static const String LogActions = '/log';
+  static const String ActionReport = '/log';
 }

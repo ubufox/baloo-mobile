@@ -8,6 +8,7 @@ class ImpactCard extends StatelessWidget {
   final String header;
   final String subheader;
   final value;
+  final String unit;
   final bool isFocus;
   final Color startColor;
   final Color endColor;
@@ -17,6 +18,7 @@ class ImpactCard extends StatelessWidget {
     @required this.header,
     this.subheader,
     @required this.value,
+    this.unit,
     this.isFocus,
     @required this.startColor,
     @required this.endColor,
@@ -69,7 +71,11 @@ class ImpactCard extends StatelessWidget {
                     ),
                   ),
               )
-              : AnimatedValue(value: value, duration: Duration(milliseconds: 1000)),
+              : AnimatedValue(
+                  value: value,
+                  unit: unit,
+                  duration: Duration(milliseconds: 1500),
+              ),
           ],
       ),
     );

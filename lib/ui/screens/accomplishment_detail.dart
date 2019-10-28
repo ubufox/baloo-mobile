@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:baloo/core/constants/routes.dart';
 import 'package:baloo/ui/components/Buttons/wide_button.dart';
+
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
+import 'package:baloo/ui/components/Navigation/nav_action_button.dart';
 
 
 class AccomplishmentDetail extends StatelessWidget {
@@ -15,23 +17,21 @@ class AccomplishmentDetail extends StatelessWidget {
           SliverToBoxAdapter(
             child: Container(
               margin: const EdgeInsets.only(bottom: 60.0),
-              child: WideButton(label: 'Close'),
+              child: WideButton(
+                label: 'Close',
+                onFill: () => Navigator.pop(context),
+              ),
             ),
           ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: NavBar(),
+        child: Hero(
+          tag: 'navBar',
+          child: NavBar(),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, RoutePaths.Action);
-        },
-        tooltip: 'Go Home',
-        child: Icon(Icons.flash_on),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: NavActionButton(),
     );
   }
 }
@@ -63,13 +63,18 @@ class _accomplishmentBox extends StatelessWidget {
                 height: 16,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pop(context, true);
+                    Navigator.pop(context);
                   },
                   child: Container(
-                    height: 16,
-                    width: 16,
-                    margin: const EdgeInsets.only(left: 28.0),
-                    color: Color(0xFF595959),
+                    height: 40,
+                    width: 40,
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Icon(
+                        Icons.close,
+                        size: 24.0,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -162,7 +167,7 @@ class _accomplishmentBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Container(
-        margin: const EdgeInsets.fromLTRB(20.0, 72.0, 20.0, 36.0),
+        margin: const EdgeInsets.fromLTRB(20.0, 48.0, 20.0, 36.0),
         child: Column(
           children: <Widget>[
             _topSection(context),
