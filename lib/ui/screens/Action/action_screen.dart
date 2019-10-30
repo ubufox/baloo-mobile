@@ -74,6 +74,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       ),
     ],
     true,
+    'I ate a plant-based meal',
   );
 
   @override
@@ -160,7 +161,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           }
                         );
                       });
-                    }
+                    },
+                    message: action.message,
                   ),
               ),
             ],

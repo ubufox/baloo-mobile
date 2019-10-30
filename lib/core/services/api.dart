@@ -1,5 +1,6 @@
 import 'package:baloo/core/models/community.dart';
 import 'package:baloo/core/models/impact_action.dart';
+import 'package:baloo/core/models/action_data.dart';
 import 'package:baloo/core/models/user_impact.dart';
 
 
@@ -7,6 +8,7 @@ class AppData {
   List<Community> userCommunities;
   List<Community> communitySearchResults;
   List<ImpactAction> pendingActions;
+  List<ImpactAction> actionSearchResults;
   UserImpact userImpact;
 
   AppData();
@@ -34,6 +36,10 @@ class Api {
 
   UserImpact getUserImpact() {
     return appData.userImpact;
+  }
+
+  List<ImpactAction> getActionSearchResults() {
+    return appData.actionSearchResults;
   }
 
   void _initializeAppData() {
@@ -103,6 +109,58 @@ class Api {
         'Beverly Hills, CA',
         'assets/images/treepeople.jpg',
         'About text',
+      ),
+    ];
+
+    appData.actionSearchResults = [
+      new ImpactAction(
+        [
+          new ActionData(
+            'water',
+            627.81,
+          ),
+          new ActionData(
+            'co2',
+            0.63,
+          ),
+        ],
+        false,
+        'Eat a plant-based meal',
+      ),
+      new ImpactAction(
+        [
+          new ActionData(
+            'co2',
+            0.1859,
+          ),
+        ],
+        false,
+        'Wash your clothes in cold water',
+      ),
+      new ImpactAction(
+        [],
+        false,
+        'Use a reusable shopping bag when shopping',
+      ),
+      new ImpactAction(
+        [
+          new ActionData(
+            'co2',
+            2.4363,
+          ),
+        ],
+        false,
+        'Skip the straw',
+      ),
+      new ImpactAction(
+        [
+          new ActionData(
+            'co2',
+            0.569,
+          ),
+        ],
+        false,
+        'Use a personal mug or tumbler instead of a disposable cup',
       ),
     ];
   }

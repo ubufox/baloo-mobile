@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 class ActionButton extends StatefulWidget {
   final onPressed;
+  final String message;
 
   ActionButton({
     Key key,
     @required this.onPressed,
+    @required this.message,
   }) : super(key: key);
 
   @override
@@ -87,7 +89,7 @@ class ActionButtonState extends State<ActionButton> with SingleTickerProviderSta
                 width: 116,
                 child: Center(
                   child: Text(
-                    'I ate a plant-based meal',
+                    widget.message,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF2F2F33),
