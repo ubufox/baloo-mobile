@@ -36,7 +36,6 @@ class _SearchRowState extends State<SearchRow> {
   }
 
   void setSearchFocused() {
-    print('set search focused');
     isSearchFocused = !isSearchFocused;
     setState(() => {});
   }

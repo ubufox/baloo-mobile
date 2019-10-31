@@ -31,9 +31,10 @@ class CommunitySearchModel extends ChangeNotifier {
       _communities = _api.searchCommunities().where((c) =>
         c.name.toLowerCase().contains(query.toLowerCase())
       ).toList();
+    } else {
+      _communities = _api.searchCommunities();
     }
 
-    print('communities length = ' + _communities.length.toString());
     notifyListeners();
   }
 }
