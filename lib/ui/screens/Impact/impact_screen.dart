@@ -113,7 +113,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
         startColor: Color(0xFFFEDBCA),
         endColor: Color(0xFFFAF2C1),
       ),
-      Container(width: 120),
+      Container(width: 160),
     ];
 
     return ListView.builder(

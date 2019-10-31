@@ -10,12 +10,30 @@ class CommunitySearchModel extends ChangeNotifier {
   List<Community> _communities;
 
   List<Community> get communities => _communities;
+
   int get length => _communities.length;
 
   CommunitySearchModel({@required Api api}) {
     _api = api;
-    _communities = _api.searchCommunities();
+    _communities = api.searchCommunities();
   }
 
-  // TODO mjf: add search query and filtering
+  List<Community> searchCommunities([String query, String filter, Function update]) {
+    // TODO mjf
+    // FILTERS
+    // filters should only hit the API if they have not already
+    //
+    // QUERYING
+    // before submission all search queries should use the already fetched communities
+    // upon submission the API should be hit
+    //
+    if (query != null && query != "") {
+      _communities = _api.searchCommunities().where((c) =>
+        c.name.toLowerCase().contains(query.toLowerCase())
+      ).toList();
+    }
+
+    print('communities length = ' + _communities.length.toString());
+    notifyListeners();
+  }
 }

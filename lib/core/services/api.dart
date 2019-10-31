@@ -26,7 +26,7 @@ class Api {
     return appData.userCommunities;
   }
 
-  List<Community> searchCommunities() {
+  List<Community> searchCommunities([String query, String filter]) {
     return appData.communitySearchResults;
   }
 

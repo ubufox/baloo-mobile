@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:baloo/ui/components/Inputs/filter_row_item.dart';
+import 'package:baloo/ui/components/Inputs/Search/filter_row_item.dart';
 
 
 class SearchRow extends StatefulWidget {
@@ -24,11 +24,11 @@ class _SearchRowState extends State<SearchRow> {
 
   void updateQueryVal(v) {
     searchQuery = v;
+    widget.search(searchQuery, widget.filters[activeFilterIdx]);
+    setState(() => {});
   }
 
   void setActiveFilter(idx) {
-    print('set active filter = ' + idx.toString());
-
     if (idx != activeFilterIdx) {
       activeFilterIdx = idx;
       setState(() => {});
@@ -38,13 +38,47 @@ class _SearchRowState extends State<SearchRow> {
   void setSearchFocused() {
     print('set search focused');
     isSearchFocused = !isSearchFocused;
+    setState(() => {});
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      margin: new EdgeInsets.fromLTRB(20.0, 4.0, 20.0, 12.0),
+  Widget _searchBox() {
+    if (isSearchFocused) {
+      return Row(
+        children: <Widget> [
+          Expanded(
+            child: TextField(
+              onChanged: updateQueryVal,
+              autofocus: true,
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                suffix: GestureDetector(
+                  onTap: setSearchFocused,
+                  behavior: HitTestBehavior.translucent,
+                  child: SizedBox(
+                    height: 40,
+                    width: 48,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: SizedBox(
+                        height: 21,
+                        width: 20,
+                        child: Icon(
+                          Icons.close,
+                          size: 18.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return Hero(
+      tag: 'search-box',
       child: Row(
         children: <Widget>[
           Expanded(
@@ -82,6 +116,15 @@ class _SearchRowState extends State<SearchRow> {
           ),
         ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      margin: new EdgeInsets.fromLTRB(20.0, 4.0, 20.0, 12.0),
+      child: _searchBox(),
     );
   }
 }

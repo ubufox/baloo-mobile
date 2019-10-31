@@ -15,7 +15,6 @@ List<SingleChildCloneableWidget> independentServices = [
 ];
 
 List<SingleChildCloneableWidget> dependentServices = [
-
 ];
 
 List<SingleChildCloneableWidget> uiConsumableProviders = [

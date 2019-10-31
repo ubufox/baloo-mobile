@@ -14,15 +14,18 @@ class CommunitySearchResults extends StatelessWidget{
     return BaseDataWidget<CommunitySearchModel>(
       model: CommunitySearchModel(api: Provider.of(context)),
       onModelReady: (model) => { /* TODO mjf: fetch data */ },
-      builder: (context, communities, child) =>
-        SliverList(
+      builder: (context, communities, child) {
+        print('build communities length = ' + communities.communities.length.toString());
+
+        return SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
               return CommunityListItem(community: communities.communities[index]);
             },
             childCount: communities.length,
           ),
-        ),
+        );
+      }
     );
   }
 }
