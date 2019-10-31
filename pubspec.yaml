@@ -62,6 +62,7 @@ flutter:
    - assets/images/Icons/goals_default.png
    - assets/images/Icons/profile_active.png
    - assets/images/Icons/profile_default.png
+   - assets/images/Icons/search_default.png
    - assets/images/Icons/moon.png
 
 

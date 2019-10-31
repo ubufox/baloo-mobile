@@ -1,25 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:baloo/ui/components/Inputs/filter_row_item.dart';
+import 'package:baloo/ui/components/Inputs/Search/search_row.dart';
 
 
-class CommunitySearchBar extends StatefulWidget {
-  @override
-  _CommunitySearchState createState() => _CommunitySearchState();
-}
-
-class _CommunitySearchState extends State<CommunitySearchBar> {
-  String filter;
-  String search;
-  bool searchActive;
-
-  @override void initState() {
-    filter = 'Nearby';
-    searchActive = false;
-
-    super.initState();
-  }
-
+class CommunitySearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,25 +24,11 @@ class _CommunitySearchState extends State<CommunitySearchBar> {
             ),
           ),
         ),
-        _filters(),
+        SearchRow(
+          search: () => { print('searching') },
+          filters: ['Nearby', 'Popular', 'Newest'],
+        ),
       ],
-    );
-  }
-}
-
-class _filters extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 32.0),
-      width: 280,
-      child: Row(
-        children: <Widget>[
-          FilterRowItem(title: 'NEARBY', isActive: true),
-          FilterRowItem(title: 'POPULAR'),
-          FilterRowItem(title: 'NEWEST'),
-        ],
-      ),
     );
   }
 }

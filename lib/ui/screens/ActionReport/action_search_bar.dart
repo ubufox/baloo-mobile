@@ -1,25 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:baloo/ui/components/Inputs/filter_row_item.dart';
+import 'package:baloo/ui/components/Inputs/Search/search_row.dart';
 
 
-class ActionSearchBar extends StatefulWidget {
-  @override
-  _ActionSearchState createState() => _ActionSearchState();
-}
-
-class _ActionSearchState extends State<ActionSearchBar> {
-  String filter;
-  String search;
-  bool searchActive;
-
-  @override void initState() {
-    filter = 'Frequent';
-    searchActive = false;
-
-    super.initState();
-  }
-
+class ActionSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,48 +23,18 @@ class _ActionSearchState extends State<ActionSearchBar> {
             ),
           ),
         ),
-        _filters(),
+        SearchRow(
+          search: () => { /* TODO mjf */ },
+          filters: [
+            'Frequent',
+            'Popular',
+            'Newest',
+            'Water',
+            'CO2',
+            'Engagement',
+          ],
+        ),
       ],
-    );
-  }
-}
-
-class _filters extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final options = [{
-      'title': 'Frequent',
-      'isActive': true,
-    }, {
-      'title': 'Popular',
-      'isActive': false,
-    }, {
-      'title': 'Newest',
-      'isActive': false,
-    }, {
-      'title': 'Water',
-      'isActive': false,
-    }, {
-      'title': 'CO2',
-      'isActive': false,
-    }, {
-      'title': 'Engagement',
-      'isActive': false,
-    }];
-
-    return Container(
-      margin: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 32.0),
-      height: 28,
-      width: 280,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: options.length,
-        itemBuilder: (BuildContext context, int index) =>
-          FilterRowItem(
-            title: options[index]['title'],
-            isActive: options[index]['isActive'],
-          ),
-      ),
     );
   }
 }
