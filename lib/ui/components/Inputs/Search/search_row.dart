@@ -37,6 +37,10 @@ class _SearchRowState extends State<SearchRow> {
 
   void setSearchFocused() {
     isSearchFocused = !isSearchFocused;
+    if (isSearchFocused) {
+      searchQuery = "";
+      widget.search(searchQuery, widget.filters[activeFilterIdx]);
+    }
     setState(() => {});
   }
 
@@ -59,11 +63,11 @@ class _SearchRowState extends State<SearchRow> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: SizedBox(
-                        height: 21,
-                        width: 20,
+                        height: 24,
+                        width: 24,
                         child: Icon(
                           Icons.close,
-                          size: 18.0,
+                          size: 24.0,
                         ),
                       ),
                     ),

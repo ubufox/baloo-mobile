@@ -11,6 +11,7 @@ import 'package:baloo/ui/components/base_data_widget.dart';
 // Models
 import 'package:baloo/core/models/community.dart';
 import 'package:baloo/core/models/goal.dart';
+import 'package:baloo/core/models/accomplishment.dart';
 import 'package:baloo/core/viewmodels/user_communities_model.dart';
 
 
@@ -208,23 +209,32 @@ class _currentGoal extends StatelessWidget {
 }
 
 class _communityAccomplishments extends StatelessWidget {
-  final accomplishments = [{
-    'title': 'Reduce your plastic impact by five years',
-    'startDate': new DateTime.utc(2019, 7, 17),
-    'completeDate': new DateTime.utc(2019, 10, 5),
-    'actionCount': 149,
-    'primaryLabel': 'Total Plastic Savings',
-    'primarySavings': '680.8 kg',
-    'colors': [Color(0xFFE1D0F9), Color(0xFFF7D5EB)],
-  }, {
-    'title': "Save the average person's yearly water usage",
-    'startDate': new DateTime.utc(2019, 7, 17),
-    'completeDate': new DateTime.utc(2019, 10, 5),
-    'actionCount': 149,
-    'primaryLabel': 'Total Water Savings',
-    'primarySavings': '3731.5 gal',
-    'colors': [Color(0xFFF8D6A2), Color(0xFFFCF4BC)],
-  }];
+  final List<Accomplishment> accomplishments = [
+    new Accomplishment(
+      'Reduce your plastic waste impact by five years',
+      'Accomplishment description text',
+      new DateTime.utc(2018, 4, 27),
+      new DateTime.utc(2018, 9, 5),
+      0.0,
+      73.7,
+      630.8,
+      241,
+      'plastic',
+      [Color(0xFFE1D0F9), Color(0xFFF7D5EB)],
+    ),
+    new Accomplishment(
+      "Save the average person's yearly water usage",
+      'Accomplishment description text',
+      new DateTime.utc(2018, 5, 11),
+      new DateTime.utc(2018, 10, 9),
+      14123.75,
+      64.0,
+      0.0,
+      149,
+      'water',
+      [Color(0xFFF8D6B2), Color(0xFFFCF4BC)],
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -234,17 +244,8 @@ class _communityAccomplishments extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: accomplishments.length,
-        itemBuilder: (BuildContext context, int index) {
-          return AccomplishmentCard(
-            title: accomplishments[index]['title'],
-            startDate: accomplishments[index]['startDate'],
-            completeDate: accomplishments[index]['completeDate'],
-            actionCount: accomplishments[index]['actionCount'],
-            primaryLabel: accomplishments[index]['primaryLabel'],
-            primarySavings: accomplishments[index]['primarySavings'],
-            colors: accomplishments[index]['colors'],
-          );
-        },
+        itemBuilder: (BuildContext context, int index) =>
+          AccomplishmentCard(accomplishments[index]),
       ),
     );
   }

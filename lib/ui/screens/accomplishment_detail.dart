@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:baloo/core/constants/routes.dart';
 import 'package:baloo/ui/components/Buttons/wide_button.dart';
@@ -6,14 +7,21 @@ import 'package:baloo/ui/components/Buttons/wide_button.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
 import 'package:baloo/ui/components/Navigation/nav_action_button.dart';
 
+// Models
+import 'package:baloo/core/models/accomplishment.dart';
+
 
 class AccomplishmentDetail extends StatelessWidget {
+  final Accomplishment accomplishment;
+
+  AccomplishmentDetail({ @required this.accomplishment });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        slivers: <Widget>[
-          SliverToBoxAdapter(child: _accomplishmentBox()),
+        slivers: <Widget> [
+          SliverToBoxAdapter(child: _accomplishmentBox(accomplishment: accomplishment)),
           SliverToBoxAdapter(
             child: Container(
               margin: const EdgeInsets.only(bottom: 60.0),
@@ -38,9 +46,15 @@ class AccomplishmentDetail extends StatelessWidget {
 
 
 class _accomplishmentBox extends StatelessWidget {
+  final Accomplishment accomplishment;
+
+  _accomplishmentBox({ @required this.accomplishment });
+
+
   Widget _topSection(BuildContext context) {
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +63,7 @@ class _accomplishmentBox extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 12.0),
                   child: Text(
-                    'Reduce your plastic impact by five years',
+                    accomplishment.title,
                     style: TextStyle(
                       color: Color(0xFF2F2F33),
                       fontSize: 22,
@@ -83,7 +97,7 @@ class _accomplishmentBox extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 24.0),
             child: Text(
-              "Your family might use plastic straws, water bottles, and bags for just a few minutes, but those items don’t disappear when they’re thrown out. Single-use items like these account for more than 40 percent of plastic waste, and each year about 8.8 million tons of plastic trash flows into the ocean. This waste endangers wildlife, pollutes the water, and puts human health at risk.",
+              accomplishment.description,
               style: TextStyle(
                 color: Color(0xFF595959),
                 fontSize: 16,
@@ -98,6 +112,10 @@ class _accomplishmentBox extends StatelessWidget {
   }
 
   Widget _statGroup(String label, String value) {
+    if (value[0] == '0') {
+      return Container();
+    }
+
     return Container(
       margin: const EdgeInsets.only(top: 32.0),
       child: Column(
@@ -130,14 +148,37 @@ class _accomplishmentBox extends StatelessWidget {
   }
 
   Widget _bottomSection() {
+    NumberFormat f = NumberFormat('###,###,###.##', 'en_US');
+    DateFormat d = DateFormat('M.d.y');
+
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          _statGroup('Started', '5.28.19'),
-          _statGroup('Completed', '9.16.19'),
-          _statGroup('Actions', '241'),
-          _statGroup('Total Plastic Savings', '630.8 kg'),
+          _statGroup(
+            'Started',
+            d.format(accomplishment.started),
+          ),
+          _statGroup(
+            'Completed',
+            d.format(accomplishment.completed),
+          ),
+          _statGroup(
+            'Actions',
+            f.format(accomplishment.actionCount),
+          ),
+          _statGroup(
+            'Total Water Savings',
+            f.format(accomplishment.water) + ' L',
+          ),
+          _statGroup(
+            'Total CO2 Savings',
+            f.format(accomplishment.co2) + ' kg',
+          ),
+          _statGroup(
+            'Total Plastic Savings',
+            f.format(accomplishment.plastic) + ' kg',
+          ),
         ],
       ),
     );
@@ -152,10 +193,7 @@ class _accomplishmentBox extends StatelessWidget {
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
           stops: [0.0, 1.0],
-          colors: [
-            Color(0xFFE1D0F9),
-            Color(0xFFF7D5EB),
-          ],
+          colors: accomplishment.colors,
         ),
         boxShadow: [
           new BoxShadow(

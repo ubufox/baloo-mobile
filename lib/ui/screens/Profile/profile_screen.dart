@@ -8,6 +8,9 @@ import 'package:baloo/ui/components/Shared/accomplishment_card.dart';
 import 'package:baloo/ui/components/Inputs/Settings/default_input.dart';
 import 'package:baloo/ui/components/Inputs/Settings/allow_sms.dart';
 
+// Models
+import 'package:baloo/core/models/accomplishment.dart';
+
 
 class ProfileScreen extends StatelessWidget {
   @override
@@ -121,23 +124,32 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class _personalAccomplishments extends StatelessWidget {
-  final accomplishments = [{
-    'title': 'Reduce your plastic impact by five years',
-    'startDate': new DateTime.utc(2019, 7, 17),
-    'completeDate': new DateTime.utc(2019, 10, 5),
-    'actionCount': 149,
-    'primaryLabel': 'Total Plastic Savings',
-    'primarySavings': '680.8 kg',
-    'colors': [Color(0xFFE1D0F9), Color(0xFFF7D5EB)],
-  }, {
-    'title': "Save the average person's yearly water usage",
-    'startDate': new DateTime.utc(2019, 7, 17),
-    'completeDate': new DateTime.utc(2019, 10, 5),
-    'actionCount': 149,
-    'primaryLabel': 'Total Water Savings',
-    'primarySavings': '3731.5 gal',
-    'colors': [Color(0xFFF8D6A2), Color(0xFFFCF4BC)],
-  }];
+  final accomplishments = [
+    new Accomplishment(
+      'Reduce your plastic waste impact by five years',
+      "Your family might use plastic straws, water bottles, and bags for just a few minutes, but those items don’t disappear when they’re thrown out. Single-use items like these account for more than 40 percent of plastic waste, and each year about 8.8 million tons of plastic trash flows into the ocean. This waste endangers wildlife, pollutes the water, and puts human health at risk.",
+      new DateTime.utc(2018, 4, 27),
+      new DateTime.utc(2018, 9, 5),
+      0.0,
+      73.7,
+      630.8,
+      241,
+      'plastic',
+      [Color(0xFFE1D0F9), Color(0xFFF7D5EB)],
+    ),
+    new Accomplishment(
+      "Save the average person's yearly water usage",
+      'Accomplishment description text',
+      new DateTime.utc(2018, 5, 11),
+      new DateTime.utc(2018, 10, 9),
+      14123.75,
+      64.0,
+      0.0,
+      149,
+      'water',
+      [Color(0xFFF8D6B2), Color(0xFFFCF4BC)],
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -147,17 +159,8 @@ class _personalAccomplishments extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: accomplishments.length,
-        itemBuilder: (BuildContext context, int index) {
-          return AccomplishmentCard(
-            title: accomplishments[index]['title'],
-            startDate: accomplishments[index]['startDate'],
-            completeDate: accomplishments[index]['completeDate'],
-            actionCount: accomplishments[index]['actionCount'],
-            primaryLabel: accomplishments[index]['primaryLabel'],
-            primarySavings: accomplishments[index]['primarySavings'],
-            colors: accomplishments[index]['colors'],
-          );
-        },
+        itemBuilder: (BuildContext context, int index) =>
+          AccomplishmentCard(accomplishments[index]),
       ),
     );
   }
