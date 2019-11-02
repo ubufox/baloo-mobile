@@ -24,7 +24,7 @@ class ActionSearchBar extends StatelessWidget {
           ),
         ),
         SearchRow(
-          search: () => { /* TODO mjf */ },
+          search: (query, filters) => { /* TODO mjf */ },
           filters: [
             'Frequent',
             'Popular',

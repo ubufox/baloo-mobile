@@ -149,7 +149,7 @@ class _accomplishmentBox extends StatelessWidget {
 
   Widget _bottomSection() {
     NumberFormat f = NumberFormat('###,###,###.##', 'en_US');
-    DateFormat d = DateFormat('M.d.y');
+    DateFormat d = DateFormat('M.d.yy');
 
     return Container(
       child: Column(
