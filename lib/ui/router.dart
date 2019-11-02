@@ -45,7 +45,7 @@ class Router {
         );
       case RoutePaths.Accomplishment:
         return MaterialPageRoute(
-          builder: (_) => AccomplishmentDetail(),
+          builder: (_) => AccomplishmentDetail(accomplishment: settings.arguments),
         );
       case RoutePaths.ActionReport:
         return MaterialPageRoute(

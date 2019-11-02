@@ -1,27 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:baloo/core/constants/routes.dart';
 
+// Models
+import 'package:baloo/core/models/accomplishment.dart';
+
 
 class AccomplishmentCard extends StatelessWidget {
-  AccomplishmentCard({
-    @required this.title,
-    @required this.startDate,
-    @required this.completeDate,
-    @required this.actionCount,
-    @required this.primaryLabel,
-    @required this.primarySavings,
-    @required this.colors,
-  });
+  final Accomplishment accomplishment;
 
-  final String title;
-  final DateTime startDate;
-  final DateTime completeDate;
-  final int actionCount;
-  final String primaryLabel;
-  final String primarySavings;
-  final colors;
-
+  AccomplishmentCard(@required this.accomplishment);
 
   Widget _topSection() {
     return Container(
@@ -32,7 +21,7 @@ class AccomplishmentCard extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 12.0),
             child: Text(
-              '$title',
+              accomplishment.title,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w600,
@@ -58,6 +47,29 @@ class AccomplishmentCard extends StatelessWidget {
   }
 
   Widget _bottomSection() {
+    String primaryLabel;
+    String primarySavings;
+    NumberFormat f = NumberFormat('###,###,###.##', 'en_US');
+
+    switch (accomplishment.type) {
+      case 'water':
+        primaryLabel = 'Total Water Savings';
+        primarySavings = f.format(accomplishment.water);
+        break;
+      case 'co2':
+        primaryLabel = 'Total CO2 Savings';
+        primarySavings = f.format(accomplishment.co2);
+        break;
+      case 'plastic':
+        primaryLabel = 'Total Plastic Savings';
+        primarySavings = f.format(accomplishment.plastic);
+        break;
+      default:
+        primaryLabel = 'Total Actions Taken';
+        primarySavings = f.format(accomplishment.actionCount);
+        break;
+    }
+
     return Container(
       margin: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 32.0),
       child: Column(
@@ -66,7 +78,7 @@ class AccomplishmentCard extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 12.0),
             child: Text(
-              '$primaryLabel',
+              primaryLabel,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w600,
@@ -76,7 +88,7 @@ class AccomplishmentCard extends StatelessWidget {
             ),
           ),
           Text(
-            '$primarySavings',
+            primarySavings,
             style: TextStyle(
               fontFamily: 'Muli',
               fontWeight: FontWeight.w500,
@@ -95,7 +107,11 @@ class AccomplishmentCard extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, RoutePaths.Accomplishment);
+          Navigator.pushNamed(
+            context,
+            RoutePaths.Accomplishment,
+            arguments: accomplishment,
+          );
         },
         child: Container(
           height: 260,
@@ -106,7 +122,7 @@ class AccomplishmentCard extends StatelessWidget {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               stops: [0.0, 1.0],
-              colors: colors,
+              colors: accomplishment.colors,
             ),
             borderRadius: BorderRadius.circular(16.0),
             boxShadow: [
