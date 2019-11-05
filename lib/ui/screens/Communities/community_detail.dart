@@ -175,7 +175,7 @@ class _currentGoal extends StatelessWidget {
   final Goal goal = new Goal(
     201,
     'Help Surfrider pick up 20 trash cans worth of plastic',
-    'There are numerous threas to clean water and healthy beaches, including polluted runoff, offshore oil drilling, habitat loss, development, climate change, plastic in the ocean, and trash on the shore.',
+    'There are numerous threads to clean water and healthy beaches, including polluted runoff, offshore oil drilling, habitat loss, development, climate change, plastic in the ocean, and trash on the shore.',
     'Attend a Venice Beach clean up event',
     24,
     [Color(0xFF8BEBE4), Color(0xFFD0FFEC)],

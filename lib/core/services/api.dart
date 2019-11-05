@@ -10,6 +10,7 @@ class AppData {
   List<ImpactAction> pendingActions;
   List<ImpactAction> actionSearchResults;
   UserImpact userImpact;
+  ImpactAction userWeeklyAction;
 
   AppData();
 }
@@ -26,6 +27,16 @@ class Api {
     return appData.userCommunities;
   }
 
+  /* TODO mjf: Community API Endpoints
+  void joinCommunity(community) {
+    app.userCommunities.insert(app.userCommunities.length, community);
+  }
+
+  void leaveCommunity(community) {
+    app.userCommunities.insert(app.userCommunities.length, community);
+  }
+  */
+
   List<Community> searchCommunities([String query, String filter]) {
     return appData.communitySearchResults;
   }
@@ -38,6 +49,10 @@ class Api {
     return appData.userImpact;
   }
 
+  ImpactAction getWeeklyAction() {
+    return appData.userWeeklyAction;
+  }
+
   List<ImpactAction> getActionSearchResults() {
     return appData.actionSearchResults;
   }
@@ -48,6 +63,19 @@ class Api {
       46458.5,
       158.8,
       260,
+    );
+    appData.userWeeklyAction = new ImpactAction([
+        new ActionData(
+          'water',
+          627.81,
+        ),
+        new ActionData(
+          'co2',
+          0.63,
+        ),
+      ],
+      true,
+      'I ate a plant-based meal',
     );
 
     appData.userCommunities = [
@@ -97,7 +125,7 @@ class Api {
       new Community(
         105,
         'National Parks Conservation Association',
-        '268K',
+        '268K members',
         'Washington, DC',
         'assets/images/npca.jpg',
         'About text',
@@ -105,7 +133,7 @@ class Api {
       new Community(
         106,
         'TreePeople',
-        '5.8K',
+        '5.8K members',
         'Beverly Hills, CA',
         'assets/images/treepeople.jpg',
         'About text',
