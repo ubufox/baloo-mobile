@@ -7,10 +7,11 @@ class AuthAPI {
 
   AuthAPI();
 
+  //
+  //
   // LOGIN
   Future<bool> sendLoginCode(String phone) async {
     /* TODO mjf: hit auth api endpoint */
-    print('sending login code to : ' + phone);
     bool sent = await Future.delayed(
       Duration(milliseconds: 2500),
       () => true,
@@ -24,7 +25,6 @@ class AuthAPI {
     /* TODO mjf: hit auth api endpoint
        - should return an ID for the confirmed user
     */
-    print('confirming code: ' + code);
     int userId = await Future.delayed(
       Duration(milliseconds: 2000),
       () => 1,
@@ -32,7 +32,8 @@ class AuthAPI {
     return userId;
   }
 
-
+  //
+  //
   // ACCOUNT CREATION
   bool createAccoun(CreateAccount account) {
     /* TODO mjf: submit account to Auth API */
@@ -46,8 +47,10 @@ class AuthAPI {
     return true;
   }
 
-
+  //
+  //
   // USER
+  // TODO mjf: get user by session token
   Future<User> getUserById(int userId) async {
     print('get user with id : ' + userId.toString());
     /* TODO mjf: get user by user auth user id */

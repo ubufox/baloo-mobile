@@ -25,12 +25,10 @@ class AuthenticationService {
     int userId = await _api.auth.confirmLoginCode(phone, code);
     bool loggedIn = await login(userId);
 
-    print('logged in ->' + loggedIn.toString());
     return loggedIn;
   }
 
   Future<bool> login(int userId) async {
-    print('calling get user by id with id : ' + userId.toString());
     User fetchedUser = await _api.auth.getUserById(userId);
     currentUserId = fetchedUser.id;
 
@@ -43,7 +41,6 @@ class AuthenticationService {
   }
 
   Future<bool> logout() async {
-    print('logging out user with id : ' + currentUserId.toString());
     bool loggedOut = await _api.auth.endUserSession(currentUserId);
 
     if (loggedOut) {
