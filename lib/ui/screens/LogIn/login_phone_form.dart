@@ -54,7 +54,7 @@ class LoginPhoneForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Submit',
+                    'Log In',
                     style: TextStyle(
                       color: Color(0xFF2F2F33),
                       fontFamily: 'Muli',
@@ -85,7 +85,7 @@ class LoginPhoneForm extends StatelessWidget {
             ),
             Container(
               margin: new EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
-              child: Textk
+              child: Text(
                 'Create Account',
                 style: TextStyle(
                   color: Color(0xFF2F2F33),

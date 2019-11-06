@@ -6,7 +6,11 @@ import 'package:provider/provider.dart';
 import 'package:baloo/ui/components/base_data_widget.dart';
 import 'package:baloo/core/constants/routes.dart';
 
+// Services
 import 'package:baloo/core/services/authentication_service.dart';
+
+// Models
+import 'package:baloo/core/viewmodels/nav_bar_model.dart';
 
 
 class LogoutButton extends StatefulWidget {
@@ -15,7 +19,6 @@ class LogoutButton extends StatefulWidget {
 
 class _LogoutButtonState extends State<LogoutButton> with SingleTickerProviderStateMixin{
   AnimationController animationController;
-  BuildContext ctx;
 
   @override
   void initState() {
@@ -28,10 +31,19 @@ class _LogoutButtonState extends State<LogoutButton> with SingleTickerProviderSt
 
     animationController.addListener(() {
       setState(() {
-        if (ctx != null && animationController.value >= 1.0) {
+        if (animationController.value >= 1.0) {
           AuthenticationService auth = Provider.of<AuthenticationService>(context);
+          final nav = Provider.of<NavBarModel>(context);
+
           auth.logout();
-          Navigator.pushNamed(ctx, RoutePaths.AuthCheck);
+
+          Future.delayed(
+            Duration(milliseconds: 750),
+            () {
+              nav.updateRoute(RoutePaths.AuthCheck);
+              Navigator.pushNamed(context, RoutePaths.AuthCheck);
+            },
+          );
         }
       });
     });
@@ -39,8 +51,6 @@ class _LogoutButtonState extends State<LogoutButton> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    ctx = context;
-
     return GestureDetector(
       onTapDown: (_) => animationController.forward(),
       onTapUp: (_) {
@@ -106,7 +116,7 @@ class _LogoutButtonState extends State<LogoutButton> with SingleTickerProviderSt
             width: 94.0,
             child: CircularProgressIndicator(
               value: animationController.value,
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1DC8F1)),
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFDC4600)),
               strokeWidth: 6.0
             ),
           ),

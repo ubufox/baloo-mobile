@@ -20,20 +20,41 @@ class LoginConfirmCode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/login_confirmation_bg.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              child: GestureDetector(
-                onTap: onBack,
-                child: Container(
-                  height: 48,
-                  width: 48,
-                  color: Color(0xFF484A4A),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                height: 40.0,
+                width: 40.0,
+                margin: new EdgeInsets.fromLTRB(20.0, 48.0, 20.0, 0.0),
+                child: GestureDetector(
+                  onTap: onBack,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24.0),
+                      color: Color(0xFF484A4A),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 16.0,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
             Container(
+              margin: new EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 16.0),
               child: Text(
                 'Confirmation',
                 textDirection: TextDirection.ltr,
@@ -46,9 +67,9 @@ class LoginConfirmCode extends StatelessWidget {
               ),
             ),
             Container(
+              margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 48.0),
               child: Text(
                 'Please enter the code we sent to $phone to confirm we have the correct number',
-                textDirection: TextDirection.ltr,
                 style: TextStyle(
                   color: Color(0xFF2F2F33),
                   fontFamily: 'Muli',
@@ -58,28 +79,49 @@ class LoginConfirmCode extends StatelessWidget {
               ),
             ),
             Container(
+              margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 60.0),
               child: TextField(
                 onChanged: onChanged,
+                decoration: InputDecoration(
+                  hintText: 'Enter code here',
+                ),
               ),
             ),
             Container(
               height: 80,
+              margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Log In'),
+                  Text(
+                    'Confirm',
+                    style: TextStyle(
+                      color: Color(0xFF2F2F33),
+                      fontFamily: 'Muli',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 22,
+                    ),
+                  ),
                   GestureDetector(
                     onTap: onSubmit,
                     child: Container(
                       height: 80,
                       width: 80,
-                      color: Color(0xFF484A4A)
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40.0),
+                        color: Color(0xFF484A4A),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 28.0,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
-            Container(
-              child: Text('Create Account'),
             ),
           ],
         ),

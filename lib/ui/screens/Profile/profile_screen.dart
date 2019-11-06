@@ -108,7 +108,10 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             SliverToBoxAdapter(
-              child: LogoutButton(),
+              child: Container(
+                margin: new EdgeInsets.only(top: 20.0),
+                child: LogoutButton(),
+              ),
             ),
             SliverToBoxAdapter(
               child: Container(height: 72),

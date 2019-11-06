@@ -65,7 +65,7 @@ class AuthAPI {
   // TODO mjf: should use a session token
   Future<bool> endUserSession(int token) async {
     return await Future.delayed(
-      Duration(milliseconds: 1000),
+      Duration(milliseconds: 100),
       () => true,
     );
   }

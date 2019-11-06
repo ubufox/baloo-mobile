@@ -13,9 +13,9 @@ class AuthCheck extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    if (user != null) {
-      return ActionScreen();
+    if (user == null) {
+      return LogIn();
     }
-    return LogIn();
+    return ActionScreen();
   }
 }
