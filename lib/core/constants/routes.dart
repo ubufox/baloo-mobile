@@ -8,4 +8,9 @@ class RoutePaths {
   static const String Profile = '/profile';
   static const String Accomplishment = '/accomplishment';
   static const String ActionReport = '/log';
+
+  static const String LogIn = '/login';
+  static const String CreateAccount = '/createAccount';
+
+  static const String AuthCheck = '/authCheck';
 }

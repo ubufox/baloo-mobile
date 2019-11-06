@@ -1,3 +1,5 @@
+import 'package:baloo/core/services/Api/Authentication/auth.dart';
+
 import 'package:baloo/core/models/community.dart';
 import 'package:baloo/core/models/impact_action.dart';
 import 'package:baloo/core/models/action_data.dart';
@@ -18,10 +20,16 @@ class AppData {
 
 class Api {
   AppData appData = AppData();
+  final AuthAPI _auth = new AuthAPI();
+
 
   Api() {
     _initializeAppData();
   }
+
+
+  AuthAPI get auth => _auth;
+
 
   List<Community> getUserCommunities() {
     return appData.userCommunities;

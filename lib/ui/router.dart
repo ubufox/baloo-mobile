@@ -12,7 +12,9 @@ import 'package:baloo/ui/screens/accomplishment_detail.dart';
 import 'package:baloo/ui/screens/Profile/profile_screen.dart';
 import 'package:baloo/ui/screens/Communities/community_detail.dart';
 import 'package:baloo/ui/screens/ActionReport/action_report_screen.dart';
+import 'package:baloo/ui/screens/LogIn/login_screen.dart';
 import 'package:baloo/ui/screens/does_not_exist_screen.dart';
+import 'package:baloo/ui/screens/auth_check.dart';
 
 // Models
 import 'package:baloo/core/models/community.dart';
@@ -21,6 +23,10 @@ import 'package:baloo/core/models/community.dart';
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case RoutePaths.AuthCheck:
+        return MaterialPageRoute(builder: (_) => AuthCheck());
+      case RoutePaths.LogIn:
+        return MaterialPageRoute(builder: (_) => LogIn());
       case RoutePaths.Action:
         return MaterialPageRoute(builder: (_) => ActionScreen());
       case RoutePaths.Impact:

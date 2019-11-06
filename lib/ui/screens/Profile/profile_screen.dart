@@ -4,6 +4,7 @@ import 'package:baloo/core/constants/routes.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
 import 'package:baloo/ui/components/Navigation/nav_action_button.dart';
 import 'package:baloo/ui/components/Buttons/wide_button.dart';
+import 'package:baloo/ui/components/Buttons/logout_button.dart';
 import 'package:baloo/ui/components/Shared/accomplishment_card.dart';
 import 'package:baloo/ui/components/Inputs/Settings/default_input.dart';
 import 'package:baloo/ui/components/Inputs/Settings/allow_sms.dart';
@@ -105,6 +106,9 @@ class ProfileScreen extends StatelessWidget {
                   AllowSMS(),
                 ],
               ),
+            ),
+            SliverToBoxAdapter(
+              child: LogoutButton(),
             ),
             SliverToBoxAdapter(
               child: Container(height: 72),

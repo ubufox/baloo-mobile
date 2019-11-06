@@ -27,50 +27,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Baloo',
-      initialRoute: RoutePaths.Action,
+      initialRoute: RoutePaths.AuthCheck,
       onGenerateRoute: Router.generateRoute,
     );
   }
 }
-
-
-// class SubApp extends StatefulWidget {
-//   @override
-//   State<StatefulWidget> createState() => _SubAppState();
-// }
-// 
-// class _SubAppState extends State<SubApp> {
-//   int _currentIndex = 0;
-//   final _tabViews = [
-//     ActionScreen(),
-//     CommunitiesScreen(),
-//   ];
-// 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: _tabViews[_currentIndex],
-//       bottomNavigationBar: BottomNavigationBar(
-//         items: <BottomNavigationBarItem> [
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.flash_on),
-//             title: Text('Action'),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.beach_access),
-//             title: Text('Community'),
-//           ),
-//         ],
-//         currentIndex: _currentIndex,
-//         fixedColor: Colors.deepPurple,
-//         onTap: _onItemTapped,
-//       ),
-//     );
-//   }
-// 
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _currentIndex = index;
-//     });
-//   }
-// }
