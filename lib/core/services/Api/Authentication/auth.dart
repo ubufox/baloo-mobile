@@ -1,4 +1,3 @@
-import 'package:baloo/core/models/create_account.dart';
 import 'package:baloo/core/models/user.dart';
 
 
@@ -35,16 +34,25 @@ class AuthAPI {
   //
   //
   // ACCOUNT CREATION
-  bool createAccoun(CreateAccount account) {
+  Future<bool> createAccount(String name, String phone, String zipcode) async {
     /* TODO mjf: submit account to Auth API */
-    print('submitted new account for ' + account.name);
-    return true;
+    print('submitted new account for ' + name);
+    bool created = await Future.delayed(
+      Duration(milliseconds: 1000),
+      () => true,
+    );
+    return created;
   }
 
-  bool confirmAccount(CreateAccount account) {
+  Future<int> confirmAccount(String phone, String code) async {
     /* TODO mjf: confirm account with Auth API */
-    print('confirm new account with code ' + account.code);
-    return true;
+    print('confirm new account with code ' + code);
+    int userId = await Future.delayed(
+      Duration(milliseconds: 750),
+      () => 1,
+    );
+
+    return userId;
   }
 
   //

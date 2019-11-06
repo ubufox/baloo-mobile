@@ -1,16 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:baloo/ui/components/base_data_widget.dart';
-import 'package:baloo/core/constants/routes.dart';
 
 // Services
 import 'package:baloo/core/services/authentication_service.dart';
-
-// Models
-import 'package:baloo/core/viewmodels/nav_bar_model.dart';
 
 
 class LogoutButton extends StatefulWidget {
@@ -19,6 +13,7 @@ class LogoutButton extends StatefulWidget {
 
 class _LogoutButtonState extends State<LogoutButton> with SingleTickerProviderStateMixin{
   AnimationController animationController;
+  bool calledAction = false;
 
   @override
   void initState() {
@@ -31,19 +26,12 @@ class _LogoutButtonState extends State<LogoutButton> with SingleTickerProviderSt
 
     animationController.addListener(() {
       setState(() {
-        if (animationController.value >= 1.0) {
+        if (animationController.value >= 1.0 && calledAction == false) {
+          // To confirm this only happens once
+          calledAction = true;
+
           AuthenticationService auth = Provider.of<AuthenticationService>(context);
-          final nav = Provider.of<NavBarModel>(context);
-
           auth.logout();
-
-          Future.delayed(
-            Duration(milliseconds: 750),
-            () {
-              nav.updateRoute(RoutePaths.AuthCheck);
-              Navigator.pushNamed(context, RoutePaths.AuthCheck);
-            },
-          );
         }
       });
     });

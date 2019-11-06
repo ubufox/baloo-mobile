@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:baloo/core/constants/routes.dart';
 
-
-class LoginPhoneForm extends StatelessWidget {
+class CreateAccountConfirmCodeForm  extends StatelessWidget {
   final Function onSubmit;
   final Function onChanged;
+  final Function onBack;
+  final String phone;
 
 
-  LoginPhoneForm({
+  CreateAccountConfirmCodeForm({
     @required this.onSubmit,
     @required this.onChanged,
+    @required this.onBack,
+    @required this.phone,
   });
 
 
@@ -20,17 +22,41 @@ class LoginPhoneForm extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/login_form_bg.jpg"),
+            image: AssetImage("assets/images/create_account_confirmation_bg.jpg"),
             fit: BoxFit.cover,
           ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                height: 40.0,
+                width: 40.0,
+                margin: new EdgeInsets.fromLTRB(20.0, 48.0, 20.0, 0.0),
+                child: GestureDetector(
+                  onTap: onBack,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24.0),
+                      color: Color(0xFF484A4A),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 16.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Container(
-              margin: new EdgeInsets.fromLTRB(20.0, 120.0, 20.0, 48.0),
+              margin: new EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 16.0),
               child: Text(
-                'Log In',
+                'Confirmation',
                 textDirection: TextDirection.ltr,
                 style: TextStyle(
                   color: Color(0xFF2F2F33),
@@ -41,22 +67,34 @@ class LoginPhoneForm extends StatelessWidget {
               ),
             ),
             Container(
-              margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+              margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 48.0),
+              child: Text(
+                'Please enter the code we sent to $phone to confirm we have the correct number',
+                style: TextStyle(
+                  color: Color(0xFF2F2F33),
+                  fontFamily: 'Muli',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            Container(
+              margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 60.0),
               child: TextField(
                 onChanged: onChanged,
                 decoration: InputDecoration(
-                  hintText: 'Phone number',
+                  hintText: 'Enter code here',
                 ),
               ),
             ),
             Container(
               height: 80,
-              margin: new EdgeInsets.fromLTRB(20.0, 120.0, 20.0, 0.0),
+              margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Log In',
+                    'Create Account',
                     style: TextStyle(
                       color: Color(0xFF2F2F33),
                       fontFamily: 'Muli',
@@ -65,10 +103,10 @@ class LoginPhoneForm extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => onSubmit(),
+                    onTap: onSubmit,
                     child: Container(
-                      height: 80.0,
-                      width: 80.0,
+                      height: 80,
+                      width: 80,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40.0),
                         color: Color(0xFF484A4A),
@@ -83,22 +121,6 @@ class LoginPhoneForm extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-            GestureDetector(
-              onTap: () => Navigator.pushNamed(context, RoutePaths.CreateAccount),
-              child: Container(
-                margin: new EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 0.0),
-                child: Text(
-                  'Create Account',
-                  style: TextStyle(
-                    color: Color(0xFF2F2F33),
-                    fontFamily: 'Muli',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
               ),
             ),
           ],

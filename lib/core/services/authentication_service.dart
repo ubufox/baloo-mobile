@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:baloo/core/services/api.dart';
 import 'package:baloo/core/models/user.dart';
-import 'package:baloo/core/models/login_credentials.dart';
 
 
 class AuthenticationService {
@@ -28,6 +27,25 @@ class AuthenticationService {
     return loggedIn;
   }
 
+
+  Future<bool> createAccount(String name, String phone, String zipcode) async {
+    bool sent = await _api.auth.createAccount(name, phone, zipcode);
+    return sent;
+  }
+
+
+  Future<bool> confirmAccount(String phone, String code) async {
+    int userId = await _api.auth.confirmAccount(phone, code);
+    if (userId == null) {
+      return false;
+    }
+
+    bool loggedIn = await login(userId);
+
+    return loggedIn;
+  }
+
+
   Future<bool> login(int userId) async {
     User fetchedUser = await _api.auth.getUserById(userId);
     currentUserId = fetchedUser.id;
@@ -39,6 +57,7 @@ class AuthenticationService {
 
     return hasUser;
   }
+
 
   Future<bool> logout() async {
     bool loggedOut = await _api.auth.endUserSession(currentUserId);
