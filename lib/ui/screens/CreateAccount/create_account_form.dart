@@ -142,6 +142,7 @@ class CreateAccountForm extends StatelessWidget {
           ),
         ],
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 }

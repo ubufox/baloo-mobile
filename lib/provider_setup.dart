@@ -1,12 +1,13 @@
 import 'package:provider/provider.dart';
 
+// Services
 import 'package:baloo/core/services/api.dart';
+import 'package:baloo/core/services/graphql.dart';
 import 'package:baloo/core/services/authentication_service.dart';
-import 'package:baloo/core/viewmodels/nav_bar_model.dart';
-// import 'package:baloo/core/viewmodels/loading_model.dart';
 
 // Models
-import 'package:baloo/core/models/user.dart';
+import 'package:baloo/core/models/authentication.dart';
+import 'package:baloo/core/viewmodels/nav_bar_model.dart';
 
 
 List<SingleChildCloneableWidget> providers = [
@@ -24,18 +25,18 @@ List<SingleChildCloneableWidget> dependentServices = [
     builder: (context, api, authenticationService) =>
       AuthenticationService(api: api),
   ),
+  ProxyProvider<AuthenticationService, GraphQLService>(
+    builder: (context, auth, gqls) =>
+      GraphQLService(auth: auth),
+  ),
 ];
 
 List<SingleChildCloneableWidget> uiConsumableProviders = [
-  StreamProvider<User>(
+  StreamProvider<Authentication>(
     builder: (context) =>
-      Provider.of<AuthenticationService>(context, listen: false).user,
+      Provider.of<GraphQLService>(context, listen: false).authentication,
   ),
   ChangeNotifierProvider<NavBarModel>(
     builder: (_) => NavBarModel(),
   ),
-// TODO mjf: add appwide loading wrapper
-//  ChangeNotifierProvider<LoadingModel>(
-//    builder: (_) => LoadingModel(),
-//  ),
 ];

@@ -20,7 +20,7 @@ import 'package:baloo/ui/screens/auth_check.dart';
 
 // Models
 import 'package:baloo/core/models/community.dart';
-import 'package:baloo/core/models/user.dart';
+import 'package:baloo/core/models/authentication.dart';
 
 
 class Router {
@@ -29,8 +29,8 @@ class Router {
       case RoutePaths.CreateAccount:
         return MaterialPageRoute(
           builder: (ctx) {
-            final user = Provider.of<User>(ctx);
-            if (user != null) {
+            final authenticated = Provider.of<Authentication>(ctx);
+            if (authenticated != null) {
               return ActionScreen();
             }
 
@@ -40,8 +40,8 @@ class Router {
       case RoutePaths.LogIn:
         return MaterialPageRoute(
           builder: (ctx) {
-            final user = Provider.of<User>(ctx);
-            if (user != null) {
+            final authenticated = Provider.of<Authentication>(ctx);
+            if (authenticated != null) {
               return ActionScreen();
             }
 
@@ -49,16 +49,7 @@ class Router {
           },
         );
       case RoutePaths.Action:
-        return MaterialPageRoute(
-          builder: (ctx) {
-            final user = Provider.of<User>(ctx);
-            if (user != null) {
-              return ActionScreen();
-            }
-
-            return LogIn();
-          },
-        );
+        return MaterialPageRoute(builder: (_) => ActionScreen());
       case RoutePaths.Impact:
         return MaterialPageRoute(builder: (_) => ImpactScreen());
       case RoutePaths.Communities:
@@ -69,14 +60,7 @@ class Router {
         );
       case RoutePaths.Profile:
         return MaterialPageRoute(
-          builder: (ctx) {
-            final user = Provider.of<User>(ctx);
-            if (user != null) {
-              return ProfileScreen();
-            }
-
-            return LogIn();
-          },
+          builder: (_) => ProfileScreen(),
         );
       case RoutePaths.CommunityDetail:
         return MaterialPageRoute(

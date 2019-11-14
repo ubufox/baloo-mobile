@@ -175,7 +175,10 @@ class _ImpactScreenState extends State<ImpactScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseDataWidget<ImpactModel>(
-      model: ImpactModel(api : Provider.of(context)),
+      model: ImpactModel(
+        api : Provider.of(context),
+        gql : Provider.of(context),
+      ),
       onModelReady: (model) {
         /* TODO mjf: fetch data */
         Timer(Duration(milliseconds: 500), () => recurringPull(model));

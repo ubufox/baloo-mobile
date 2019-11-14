@@ -24,7 +24,7 @@ class LoginModel extends ChangeNotifier {
   }
 
   Future<void> submitPhone() async {
-    bool sent = await _authenticationService.sendLoginCode(phone);
+    bool sent = await _authenticationService.sendLoginCode(_phone);
 
     if (sent) {
       _onStep = 2;
@@ -42,6 +42,6 @@ class LoginModel extends ChangeNotifier {
   }
 
   Future<void> submitConfirmation() async {
-    await _authenticationService.confirmLoginCode(phone, code);
+    await _authenticationService.confirmLoginCode(_phone, _code);
   }
 }

@@ -126,6 +126,7 @@ class LoginConfirmCode extends StatelessWidget {
           ],
         ),
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 }

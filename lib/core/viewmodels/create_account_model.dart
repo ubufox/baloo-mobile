@@ -35,7 +35,7 @@ class CreateAccountModel extends ChangeNotifier {
   }
 
   Future<void> createAccount() async {
-    bool sent = await _authenticationService.createAccount(_name, _phone, _zipcode);
+    bool sent = await _authenticationService.createAccount(_phone);
 
     if (sent) {
       _onStep = 2;
@@ -53,6 +53,6 @@ class CreateAccountModel extends ChangeNotifier {
   }
 
   Future<void> submitConfirmation() async {
-    await _authenticationService.confirmAccount(_phone, _code);
+    await _authenticationService.confirmAccount(_phone, _code, _name, _zipcode);
   }
 }

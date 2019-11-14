@@ -126,6 +126,7 @@ class CreateAccountConfirmCodeForm  extends StatelessWidget {
           ],
         ),
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 }

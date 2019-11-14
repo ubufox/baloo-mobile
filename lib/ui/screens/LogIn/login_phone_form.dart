@@ -104,6 +104,7 @@ class LoginPhoneForm extends StatelessWidget {
           ],
         ),
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 }
