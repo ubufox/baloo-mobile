@@ -49,7 +49,16 @@ class Router {
           },
         );
       case RoutePaths.Action:
-        return MaterialPageRoute(builder: (_) => ActionScreen());
+        return MaterialPageRoute(
+          builder: (ctx) {
+            final authenticated = Provider.of<Authentication>(ctx);
+            if (authenticated != null) {
+              return ActionScreen();
+            } else {
+              return LogIn();
+            }
+          }
+        );
       case RoutePaths.Impact:
         return MaterialPageRoute(builder: (_) => ImpactScreen());
       case RoutePaths.Communities:

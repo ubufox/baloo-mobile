@@ -2,9 +2,9 @@
 // to get this through the provider without getting
 // closer but unrelated Strings
 class Authentication {
-  bool _value;
+  String _value;
 
-  Authentication(String value) : _value : value;
+  Authentication(String value) : _value = value;
 
   String get value => _value;
   void set value(String v) {

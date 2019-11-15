@@ -30,7 +30,7 @@ class UserCommunitiesList extends StatelessWidget {
         ),
         BaseDataWidget<UserCommunitiesModel>(
           model: UserCommunitiesModel(api: Provider.of(context)),
-          onModelReady: (model) => { /* TODO mjf: fetch data */ },
+          onModelReady: (model) => { /* TODO mjf: fetch communities */ },
           builder: (context, communities, child) =>
             Container(
               height: 224,

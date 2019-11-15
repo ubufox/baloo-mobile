@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:baloo/core/constants/routes.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
 import 'package:baloo/ui/components/Navigation/nav_action_button.dart';
 import 'package:baloo/ui/components/Buttons/wide_button.dart';
 import 'package:baloo/ui/components/Buttons/logout_button.dart';
+import 'package:baloo/ui/components/base_data_widget.dart';
 import 'package:baloo/ui/components/Shared/accomplishment_card.dart';
 import 'package:baloo/ui/components/Inputs/Settings/default_input.dart';
 import 'package:baloo/ui/components/Inputs/Settings/allow_sms.dart';
 
 // Models
 import 'package:baloo/core/models/accomplishment.dart';
+import 'package:baloo/core/viewmodels/profile_model.dart';
 
 
 class ProfileScreen extends StatelessWidget {
@@ -24,99 +27,104 @@ class ProfileScreen extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget> [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 12.0),
-                      child: Text(
-                        'Michael Fox',
-                        style: TextStyle(
-                          color: Color(0xFF2F2F33),
-                          fontFamily: 'Muli',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 22,
+        child: BaseDataWidget<ProfileModel>(
+          model: ProfileModel(gqls: Provider.of(context)),
+          onModelReady: (model) => model.getUser(),
+          builder: (context, profile, child) =>
+            CustomScrollView(
+              slivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget> [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 12.0),
+                          child: Text(
+                            'Michael Fox',
+                            style: TextStyle(
+                              color: Color(0xFF2F2F33),
+                              fontFamily: 'Muli',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 22,
+                            ),
+                          ),
                         ),
-                      ),
+                        Text(
+                          '90066',
+                          style: TextStyle(
+                            color: Color(0xFF979797),
+                            fontFamily: 'Muli',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      '90066',
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: WideButton(
+                    label: 'Log actions',
+                    onFill: () => Navigator.pushNamed(context, RoutePaths.ActionReport),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
+                    child: Text(
+                      'Accomplishments',
                       style: TextStyle(
-                        color: Color(0xFF979797),
+                        color: Color(0xFF2F2F33),
                         fontFamily: 'Muli',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 22,
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: WideButton(
-                label: 'Log actions',
-                onFill: () => Navigator.pushNamed(context, RoutePaths.ActionReport),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
-                child: Text(
-                  'Accomplishments',
-                  style: TextStyle(
-                    color: Color(0xFF2F2F33),
-                    fontFamily: 'Muli',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 22,
                   ),
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(child: _personalAccomplishments()),
-            SliverToBoxAdapter(
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
-                child: Text(
-                  'Settings',
-                  style: TextStyle(
-                    color: Color(0xFF2F2F33),
-                    fontFamily: 'Muli',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 32,
+                SliverToBoxAdapter(child: _personalAccomplishments()),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
+                    child: Text(
+                      'Settings',
+                      style: TextStyle(
+                        color: Color(0xFF2F2F33),
+                        fontFamily: 'Muli',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 32,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  DefaultSettingsInput(
-                    label: 'Name',
-                    value: 'Michael Fox',
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      DefaultSettingsInput(
+                        label: 'Name',
+                        value: 'Michael Fox',
+                      ),
+                      DefaultSettingsInput(
+                        label: 'ZIP code',
+                        value: '90066',
+                      ),
+                      AllowSMS(),
+                    ],
                   ),
-                  DefaultSettingsInput(
-                    label: 'ZIP code',
-                    value: '90066',
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: new EdgeInsets.only(top: 20.0),
+                    child: LogoutButton(),
                   ),
-                  AllowSMS(),
-                ],
-              ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(height: 72),
+                ),
+              ],
             ),
-            SliverToBoxAdapter(
-              child: Container(
-                margin: new EdgeInsets.only(top: 20.0),
-                child: LogoutButton(),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(height: 72),
-            ),
-          ],
         ),
       ),
       bottomNavigationBar: BottomAppBar(

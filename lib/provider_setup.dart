@@ -26,15 +26,15 @@ List<SingleChildCloneableWidget> dependentServices = [
       AuthenticationService(api: api),
   ),
   ProxyProvider<AuthenticationService, GraphQLService>(
-    builder: (context, auth, gqls) =>
-      GraphQLService(auth: auth),
+    builder: (context, authService, gqls) =>
+      GraphQLService(authService: authService),
   ),
 ];
 
 List<SingleChildCloneableWidget> uiConsumableProviders = [
   StreamProvider<Authentication>(
     builder: (context) =>
-      Provider.of<GraphQLService>(context, listen: false).authentication,
+      Provider.of<AuthenticationService>(context, listen: false).jwt,
   ),
   ChangeNotifierProvider<NavBarModel>(
     builder: (_) => NavBarModel(),

@@ -37,9 +37,7 @@ class AuthAPI {
     int statusCode = response.statusCode;
 
     if (statusCode == 200) {
-      String body = response.body;
-      Authentication jwt = Authentication(body);
-      return jwt;
+      return response.body;
     }
   }
 
@@ -80,9 +78,7 @@ class AuthAPI {
     int statusCode = response.statusCode;
 
     if (statusCode == 200) {
-      String body = response.body;
-      Authentication jwt = Authentication(body);
-      return jwt;
+      return response.body;
     } else {
       return null;
     }

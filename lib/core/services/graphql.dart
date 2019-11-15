@@ -1,16 +1,24 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+// Services
 import 'package:baloo/core/services/storage_access.dart';
 import 'package:baloo/core/services/authentication_service.dart';
 
+// Models
+import 'package:baloo/core/models/authentication.dart';
+
 
 class GraphQLService {
-  AuthenticationService _auth;
+  AuthenticationService _authService;
+  final StorageAccess _storage = StorageAccess();
 
   final HttpLink httpLink = HttpLink(
-    uri: 'https://data.baloo.org/v1/graphql',
+    uri: 'http://data.baloo.org/v1/graphql',
   );
+
   AuthLink _authLink;
   GraphQLClient _client;
 
@@ -18,24 +26,22 @@ class GraphQLService {
   Authentication _authentication;
 
 
-  GraphQLService({ AuthenticationService auth }) {
+  GraphQLService({ AuthenticationService authService }) {
     _hasClient = false;
     _authentication = null;
-    _auth = auth;
+    _authService = authService;
 
     initClient();
 
     // listen for changes on the state
     // of our authentication
-    _auth.jwt.listen((Authentication token) => {
-      initClient(token);
-    });
+    _authService.jwt.listen((Authentication token) => initClient(token));
   }
 
 
   GraphQLClient get client => _client;
   bool get hasClient => _hasClient;
-  Authentication get authentication => authentication;
+  Authentication get authentication => _authentication;
 
 
   // TODO mjf: update name
@@ -43,17 +49,20 @@ class GraphQLService {
   // when a user logs out
   void initClient([Authentication token]) async {
     Authentication jwt;
-    if (token) {
+    if (token != null) {
       jwt = token;
     } else {
-      jwt = await _storage.getJWT();
+      String t = await _storage.getJWT();
+      if (t != null) {
+        jwt = Authentication(t);
+      }
     }
 
     if (jwt != null) {
-      _isAuthorized = true;
+      _authentication = jwt;
 
       _authLink = AuthLink(
-        getToken: () => 'Bearer ${jwt}',
+        getToken: () => 'Bearer ${jwt.value}',
       );
 
       final Link link = _authLink.concat(httpLink);
@@ -72,7 +81,8 @@ class GraphQLService {
   }
 
   Future<QueryResult> runQuery(QueryOptions options) async {
-    if (_hasClient && _isAuthorized) {
+    if (_hasClient && _authentication.value != null) {
+      // should I return a stream to the model calling runQuery
       return await _client.query(options);
     } else {
       if (!_hasClient) {

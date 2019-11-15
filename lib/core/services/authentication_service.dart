@@ -8,7 +8,7 @@ import 'package:baloo/core/models/authentication.dart';
 
 
 class AuthenticationService {
-  final Api _api;
+  Api _api;
   final _storage = StorageAccess();
 
 
@@ -21,13 +21,17 @@ class AuthenticationService {
   StreamController<User> _userController = StreamController<User>();
   Stream<User> get user => _userController.stream;
 
-  StreamController<Authentication> _jwtController = StreamController<Authentication>();
+  // graphql and the streamprovider listens to this stream
+  // so it must be a broadcast streamcontroller
+  StreamController<Authentication> _jwtController = StreamController.broadcast();
   Stream<Authentication> get jwt => _jwtController.stream;
 
 
   void _initAuthentication() async {
-    Authentication token = await _storage.getJWT();
-    if (token != null) {
+    String t = await _storage.getJWT();
+    print(t);
+    if (t != null) {
+      Authentication token = Authentication(t);
       _jwtController.add(token);
     } else {
       _jwtController.add(null);
@@ -40,8 +44,11 @@ class AuthenticationService {
   }
 
   Future<void> confirmLoginCode(String phone, String code) async {
-    Authentication jwt = await _api.auth.confirmLoginCode(phone, code);
+    String t = await _api.auth.confirmLoginCode(phone, code);
+
+    Authentication jwt = Authentication(t);
     if (jwt != null) {
+      _storage.storeJWT(jwt.value);
       _jwtController.add(jwt);
     }
   }
@@ -52,13 +59,17 @@ class AuthenticationService {
   }
 
   Future<void> confirmAccount(String phone, String code, String name, String zipcode) async {
-    Authentication jwt = await _api.auth.confirmAccount(phone, code, name, zipcode);
+    String t = await _api.auth.confirmAccount(phone, code, name, zipcode);
+
+    Authentication jwt = Authentication(t);
     if (jwt != null) {
+      _storage.storeJWT(jwt.value);
       _jwtController.add(jwt);
     }
   }
 
   Future<void> logout() async {
     _jwtController.add(null);
+   // TODO mjf: remove token from storage
   }
 }

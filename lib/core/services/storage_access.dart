@@ -1,5 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+// Models
+import 'package:baloo/core/models/authentication.dart';
+
 
 final String JWT_TOKEN_KEY = 'JWT_TOKEN_KEY';
 
@@ -10,14 +13,11 @@ class StorageAccess {
   StorageAccess();
 
 
-  void storeJWT(Authentication token) async {
-    await storage.write(key: JWT_TOKEN_KEY, value: token.value);
+  void storeJWT(String token) async {
+    await storage.write(key: JWT_TOKEN_KEY, value: token);
   }
 
   Future<String> getJWT() async {
-    String value = await storage.read(key: JWT_TOKEN_KEY);
-    if (value) {
-      return Authentication(value);
-    }
+    return await storage.read(key: JWT_TOKEN_KEY);
   }
 }
