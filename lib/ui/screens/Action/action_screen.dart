@@ -142,28 +142,32 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   ),
                 ),
               ),
-              BaseDataWidget<ImpactModel>(
-                model: ImpactModel(api: Provider.of(context)),
-                onModelReady: (model) => { /* TODO mjf: fetch data */ },
-                builder: (context, impact, child) =>
-                  ActionButton(
-                    onPressed: () {
-                      pressed = true;
+              ChangeNotifierProvider<ImpactModel>.value(
+                value: ImpactModel(
+                  api: Provider.of(context),
+                  gql: Provider.of(context),
+                ),
+                child: Consumer<ImpactModel>(
+                  builder: (context, impact, child) =>
+                    ActionButton(
+                      onPressed: () {
+                        pressed = true;
 
-                      setState(() {
-                        _controller.play();
-                        Future.delayed(
-                          const Duration(milliseconds: 2000),
-                          () {
-                            impact.completeActions([action]);
-                            nav.updateRoute(RoutePaths.Impact);
-                            Navigator.pushNamed(context, RoutePaths.Impact);
-                          }
-                        );
-                      });
-                    },
-                    message: action.message,
-                  ),
+                        setState(() {
+                          _controller.play();
+                          Future.delayed(
+                            const Duration(milliseconds: 2000),
+                            () {
+                              impact.completeActions([action]);
+                              nav.updateRoute(RoutePaths.Impact);
+                              Navigator.pushNamed(context, RoutePaths.Impact);
+                            }
+                          );
+                        });
+                      },
+                      message: action.message,
+                    ),
+                ),
               ),
             ],
           ),

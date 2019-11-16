@@ -42,7 +42,10 @@ class _ReportState extends State<ActionReport> {
 
     return Scaffold(
       body: BaseDataWidget<ImpactModel>(
-        model: ImpactModel(api: Provider.of(context)),
+        model: ImpactModel(
+          api: Provider.of(context),
+          gql: Provider.of(context),
+        ),
         onModelReady: (model) => { /* TODO mjf: fetch data */ },
         builder: (context, impact, child) =>
           Stack(

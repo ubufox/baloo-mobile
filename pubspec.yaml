@@ -26,6 +26,9 @@ dependencies:
   video_player: ^0.10.2
   provider: ^3.1.0
   intl: ^0.16.0
+  http: ^0.12.0
+  flutter_secure_storage: ^3.3.1+1
+  graphql_flutter: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +56,10 @@ flutter:
    - assets/images/npca.jpg
    - assets/images/treepeople.jpg
    - assets/images/default_community.jpg
+   - assets/images/login_form_bg.jpg
+   - assets/images/login_confirmation_bg.jpg
+   - assets/images/create_account_form_bg.jpg
+   - assets/images/create_account_confirmation_bg.jpg
    # Custom Icon Images
    - assets/images/Icons/community_active.png
    - assets/images/Icons/community_default.png
@@ -64,6 +71,8 @@ flutter:
    - assets/images/Icons/profile_default.png
    - assets/images/Icons/search_default.png
    - assets/images/Icons/moon.png
+   # Interface
+   - assets/images/loading.gif
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

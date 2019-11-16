@@ -1,3 +1,8 @@
+// Services
+import 'package:baloo/core/services/apis/auth.dart';
+import 'package:baloo/core/services/storage_access.dart';
+
+// Models
 import 'package:baloo/core/models/community.dart';
 import 'package:baloo/core/models/impact_action.dart';
 import 'package:baloo/core/models/action_data.dart';
@@ -11,18 +16,28 @@ class AppData {
   List<ImpactAction> actionSearchResults;
   UserImpact userImpact;
   ImpactAction userWeeklyAction;
-
-  AppData();
 }
 
 
 class Api {
+  AuthAPI _auth;
+  String _token;
+
+
   AppData appData = AppData();
+
 
   Api() {
     _initializeAppData();
+    _auth = AuthAPI();
   }
 
+
+  AuthAPI get auth => _auth;
+
+  //
+  //
+  // Communities
   List<Community> getUserCommunities() {
     return appData.userCommunities;
   }
@@ -41,12 +56,12 @@ class Api {
     return appData.communitySearchResults;
   }
 
+
+  //
+  //
+  // Actions
   List<ImpactAction> getPendingActions() {
     return appData.pendingActions;
-  }
-
-  UserImpact getUserImpact() {
-    return appData.userImpact;
   }
 
   ImpactAction getWeeklyAction() {
@@ -57,6 +72,17 @@ class Api {
     return appData.actionSearchResults;
   }
 
+
+
+  //
+  //
+  // Impact
+  UserImpact getUserImpact() {
+    return appData.userImpact;
+  }
+
+
+  // Stub Data
   void _initializeAppData() {
     appData.pendingActions = [];
     appData.userImpact = new UserImpact(

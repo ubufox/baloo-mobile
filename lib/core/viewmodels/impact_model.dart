@@ -1,19 +1,26 @@
 import 'package:flutter/foundation.dart';
 
+// Services
+import 'package:baloo/core/services/api.dart';
+import 'package:baloo/core/services/graphql.dart';
+
+// Models
 import 'package:baloo/core/models/impact_action.dart';
 import 'package:baloo/core/models/user_impact.dart';
-import 'package:baloo/core/services/api.dart';
 
 
 class ImpactModel extends ChangeNotifier {
   Api _api;
+  GraphQLService _gql;
 
   UserImpact _userImpact;
 
   List<ImpactAction> _pendingActions;
 
-  ImpactModel({@required Api api}) {
+  ImpactModel({@required Api api, @required GraphQLService gql}) {
     _api = api;
+    _gql = gql;
+
     _userImpact = _api.getUserImpact();
     _pendingActions = _api.getPendingActions();
   }
