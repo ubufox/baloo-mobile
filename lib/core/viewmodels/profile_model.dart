@@ -28,8 +28,7 @@ class ProfileModel extends BaseViewModel {
         QueryResult result = await _gqls.runQuery(GetUserQuery);
 
         if (result != null && result.errors == null) {
-          print(result.data);
-          // _user = User.fromJson(result.data.user[0]);
+          _user = User.fromJson(result.data["user"][0]);
           setLoading(false);
         } else if (result != null) {
           print(result.errors.toString());

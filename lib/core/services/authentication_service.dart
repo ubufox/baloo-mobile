@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:baloo/core/services/api.dart';
 import 'package:baloo/core/services/storage_access.dart';
 
-import 'package:baloo/core/models/user.dart';
 import 'package:baloo/core/models/authentication.dart';
 
 
@@ -18,9 +17,6 @@ class AuthenticationService {
   }
 
 
-  StreamController<User> _userController = StreamController<User>();
-  Stream<User> get user => _userController.stream;
-
   // graphql and the streamprovider listens to this stream
   // so it must be a broadcast streamcontroller
   StreamController<Authentication> _jwtController = StreamController.broadcast();
@@ -29,7 +25,6 @@ class AuthenticationService {
 
   void _initAuthentication() async {
     String t = await _storage.getJWT();
-    print(t);
     if (t != null) {
       Authentication token = Authentication(t);
       _jwtController.add(token);
@@ -70,6 +65,6 @@ class AuthenticationService {
 
   Future<void> logout() async {
     _jwtController.add(null);
-   // TODO mjf: remove token from storage
+    _storage.deleteJWT();
   }
 }

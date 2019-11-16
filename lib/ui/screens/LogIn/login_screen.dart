@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:baloo/ui/components/base_data_widget.dart';
 import 'package:baloo/ui/screens/LogIn/login_phone_form.dart';
 import 'package:baloo/ui/screens/LogIn/login_confirm_code_form.dart';
-import 'package:baloo/ui/screens/Action/action_screen.dart';
+import 'package:baloo/ui/screens/loading_screen.dart';
 
 // Models
 import 'package:baloo/core/viewmodels/login_model.dart';
@@ -18,6 +18,10 @@ class LogIn extends StatelessWidget {
       model: LoginModel(authenticationService: Provider.of(context)),
       onModelReady: (model) => { /* TODO mjf: fetch data */ },
       builder: (context, login, child) {
+        if (login.loading) {
+          return LoadingScreen();
+        }
+
         switch(login.onStep) {
           case 1:
             return LoginPhoneForm(

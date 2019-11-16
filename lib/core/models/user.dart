@@ -1,27 +1,29 @@
 class User {
-  int _id;
   String _name;
   String _zipcode;
+  bool _allowSMS;
 
 
   User({
-    int id,
     String name,
     String zipcode,
+    bool allowSMS,
   }) :
-    _id = id,
     _name = name,
-    _zipcode = zipcode;
+    _zipcode = zipcode,
+    _allowSMS = allowSMS;
 
 
-  int get id => _id;
   String get name => _name;
   String get zipcode => _zipcode;
+  bool get allowSMS => _allowSMS;
 
 
-  User.fromJson(Map<String, dynamic> json) {
-    _id = json['id'];
-    _name = json['name'];
-    _zipcode = json['zipcode'];
+  static User fromJson(Map<String, dynamic> json) {
+    return User(
+      name: json['name'],
+      zipcode: json['zipcode'],
+      allowSMS: json['allowSMS'],
+    );
   }
 }

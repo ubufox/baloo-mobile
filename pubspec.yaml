@@ -71,6 +71,8 @@ flutter:
    - assets/images/Icons/profile_default.png
    - assets/images/Icons/search_default.png
    - assets/images/Icons/moon.png
+   # Interface
+   - assets/images/loading.gif
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

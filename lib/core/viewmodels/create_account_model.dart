@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 
+import 'package:baloo/core/viewmodels/base_view_model.dart';
+
+// Services
 import 'package:baloo/core/services/authentication_service.dart';
 
 
-class CreateAccountModel extends ChangeNotifier {
+class CreateAccountModel extends BaseViewModel {
   AuthenticationService _authenticationService;
   String _name;
   String _phone;
@@ -35,10 +38,12 @@ class CreateAccountModel extends ChangeNotifier {
   }
 
   Future<void> createAccount() async {
+    setLoading(true);
     bool sent = await _authenticationService.createAccount(_phone);
 
     if (sent) {
       _onStep = 2;
+      setLoading(false);
       notifyListeners();
     }
   }
@@ -53,6 +58,8 @@ class CreateAccountModel extends ChangeNotifier {
   }
 
   Future<void> submitConfirmation() async {
+    setLoading(true);
     await _authenticationService.confirmAccount(_phone, _code, _name, _zipcode);
+    setLoading(false);
   }
 }

@@ -16,7 +16,6 @@ import 'package:baloo/ui/screens/ActionReport/action_report_screen.dart';
 import 'package:baloo/ui/screens/LogIn/login_screen.dart';
 import 'package:baloo/ui/screens/CreateAccount/create_account_screen.dart';
 import 'package:baloo/ui/screens/does_not_exist_screen.dart';
-import 'package:baloo/ui/screens/auth_check.dart';
 
 // Models
 import 'package:baloo/core/models/community.dart';
@@ -69,7 +68,14 @@ class Router {
         );
       case RoutePaths.Profile:
         return MaterialPageRoute(
-          builder: (_) => ProfileScreen(),
+          builder: (ctx) {
+            final authenticated = Provider.of<Authentication>(ctx);
+            if (authenticated != null) {
+              return ProfileScreen();
+            } else {
+              return LogIn();
+            }
+          }
         );
       case RoutePaths.CommunityDetail:
         return MaterialPageRoute(

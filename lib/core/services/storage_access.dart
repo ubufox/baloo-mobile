@@ -20,4 +20,8 @@ class StorageAccess {
   Future<String> getJWT() async {
     return await storage.read(key: JWT_TOKEN_KEY);
   }
+
+  void deleteJWT() async {
+    return await storage.delete(key: JWT_TOKEN_KEY);
+  }
 }

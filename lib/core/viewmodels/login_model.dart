@@ -1,13 +1,17 @@
 import 'package:flutter/foundation.dart';
 
+import 'package:baloo/core/viewmodels/base_view_model.dart';
+
+// Services
 import 'package:baloo/core/services/authentication_service.dart';
 
 
-class LoginModel extends ChangeNotifier {
+class LoginModel extends BaseViewModel {
   AuthenticationService _authenticationService;
   String _phone;
   String _code;
   int _onStep = 1;
+
 
   LoginModel({
     AuthenticationService authenticationService
@@ -24,11 +28,12 @@ class LoginModel extends ChangeNotifier {
   }
 
   Future<void> submitPhone() async {
+    setLoading(true);
     bool sent = await _authenticationService.sendLoginCode(_phone);
 
     if (sent) {
       _onStep = 2;
-      notifyListeners();
+      setLoading(false);
     }
   }
 
@@ -42,6 +47,8 @@ class LoginModel extends ChangeNotifier {
   }
 
   Future<void> submitConfirmation() async {
+    setLoading(true);
     await _authenticationService.confirmLoginCode(_phone, _code);
+    setLoading(false);
   }
 }
