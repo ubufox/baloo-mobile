@@ -11,6 +11,4 @@ class RoutePaths {
 
   static const String LogIn = '/login';
   static const String CreateAccount = '/createAccount';
-
-  static const String AuthCheck = '/authCheck';
 }

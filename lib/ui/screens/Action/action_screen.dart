@@ -141,7 +141,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     ),
                   ),
                 ),
-              ), // TODO mjf: wrap base_data_widget in a query
+              ),
               ChangeNotifierProvider<ImpactModel>.value(
                 value: ImpactModel(
                   api: Provider.of(context),

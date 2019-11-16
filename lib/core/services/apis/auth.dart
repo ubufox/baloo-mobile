@@ -14,7 +14,6 @@ class AuthAPI {
     Map<String, String> headers = {"Content-type": "application/json"};
     String json = '{"phone": "${phone}"}';
 
-    /* TODO mjf: hit auth api endpoint */
     Response response = await post('${AUTH_URL}/begin', headers: headers, body: json);
 
     int statusCode = response.statusCode;
@@ -31,7 +30,6 @@ class AuthAPI {
     Map<String, String> headers = {"Content-type": "application/json"};
     String json = '{"phone": "${phone}", "code": "${code}"}';
 
-    /* TODO mjf: hit auth api endpoint */
     Response response = await post('${AUTH_URL}/login', headers: headers, body: json);
 
     int statusCode = response.statusCode;
@@ -48,7 +46,6 @@ class AuthAPI {
     Map<String, String> headers = {"Content-type": "application/json"};
     String json = '{"phone": "${phone}"}';
 
-    /* TODO mjf: hit auth api endpoint */
     Response response = await post(
       '${AUTH_URL}/beginAccount',
       headers: headers,
@@ -68,7 +65,6 @@ class AuthAPI {
     Map<String, String> headers = {"Content-type": "application/json"};
     String json = '{"phone": "${phone}", "code": "${code}", "name": "${name}", "zipcode": "${zipcode}"}';
 
-    /* TODO mjf: hit auth api endpoint */
     Response response = await post(
       '${AUTH_URL}/createAccount',
       headers: headers,
