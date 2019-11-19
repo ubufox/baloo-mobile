@@ -82,6 +82,7 @@ class GraphQLService {
 
   Future<QueryResult> runQuery(QueryOptions options) async {
     if (_hasClient && _authentication.value != null) {
+      print('running query');
       // should I return a stream to the model calling runQuery
       return await _client.query(options);
     } else {

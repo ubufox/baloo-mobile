@@ -29,7 +29,10 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         child: BaseDataWidget<ProfileModel>(
-          model: ProfileModel(gqls: Provider.of(context)),
+          model: ProfileModel(
+            gqls: Provider.of(context),
+            ds: Provider.of(context),
+          ),
           onModelReady: (model) => model.getUser(),
           builder: (context, profile, child) =>
             profile.loading == true

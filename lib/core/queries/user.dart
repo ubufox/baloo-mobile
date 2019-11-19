@@ -12,7 +12,7 @@ String getUser = """
 """;
 
 
-final QueryOptions GetUserQuery = QueryOptions(
+QueryOptions GetUserQuery() => QueryOptions(
   document: getUser,
 );
 

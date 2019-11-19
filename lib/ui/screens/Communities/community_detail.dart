@@ -115,8 +115,11 @@ class CommunityDetail extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           BaseDataWidget<UserCommunitiesModel>(
-            model: UserCommunitiesModel(api: Provider.of(context)),
-            onModelReady: (model) => { /* TODO mjf: fetch data */ },
+            model: UserCommunitiesModel(
+              gqls: Provider.of(context),
+              ds: Provider.of(context),
+            ),
+            onModelReady: (model) => model.getUserCommunities(),
             builder: (context, communities, child) {
               bool inCommunity = communities.inUserCommunities(community);
 

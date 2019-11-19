@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:baloo/core/services/api.dart';
 import 'package:baloo/core/services/graphql.dart';
 import 'package:baloo/core/services/authentication_service.dart';
+import 'package:baloo/core/services/global_data_service.dart';
 
 // Models
 import 'package:baloo/core/models/authentication.dart';
@@ -18,6 +19,7 @@ List<SingleChildCloneableWidget> providers = [
 
 List<SingleChildCloneableWidget> independentServices = [
   Provider.value(value: Api()),
+  Provider.value(value: GlobalDataService()),
 ];
 
 List<SingleChildCloneableWidget> dependentServices = [
