@@ -20,7 +20,7 @@ class CommunityListItem extends StatelessWidget {
           Navigator.pushNamed(
             context,
             RoutePaths.CommunityDetail,
-            arguments: community,
+            arguments: community.id,
           );
         },
         child: Column(
@@ -28,7 +28,10 @@ class CommunityListItem extends StatelessWidget {
           children: <Widget>[
             _communityImage(imageURL: community.imageURL),
             _name(name: community.name),
-            _location(location: community.city),
+            _location(
+              city: community.city,
+              state: community.state,
+            ),
           ],
         ),
       ),
@@ -45,13 +48,10 @@ class _communityImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 161,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('$imageURL'),
-          fit: BoxFit.cover,
-        ),
-        borderRadius: BorderRadius.circular(12.0),
-      ),
+      child: FittedBox(
+        child: Image.network(imageURL),
+        fit: BoxFit.cover,
+      )
     );
   }
 }
@@ -79,16 +79,22 @@ class _name extends StatelessWidget {
 }
 
 class _location extends StatelessWidget {
-  _location({ @required this.location });
+  final String city;
+  final String state;
 
-  final String location;
+
+  _location({
+    @required this.city,
+    @required this.state,
+   });
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 4.0),
       child: Text(
-        '$location',
+        city + ', ' + state,
         style: TextStyle(
           color: Color(0xFF595959),
           fontFamily: 'Muli',

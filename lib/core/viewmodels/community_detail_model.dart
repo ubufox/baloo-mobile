@@ -58,6 +58,7 @@ class CommunityDetailModel extends BaseViewModel {
               '$id': _community,
             };
           }
+
           _ds.upsert(COMMUNITIES_BY_ID_KEY, _communitiesById);
           setLoading(false);
         } else if (result != null) {

@@ -38,9 +38,17 @@ class CommunitiesScreen extends StatelessWidget{
                 SliverToBoxAdapter(child: CommunitySearchBar(
                   search: model.searchCommunities
                 )),
-                CommunitySearchResults(
-                  communities: model.communities
-                ),
+                model.loading
+                  ? SliverToBoxAdapter(
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(20.0, 12.0, 0.0, 0.0),
+                        child: Text('...loading community results')
+                      ),
+                    )
+                  : CommunitySearchResults(
+                      communities: model.communities,
+                      count: model.count
+                    ),
               ],
             ),
         ),

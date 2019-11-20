@@ -18,6 +18,8 @@ class AccomplishmentDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('showing AccomplishmentDetail');
+
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget> [

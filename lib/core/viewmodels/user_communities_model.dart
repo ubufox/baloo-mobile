@@ -28,7 +28,7 @@ class UserCommunitiesModel extends BaseViewModel {
 
 
   List<UserCommunity> get communities => _communities;
-  int get length => _communities.length;
+  int get count => _communities == null ? 0 : _communities.length;
 
 
   void getUserCommunities() async {
@@ -49,7 +49,12 @@ class UserCommunitiesModel extends BaseViewModel {
             print('result');
             print(result.data.toString());
 
-            _communities = UserCommunity.communitiesFromJSON(result.data['user_community']);
+            _communities = result.data['user_community'].map<UserCommunity>(
+              (userComm) => UserCommunity.fromJSON(userComm)
+            ).toList();
+
+            print('user communities from json complete');
+
             _ds.upsert(USER_COMMUNITIES_KEY, _communities);
             setLoading(false);
           } else if (result != null) {

@@ -24,7 +24,7 @@ class CommunityCard extends StatelessWidget{
           Navigator.pushNamed(
             context,
             RoutePaths.CommunityDetail,
-            arguments: community,
+            arguments: community.id,
           );
         },
         child: Container(
@@ -48,9 +48,12 @@ class CommunityCard extends StatelessWidget{
             children: <Widget>[
               _nameAndMembers(
                 name: community.name,
-                members: community.members.toString(),
+                members: community.members,
               ),
-              _location(location: 'LA, CA'),
+              _location(
+                city: community.city,
+                state: community.state,
+              ),
             ]
           ),
         ),
@@ -61,13 +64,14 @@ class CommunityCard extends StatelessWidget{
 
 
 class _nameAndMembers extends StatelessWidget {
+  final String name;
+  final int members;
+
   _nameAndMembers({
     @required this.name,
     @required this.members,
   });
 
-  final String name;
-  final String members;
 
   @override
   Widget build(BuildContext) {
@@ -76,7 +80,7 @@ class _nameAndMembers extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           _name(name: '$name'),
-          _members(members: '$members'),
+          _members(members: '$members members'),
         ],
       ),
     );
@@ -130,16 +134,20 @@ class _members extends StatelessWidget {
 }
 
 class _location extends StatelessWidget {
-  _location({ @required this.location });
+  final String city;
+  final String state;
 
-  final String location;
+  _location({
+    @required this.city,
+    @required this.state,
+  });
 
   @override
   Widget build(BuildContext) {
     return Container(
       margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 20.0),
       child: Text(
-        '$location',
+        city + ', ' + state,
         textAlign: TextAlign.right,
         style: TextStyle(
           color: Color(0xFF595959),

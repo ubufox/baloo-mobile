@@ -31,7 +31,7 @@ class CommunitySearchModel extends BaseViewModel {
 
 
   List<Community> get communities => _communities;
-  int get length => _communities.length;
+  int get count => _communities == null ? 0 : _communities.length;
 
 
   void getCommunities() async {
@@ -52,9 +52,12 @@ class CommunitySearchModel extends BaseViewModel {
             print('result');
             print(result.data.toString());
 
-            _communities = result.data['community'].map(
+            _communities = result.data['community'].map<Community>(
               (comm) => Community.fromJSON(comm)
             ).toList();
+
+            print('communities from json complete');
+
 
             _ds.upsert(COMMUNITIES_LIST_KEY, _communities);
             setLoading(false);

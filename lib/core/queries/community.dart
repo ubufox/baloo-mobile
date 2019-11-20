@@ -1,13 +1,10 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:baloo/core/queries/apply_values.dart';
 
 
 String getCommunity = """
-  query GetCommunity(\$communityId: ID!) {
-    community(where: {
-      id: {
-        _eq: "\$communityId"
-      }
-    }) {
+  query GetCommunity {
+    community(where: {id: {_eq: %scommunity_id }}) {
       id
       name
       city
@@ -19,7 +16,7 @@ String getCommunity = """
       members {
         count
       }
-      userCommunityByCommunity {
+      userCommunityByCommunityId {
         leftAt
       }
     }
@@ -28,10 +25,7 @@ String getCommunity = """
 
 
 QueryOptions GetCommunityQuery(String id) => QueryOptions(
-  document: getCommunity,
-  variables: {
-    'communityId': id,
-  },
+  document: ApplyValues(getCommunity, {"community_id": id}),
 );
 
 
@@ -53,7 +47,7 @@ String getCommunities = """
       members {
         count
       }
-      userCommunityByCommunity {
+      userCommunityByCommunityId {
         leftAt
       }
     }

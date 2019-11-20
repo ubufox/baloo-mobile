@@ -48,7 +48,7 @@ class Community {
 
 
   static Community fromJSON(Map<String, dynamic> jsonData) {
-    Map<String, dynamic> userCommunity = jsonData['userCommunityByCommunity'];
+    Map<String, dynamic> userCommunity = jsonData['userCommunityByCommunityId'][0];
     bool userIsMember = false;
 
     if (userCommunity != null && userCommunity['leftAt'] == 'null') {
@@ -56,7 +56,7 @@ class Community {
     }
 
     return Community(
-      id: jsonData['id'],
+      id: jsonData['id'].toString(),
       name: jsonData['name'],
       city: jsonData['city'],
       state: jsonData['state'],
@@ -64,7 +64,7 @@ class Community {
       imageURL: jsonData['imageURL'],
       description: jsonData['description'],
       createdAt: DateTime.parse(jsonData['createdAt']),
-      members: int.tryParse(jsonData['members']['count']),
+      members: jsonData['members']['count'],
       isMember: userIsMember,
     );
   }

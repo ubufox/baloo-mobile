@@ -7,6 +7,7 @@ import 'package:baloo/ui/components/Buttons/wide_button.dart';
 import 'package:baloo/ui/components/Shared/accomplishment_card.dart';
 import 'package:baloo/ui/screens/Goals/goal_card.dart';
 import 'package:baloo/ui/components/base_data_widget.dart';
+import 'package:baloo/ui/components/Animated/loading_widget.dart';
 
 // Models
 import 'package:baloo/core/models/community.dart';
@@ -60,7 +61,7 @@ class CommunityDetail extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 24.0),
             child: Text(
-              members.toString(),
+              '$members members',
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w500,
@@ -71,13 +72,10 @@ class CommunityDetail extends StatelessWidget {
           ),
           Container(
             height: 161,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(imageURL),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(12.0),
-            ),
+            child: FittedBox(
+              child: Image.network(imageURL),
+              fit: BoxFit.cover,
+            )
           ),
         ],
       ),
@@ -121,6 +119,11 @@ class CommunityDetail extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              color: Color(0xFFFDFFFF),
+            ),
+          ),
           BaseDataWidget<CommunityDetailModel>(
             model: CommunityDetailModel(
               gqls: Provider.of(context),
@@ -128,6 +131,15 @@ class CommunityDetail extends StatelessWidget {
             ),
             onModelReady: (model) => model.getCommunity(communityId),
             builder: (context, model, child) {
+              if (model.loading != false) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget> [
+                    LoadingWidget(message: '...loading community')
+                  ],
+                );
+              }
+
               bool inCommunity = model.isUserCommunity();
 
               Function joinOrLeave = () {};
@@ -145,7 +157,7 @@ class CommunityDetail extends StatelessWidget {
                     child: _header(
                       model.community.name,
                       model.community.members,
-                      model.community.city,
+                      model.community.city + ', ' + model.community.state,
                       model.community.imageURL,
                     ),
                   ),
@@ -171,7 +183,9 @@ class CommunityDetail extends StatelessWidget {
                     ),
                   ),
                   SliverToBoxAdapter(child: _communityAccomplishments()),
-                  SliverToBoxAdapter(child: _about(model.community.description)),
+                  model.community.description != null
+                    ? SliverToBoxAdapter(child: _about(model.community.description))
+                    : SliverToBoxAdapter(child: Container()),
                 ],
               );
             }

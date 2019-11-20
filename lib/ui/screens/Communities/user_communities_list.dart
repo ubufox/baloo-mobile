@@ -35,8 +35,8 @@ class UserCommunitiesList extends StatelessWidget {
             ds: Provider.of(context),
           ),
           onModelReady: (model) => model.getUserCommunities(),
-          builder: (context, communities, child) =>
-            communities.loading == true
+          builder: (context, model, child) =>
+            model.loading == true
               ? Container(
                   margin: const EdgeInsets.fromLTRB(20.0, 24.0, 0.0, 12.0),
                   child: Text('...loading your communities'),
@@ -46,9 +46,9 @@ class UserCommunitiesList extends StatelessWidget {
                   margin: const EdgeInsets.fromLTRB(20.0, 16.0, 0.0, 20.0),
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: communities.length,
+                    itemCount: model.count,
                     itemBuilder: (BuildContext context, int index) =>
-                      CommunityCard(community: communities.communities[index])
+                      CommunityCard(community: model.communities[index])
                   ),
                 ),
         ),

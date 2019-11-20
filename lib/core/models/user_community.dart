@@ -42,21 +42,16 @@ class UserCommunity {
   String get imageURL => _imageURL;
 
 
-  static List<UserCommunity> communitiesFromJSON(List<Map<String, dynamic>> jsonData) {
-    // final List<Map<String, dynamic>> parsedJson = json.decode(jsonData);
-    // print('$parsedJson');
-
-    return jsonData.map((comm) =>
-      UserCommunity(
-        communityId: comm['communityId'],
-        hasLeft: comm['leftAt'] == 'null' ,
-        name: comm['communityBycommunityId']['name'],
-        city: comm['communityBycommunityId']['city'],
-        state: comm['communityBycommunityId']['state'],
-        imageURL: comm['communityBycommunityId']['imageURL'],
-        isActive: comm['communityBycommunityId']['isActive'],
-        members: int.parse(comm['communityBycommunityId']['memebers']['count']),
-      )
-    ).toList();
+  static UserCommunity fromJSON(Map<String, dynamic> jsonData) {
+    return UserCommunity(
+      communityId: jsonData['communityId'].toString(),
+      hasLeft: jsonData['leftAt'] == 'null' ,
+      name: jsonData['communityBycommunityId']['name'],
+      city: jsonData['communityBycommunityId']['city'],
+      state: jsonData['communityBycommunityId']['state'],
+      imageURL: jsonData['communityBycommunityId']['imageURL'],
+      isActive: jsonData['communityBycommunityId']['isActive'],
+      members: jsonData['communityBycommunityId']['members']['count'],
+    );
   }
 }
