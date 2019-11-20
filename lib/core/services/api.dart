@@ -104,6 +104,7 @@ class Api {
       'I ate a plant-based meal',
     );
 
+    /*
     appData.userCommunities = [
       new Community(
         101,
@@ -165,6 +166,7 @@ class Api {
         'About text',
       ),
     ];
+    */
 
     appData.actionSearchResults = [
       new ImpactAction(

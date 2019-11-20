@@ -1,5 +1,8 @@
+import 'dart:convert';
+
+
 class UserCommunity {
-  final int _communityId;
+  final String _communityId;
   final bool _hasLeft;
   final String _name;
   final String _city;
@@ -10,7 +13,7 @@ class UserCommunity {
 
 
   UserCommunity({
-    int communityId,
+    String communityId,
     bool hasLeft,
     String name,
     String city,
@@ -29,7 +32,7 @@ class UserCommunity {
     _imageURL = imageURL;
 
 
-  int get id => _communityId;
+  String get id => _communityId;
   bool get hasLeft => _hasLeft;
   String get name => _name;
   String get city => _city;
@@ -39,7 +42,21 @@ class UserCommunity {
   String get imageURL => _imageURL;
 
 
-  static bool fromJSON(Map<String, dynamic> json) {
-    return true;
+  static List<UserCommunity> communitiesFromJSON(List<Map<String, dynamic>> jsonData) {
+    // final List<Map<String, dynamic>> parsedJson = json.decode(jsonData);
+    // print('$parsedJson');
+
+    return jsonData.map((comm) =>
+      UserCommunity(
+        communityId: comm['communityId'],
+        hasLeft: comm['leftAt'] == 'null' ,
+        name: comm['communityBycommunityId']['name'],
+        city: comm['communityBycommunityId']['city'],
+        state: comm['communityBycommunityId']['state'],
+        imageURL: comm['communityBycommunityId']['imageURL'],
+        isActive: comm['communityBycommunityId']['isActive'],
+        members: int.parse(comm['communityBycommunityId']['memebers']['count']),
+      )
+    ).toList();
   }
 }

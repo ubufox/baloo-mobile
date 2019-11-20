@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:baloo/core/constants/routes.dart';
 
 // Models
-import 'package:baloo/core/models/community.dart';
+import 'package:baloo/core/models/user_community.dart';
 
 
 class CommunityCard extends StatelessWidget{
+  final UserCommunity community;
+
+
   CommunityCard({
     @required this.community,
   });
 
-  final Community community;
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +48,9 @@ class CommunityCard extends StatelessWidget{
             children: <Widget>[
               _nameAndMembers(
                 name: community.name,
-                members: community.members,
+                members: community.members.toString(),
               ),
-              _location(location: community.location),
+              _location(location: 'LA, CA'),
             ]
           ),
         ),

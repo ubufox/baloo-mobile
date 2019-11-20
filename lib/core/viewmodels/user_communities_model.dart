@@ -16,7 +16,7 @@ import 'package:baloo/core/viewmodels/base_view_model.dart';
 class UserCommunitiesModel extends BaseViewModel {
   final GraphQLService _gqls;
   final GlobalDataService _ds;
-  List<Community> _communities;
+  List<UserCommunity> _communities;
 
 
   UserCommunitiesModel({
@@ -27,7 +27,7 @@ class UserCommunitiesModel extends BaseViewModel {
     _ds = ds;
 
 
-  List<Community> get communities => _communities;
+  List<UserCommunity> get communities => _communities;
   int get length => _communities.length;
 
 
@@ -49,8 +49,8 @@ class UserCommunitiesModel extends BaseViewModel {
             print('result');
             print(result.data.toString());
 
-            // _user = User.fromJson(result.data["user"][0]);
-            // _ds.upsert(USER_KEY, _user, userExpires);
+            _communities = UserCommunity.communitiesFromJSON(result.data['user_community']);
+            _ds.upsert(USER_COMMUNITIES_KEY, _communities);
             setLoading(false);
           } else if (result != null) {
             print('result errors');
@@ -63,22 +63,17 @@ class UserCommunitiesModel extends BaseViewModel {
     }
   }
 
-  bool inUserCommunities(Community comm) {
-    Iterable<Community> alreadyInList = _communities.where((e) => e.id == comm.id);
-    return alreadyInList.length > 0;
+  void joinCommunity(String communityId) {
+    // if (!inUserCommunities(newCom)) {
+    //   _communities.insert(length, newCom);
+    //   notifyListeners();
+    // }
   }
 
-  void joinCommunity(Community newCom) {
-    if (!inUserCommunities(newCom)) {
-      _communities.insert(length, newCom);
-      notifyListeners();
-    }
-  }
-
-  void leaveCommunity(Community com) {
-    if (inUserCommunities(com)) {
-      _communities.remove(com);
-      notifyListeners();
-    }
+  void leaveCommunity(String communityId) {
+    // if (inUserCommunities(com)) {
+    //   _communities.remove(com);
+    //   notifyListeners();
+    // }
   }
 }

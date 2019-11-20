@@ -5,6 +5,8 @@ final DEFAULT_EXPIRATION_SECONDS = 1 * 60 * 60; // 1 hour
 
 final String USER_KEY = 'user';
 final String USER_COMMUNITIES_KEY = 'usercommunities';
+final String COMMUNITIES_LIST_KEY = 'communitieslist';
+final String COMMUNITIES_BY_ID_KEY = 'communitiesbyid';
 
 
 class Data {

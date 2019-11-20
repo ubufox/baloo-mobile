@@ -24,7 +24,7 @@ MutationOptions JoinCommunityMutation(String userId, String communityId) => Muta
 String getUserCommunities = """
   query GetUserCommunities {
     user_community {
-      communityBycommunityID {
+      communityBycommunityId {
         city
         imageURL
         name

@@ -79,7 +79,7 @@ class Router {
         );
       case RoutePaths.CommunityDetail:
         return MaterialPageRoute(
-          builder: (_) => CommunityDetail(community: settings.arguments),
+          builder: (_) => CommunityDetail(communityId: settings.arguments),
         );
       case RoutePaths.GoalDetail:
         return MaterialPageRoute(

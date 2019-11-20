@@ -12,15 +12,22 @@ import 'package:baloo/ui/components/base_data_widget.dart';
 import 'package:baloo/core/models/community.dart';
 import 'package:baloo/core/models/goal.dart';
 import 'package:baloo/core/models/accomplishment.dart';
-import 'package:baloo/core/viewmodels/user_communities_model.dart';
+import 'package:baloo/core/viewmodels/community_detail_model.dart';
 
 
 class CommunityDetail extends StatelessWidget {
-  CommunityDetail({ @required this.community });
+  final String communityId;
 
-  final Community community;
 
-  Widget _header() {
+  CommunityDetail({ @required this.communityId });
+
+
+  Widget _header(
+    String name,
+    int members,
+    String city,
+    String imageURL
+  ) {
     return Container(
       margin: const EdgeInsets.fromLTRB(20.0, 100.0, 20.0, 24.0),
       child: Column(
@@ -29,7 +36,7 @@ class CommunityDetail extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              community.name,
+              name,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w700,
@@ -41,7 +48,7 @@ class CommunityDetail extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              community.location,
+              city,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w500,
@@ -53,7 +60,7 @@ class CommunityDetail extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 24.0),
             child: Text(
-              community.members,
+              members.toString(),
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w500,
@@ -66,7 +73,7 @@ class CommunityDetail extends StatelessWidget {
             height: 161,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(community.bannerImage),
+                image: AssetImage(imageURL),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(12.0),
@@ -77,7 +84,7 @@ class CommunityDetail extends StatelessWidget {
     );
   }
 
-  Widget _about() {
+  Widget _about(String desc) {
     return Container(
       margin: const EdgeInsets.fromLTRB(20.0, 44.0, 20.0, 60.0),
       child: Column(
@@ -96,7 +103,7 @@ class CommunityDetail extends StatelessWidget {
             ),
           ),
           Text(
-            community.about,
+            desc,
             style: TextStyle(
               fontFamily: 'Muli',
               fontWeight: FontWeight.w500,
@@ -114,30 +121,38 @@ class CommunityDetail extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          BaseDataWidget<UserCommunitiesModel>(
-            model: UserCommunitiesModel(
+          BaseDataWidget<CommunityDetailModel>(
+            model: CommunityDetailModel(
               gqls: Provider.of(context),
               ds: Provider.of(context),
             ),
-            onModelReady: (model) => model.getUserCommunities(),
-            builder: (context, communities, child) {
-              bool inCommunity = communities.inUserCommunities(community);
+            onModelReady: (model) => model.getCommunity(communityId),
+            builder: (context, model, child) {
+              bool inCommunity = model.isUserCommunity();
 
-              Function joinOrLeave = () {
-                if (inCommunity) {
-                  communities.leaveCommunity(community);
-                } else {
-                  communities.joinCommunity(community);
-                }
-              };
+              Function joinOrLeave = () {};
+              // Function joinOrLeave = () {
+              //   if (inCommunity) {
+              //     communities.leaveCommunity(community);
+              //   } else {
+              //     communities.joinCommunity(community);
+              //   }
+              // };
 
               return CustomScrollView(
                 slivers: <Widget>[
-                  SliverToBoxAdapter(child: _header()),
+                  SliverToBoxAdapter(
+                    child: _header(
+                      model.community.name,
+                      model.community.members,
+                      model.community.city,
+                      model.community.imageURL,
+                    ),
+                  ),
                   SliverToBoxAdapter(
                     child: WideButton(
-                      label: inCommunity ? 'Leave ' + community.name : 'Join ' + community.name,
-                      onFill: joinOrLeave, 
+                      label: inCommunity ? 'Leave ' + model.community.name : 'Join ' + model.community.name,
+                      onFill: joinOrLeave,
                     ),
                   ),
                   _currentGoal(),
@@ -156,7 +171,7 @@ class CommunityDetail extends StatelessWidget {
                     ),
                   ),
                   SliverToBoxAdapter(child: _communityAccomplishments()),
-                  SliverToBoxAdapter(child: _about()),
+                  SliverToBoxAdapter(child: _about(model.community.description)),
                 ],
               );
             }

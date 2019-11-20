@@ -26,14 +26,21 @@ class CommunitiesScreen extends StatelessWidget{
           ),
         ),
         child: BaseDataWidget<CommunitySearchModel>(
-          model: CommunitySearchModel(api: Provider.of(context)),
-          onModelReady: (model) => { /* TODO mjf: fetch data */ },
-          builder: (context, communitySearch, child) =>
+          model: CommunitySearchModel(
+            gqls: Provider.of(context),
+            ds: Provider.of(context),
+          ),
+          onModelReady: (model) => { model.getCommunities() },
+          builder: (context, model, child) =>
             CustomScrollView(
               slivers: <Widget>[
                 SliverToBoxAdapter(child: UserCommunitiesList()),
-                SliverToBoxAdapter(child: CommunitySearchBar(search: communitySearch.searchCommunities)),
-                CommunitySearchResults(communities: communitySearch.communities),
+                SliverToBoxAdapter(child: CommunitySearchBar(
+                  search: model.searchCommunities
+                )),
+                CommunitySearchResults(
+                  communities: model.communities
+                ),
               ],
             ),
         ),
