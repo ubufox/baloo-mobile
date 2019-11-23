@@ -140,16 +140,8 @@ class CommunityDetail extends StatelessWidget {
                 );
               }
 
-              bool inCommunity = model.isUserCommunity();
+              bool isMember = model.community.isMember;
 
-              Function joinOrLeave = () {};
-              // Function joinOrLeave = () {
-              //   if (inCommunity) {
-              //     communities.leaveCommunity(community);
-              //   } else {
-              //     communities.joinCommunity(community);
-              //   }
-              // };
 
               return CustomScrollView(
                 slivers: <Widget>[
@@ -163,8 +155,8 @@ class CommunityDetail extends StatelessWidget {
                   ),
                   SliverToBoxAdapter(
                     child: WideButton(
-                      label: inCommunity ? 'Leave ' + model.community.name : 'Join ' + model.community.name,
-                      onFill: joinOrLeave,
+                      label: isMember ? 'Leave ' + model.community.name : 'Join ' + model.community.name,
+                      onFill: model.updateMemberStatus,
                     ),
                   ),
                   _currentGoal(),

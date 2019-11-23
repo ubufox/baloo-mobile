@@ -22,6 +22,10 @@ class Data {
 
   DateTime get expiresAt => _expiresAt;
   dynamic get value => _value;
+
+  void set expiresAt(DateTime d) {
+    _expiresAt = d;
+  }
 }
 
 
@@ -77,6 +81,14 @@ class GlobalDataService {
 
   void delete(String key) {
     global[key] = null;
+  }
+
+  void expireVal(String key) {
+    if (global[key] != null) {
+      global[key].expiresAt = DateTime.now().subtract(
+        Duration(seconds: 10)
+      );
+    }
   }
 
   void clearAll() {

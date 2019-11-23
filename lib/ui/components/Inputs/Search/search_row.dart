@@ -24,7 +24,7 @@ class _SearchRowState extends State<SearchRow> {
 
   void updateQueryVal(v) {
     searchQuery = v;
-    widget.search(searchQuery, widget.filters[activeFilterIdx]);
+    widget.search(widget.filters[activeFilterIdx], searchQuery);
     setState(() => {});
   }
 
@@ -39,7 +39,7 @@ class _SearchRowState extends State<SearchRow> {
     isSearchFocused = !isSearchFocused;
     if (isSearchFocused) {
       searchQuery = "";
-      widget.search(searchQuery, widget.filters[activeFilterIdx]);
+      widget.search(widget.filters[activeFilterIdx], searchQuery);
     }
     setState(() => {});
   }

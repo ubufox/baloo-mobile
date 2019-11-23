@@ -39,7 +39,7 @@ class ProfileModel extends BaseViewModel {
           QueryResult result = await _gqls.runQuery(GetUserQuery());
 
           if (result != null && result.errors == null) {
-            _user = User.fromJson(result.data["user"][0]);
+            _user = User.fromJSON(result.data["user"][0]);
 
             // user expiration should be 1 day
             DateTime userExpires = DateTime.now().add(
@@ -47,7 +47,7 @@ class ProfileModel extends BaseViewModel {
             );
             _ds.upsert(USER_KEY, _user, userExpires);
             setLoading(false);
-          } else if (result != null) {
+          } else if (result.errors != null) {
             print(result.errors.toString());
           }
         } catch(e) {

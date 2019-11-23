@@ -83,14 +83,20 @@ class GraphQLService {
   Future<QueryResult> runQuery(QueryOptions options) async {
     if (_hasClient && _authentication.value != null) {
       return await _client.query(options);
+    } else if (!_hasClient) {
+      throw('Client unavailable');
     } else {
-      if (!_hasClient) {
-        throw('Client unavailable');
-      } else {
-        throw('Unauthorized query');
-      }
+      throw('Unauthorized query');
     }
   }
 
-  // TODO mjf: add mutation
+  Future<QueryResult> runMutation(MutationOptions options) async {
+    if (_hasClient && _authentication.value != null) {
+      return await _client.mutate(options);
+    } else if (!_hasClient) {
+      throw('Client unavailable');
+    } else {
+      throw('Unauthorized query');
+    }
+  }
 }

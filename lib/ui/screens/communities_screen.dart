@@ -30,7 +30,10 @@ class CommunitiesScreen extends StatelessWidget{
             gqls: Provider.of(context),
             ds: Provider.of(context),
           ),
-          onModelReady: (model) => { model.getCommunities() },
+          onModelReady: (model) {
+            model.getUser();
+            model.getCommunities();
+          },
           builder: (context, model, child) =>
             CustomScrollView(
               slivers: <Widget>[

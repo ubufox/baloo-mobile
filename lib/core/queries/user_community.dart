@@ -1,11 +1,13 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+import 'package:baloo/core/queries/apply_values.dart';
+
 
 String joinCommunty = """
-  mutation JoinCommunity(\$userId: ID!, \$communityId: ID!) {
+  mutation JoinCommunity {
     insert user_community (objects: {
-        userId: \$userId,
-        communityId: \$communityId,
+        userId: %suserId,
+        communityId: %scommunityId,
         role: "member",
       }
     )
@@ -13,11 +15,42 @@ String joinCommunty = """
 """;
 
 MutationOptions JoinCommunityMutation(String userId, String communityId) => MutationOptions(
-  document: joinCommunty,
-  variables: {
-    'userId': userId,
-    'communityId': communityId,
-  },
+  document: ApplyValues(
+    joinCommunty,
+    {
+      "userId": userId,
+      "communityId": communityId,
+    },
+  )
+);
+
+
+String leaveCommunity = """
+  mutation MyMutation {
+    update_user_community(where: {
+      userId: {
+        _eq: %suserId
+      },
+      communityId: {
+        _eq: %scommmunityId
+      }
+    }, _set: {
+      leftAt: %stimestamp
+    }) {
+      affected_rows
+    }
+  }
+""";
+
+MutationOptions LeaveCommunityMutation(String userId, String communityId) => MutationOptions(
+  document: ApplyValues(
+    leaveCommunity,
+    {
+      "userId": userId,
+      "communityId": communityId,
+      "timestamp": DateTime.now().toString(),
+    },
+  ),
 );
 
 
