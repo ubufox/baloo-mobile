@@ -92,6 +92,9 @@ class GraphQLService {
 
   Future<QueryResult> runMutation(MutationOptions options) async {
     if (_hasClient && _authentication.value != null) {
+      print('document');
+      print(options.document);
+
       return await _client.mutate(options);
     } else if (!_hasClient) {
       throw('Client unavailable');

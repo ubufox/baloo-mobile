@@ -8,7 +8,7 @@ class Community {
   final String _description;
   final DateTime _createdAt;
   final int _members;
-  final bool _isMember;
+  bool _isMember;
 
 
   Community({
@@ -47,11 +47,19 @@ class Community {
   bool get isMember => _isMember;
 
 
+  void set isMember(bool val) {
+    _isMember = val;
+  }
+
+
   static Community fromJSON(Map<String, dynamic> jsonData) {
     Map<String, dynamic> userCommunity = jsonData['userCommunityByCommunityId'][0];
     bool userIsMember = false;
 
-    if (userCommunity != null && userCommunity['leftAt'] == 'null') {
+    print('left at');
+    print(userCommunity['leftAt']);
+
+    if (userCommunity != null && userCommunity['leftAt'] == null) {
       userIsMember = true;
     }
 
@@ -67,5 +75,20 @@ class Community {
       members: jsonData['members']['count'],
       isMember: userIsMember,
     );
+  }
+
+  static Map<String, dynamic> toJSON(Community c) {
+    return {
+      'id': c.id,
+      'name': c.name,
+      'city': c.city,
+      'state': c.state,
+      'zipcode': c.zipcode,
+      'imageURL': c.imageURL,
+      'description': c.description,
+      'createdAt': c.createdAt.toString(),
+      'members': c.members.toString(),
+      'isMember': c.isMember.toString(),
+    };
   }
 }

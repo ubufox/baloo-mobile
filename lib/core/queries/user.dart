@@ -16,5 +16,3 @@ String getUser = """
 QueryOptions GetUserQuery() => QueryOptions(
   document: getUser,
 );
-
-

@@ -25,6 +25,7 @@ class AuthenticationService {
 
   void _initAuthentication() async {
     String t = await _storage.getJWT();
+
     if (t != null) {
       Authentication token = Authentication(t);
       _jwtController.add(token);

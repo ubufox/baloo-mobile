@@ -22,6 +22,7 @@ class CommunitySearchModel extends BaseViewModel {
   List<Community> _communities;
   String _sortBy = "NEARBY";
   String _search;
+
   // Needed for search
   User _user;
 
@@ -146,7 +147,9 @@ class CommunitySearchModel extends BaseViewModel {
       ).toList();
     }
 
-    sortCommunities();
+    if (_user != null) {
+      sortCommunities();
+    }
 
     notifyListeners();
   }

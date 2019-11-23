@@ -27,58 +27,51 @@ class UserCommunitiesModel extends BaseViewModel {
     _ds = ds;
 
 
-  List<UserCommunity> get communities => _communities;
-  int get count => _communities == null ? 0 : _communities.length;
+  List<UserCommunity> get communities => _communities
+    .where((c) =>
+      c.hasLeft == false
+    ).toList();
+
+  int get count => _communities == null ? 0 : _communities
+    .where((c) =>
+      c.hasLeft == false
+    ).length;
 
 
   void getUserCommunities() async {
-    if (_communities == null) {
-      setLoading(true);
+    setLoading(true);
+    print('updating user communities');
+
+    try {
+      _communities = _ds.getVal(USER_COMMUNITIES_KEY);
+      print('got communities from _ds');
+      setLoading(false);
+    } catch(e) {
+      print(e.toString());
+
       try {
-        _communities = _ds.getVal(USER_COMMUNITIES_KEY);
-        setLoading(false);
+        QueryResult result = await _gqls.runQuery(GetUserCommunities());
+
+        if (result != null && result.errors == null) {
+          _communities = result.data['user_community'].map<UserCommunity>(
+            (userComm) => UserCommunity.fromJSON(userComm)
+          ).toList();
+
+
+          _ds.upsert(USER_COMMUNITIES_KEY, _communities);
+          _ds.observe(USER_COMMUNITIES_KEY, updateCommunities);
+          setLoading(false);
+        } else if (result != null) {
+          print('result errors');
+          print(result.errors.toString());
+        }
       } catch(e) {
         print(e.toString());
-
-        try {
-          QueryResult result = await _gqls.runQuery(GetUserCommunities());
-          print('result');
-          print(result.toString());
-
-          if (result != null && result.errors == null) {
-            print('result');
-            print(result.data.toString());
-
-            _communities = result.data['user_community'].map<UserCommunity>(
-              (userComm) => UserCommunity.fromJSON(userComm)
-            ).toList();
-
-            print('user communities from json complete');
-
-            _ds.upsert(USER_COMMUNITIES_KEY, _communities);
-            setLoading(false);
-          } else if (result != null) {
-            print('result errors');
-            print(result.errors.toString());
-          }
-        } catch(e) {
-          print(e.toString());
-        }
       }
     }
   }
 
-  void joinCommunity(String communityId) {
-    // if (!inUserCommunities(newCom)) {
-    //   _communities.insert(length, newCom);
-    //   notifyListeners();
-    // }
-  }
-
-  void leaveCommunity(String communityId) {
-    // if (inUserCommunities(com)) {
-    //   _communities.remove(com);
-    //   notifyListeners();
-    // }
+  void updateCommunities(List<UserCommunity> updates) {
+    _communities = updates;
   }
 }

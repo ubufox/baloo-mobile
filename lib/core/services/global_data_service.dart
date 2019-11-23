@@ -51,12 +51,7 @@ class GlobalDataService {
     );
 
     global[key] = newValue;
-
-    if (listeners[key] != null) {
-      listeners[key].forEach((l) =>
-        l(value)
-      );
-    }
+    notify(key);
   }
 
   void observe(String key, Function listener) {
@@ -64,6 +59,14 @@ class GlobalDataService {
       listeners[key].insert(listeners[key].length, listener);
     } else {
       listeners[key] = [listener];
+    }
+  }
+
+  void notify(String key) {
+    if (listeners[key] != null) {
+      dynamic value = global[key].value;
+
+      listeners[key].forEach((l) => l(value));
     }
   }
 
@@ -81,6 +84,8 @@ class GlobalDataService {
 
   void delete(String key) {
     global[key] = null;
+
+    notify(key);
   }
 
   void expireVal(String key) {

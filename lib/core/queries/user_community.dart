@@ -5,7 +5,7 @@ import 'package:baloo/core/queries/apply_values.dart';
 
 String joinCommunty = """
   mutation JoinCommunity {
-    insert user_community (objects: {
+    insert_user_community (objects: {
         userId: %suserId,
         communityId: %scommunityId,
         role: "member",
@@ -25,22 +25,24 @@ MutationOptions JoinCommunityMutation(String userId, String communityId) => Muta
 );
 
 
+
 String leaveCommunity = """
-  mutation MyMutation {
+  mutation LeaveCommunity {
     update_user_community(where: {
       userId: {
-        _eq: %suserId
+        _eq: "%suserId"
       },
       communityId: {
-        _eq: %scommmunityId
-      }
-    }, _set: {
-      leftAt: %stimestamp
-    }) {
+        _eq: "%scommunityId"
+      }}, _set: {
+        leftAt:"%stimestamp"
+      }) {
       affected_rows
     }
   }
 """;
+
+
 
 MutationOptions LeaveCommunityMutation(String userId, String communityId) => MutationOptions(
   document: ApplyValues(

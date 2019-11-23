@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-
 class UserCommunity {
   final String _communityId;
   final bool _hasLeft;

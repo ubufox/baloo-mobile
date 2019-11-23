@@ -25,7 +25,7 @@ class User {
 
   static User fromJSON(Map<String, dynamic> json) {
     return User(
-      id: json['name'].toString(),
+      id: json['id'].toString(),
       name: json['name'],
       zipcode: json['zipcode'],
       allowSMS: json['allowSMS'],

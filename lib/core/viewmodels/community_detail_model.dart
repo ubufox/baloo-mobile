@@ -35,6 +35,7 @@ class CommunityDetailModel extends BaseViewModel {
     Map<String, Community> _communitiesById;
     bool _dsHasCommunities = false;
 
+    // get the community from the global state
     try {
       _communitiesById = _ds.getVal(COMMUNITIES_BY_ID_KEY);
       if (_communitiesById != null) {
@@ -42,18 +43,27 @@ class CommunityDetailModel extends BaseViewModel {
       }
 
       if (_dsHasCommunities && _communitiesById.containsKey(id)) {
+        print('community keys');
+        print(_communitiesById.keys.toString());
+
         _community = _communitiesById[id];
         setLoading(false);
       } else {
         throw('Community not available in data service');
       }
     } catch(e) {
+      // global state didn't have the community we're looking for
       print(e.toString());
 
       try {
         QueryResult result = await _gqls.runQuery(GetCommunityQuery(id));
+
         if (result != null && result.errors == null) {
+          print('data');
+          print(result.data);
+
           _community = Community.fromJSON(result.data["community"][0]);
+
           if (_dsHasCommunities) {
             _communitiesById[id] = _community;
           } else {
@@ -74,16 +84,19 @@ class CommunityDetailModel extends BaseViewModel {
   }
 
   Future<void> updateMemberStatus() async {
-    // get user id
+    print('update member status');
     User _user;
 
     try {
       _user = _ds.getVal(USER_KEY);
+      print('got user');
     } catch(e) {
       QueryResult uRes = await _gqls.runQuery(GetUserQuery());
 
       if (uRes!= null && uRes.errors == null) {
         _user = User.fromJSON(uRes.data["user"][0]);
+        print('user from query');
+        print(_user.toString());
 
         DateTime userExpires = DateTime.now().add(
           Duration(days: 1)
@@ -95,18 +108,43 @@ class CommunityDetailModel extends BaseViewModel {
       }
     }
 
-    if (_community.isMember) {
-      // leave community
-      QueryResult result = await _gqls.runMutation(
-        LeaveCommunityMutation(_user.id, _community.id)
-      );
+    print('isMember ' + _community.isMember.toString());
 
-      // force reload on next user community view
-      _ds.expireVal(USER_COMMUNITIES_KEY);
+    if (_community.isMember) {
+      print('leave community');
+      print(Community.toJSON(_community));
+
+
+      // leave community
+      try {
+        QueryResult result = await _gqls.runMutation(
+          LeaveCommunityMutation(_user.id, _community.id)
+        );
+
+        if (result != null && result.errors == null) {
+          print('affected rows');
+          print(result.data);
+
+          _community.isMember = false;
+
+          // force reload on next user community view
+          _ds.expireVal(USER_COMMUNITIES_KEY);
+        } else if (result.errors != null) {
+          print('result erros');
+          print(result.errors.toString());
+        }
+      } catch(e) {
+        print('error leaving community');
+        print(e.toString());
+      }
+
     } else {
+      print('join community');
       QueryResult result = await _gqls.runMutation(
         JoinCommunityMutation(_user.id, _community.id)
       );
+
+      _community.isMember = true;
 
       // force reload on next user community view
       _ds.expireVal(USER_COMMUNITIES_KEY);
