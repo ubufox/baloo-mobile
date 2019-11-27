@@ -64,7 +64,7 @@ class GlobalDataService {
 
   void notify(String key) {
     if (listeners[key] != null) {
-      dynamic value = global[key].value;
+      dynamic value = global[key] != null ? global[key].value : null;
 
       listeners[key].forEach((l) => l(value));
     }
@@ -88,12 +88,10 @@ class GlobalDataService {
     notify(key);
   }
 
-  void expireVal(String key) {
-    if (global[key] != null) {
-      global[key].expiresAt = DateTime.now().subtract(
-        Duration(seconds: 10)
-      );
-    }
+  void clearVal(String key) {
+    global[key] = null;
+
+    notify(key);
   }
 
   void clearAll() {

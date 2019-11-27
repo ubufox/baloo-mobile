@@ -26,16 +26,19 @@ class UserCommunitiesModel extends BaseViewModel {
     _gqls = gqls,
     _ds = ds;
 
+  // model initialization
+  // create observer for specific key
+  // screen should call getUserCommunities
+  // which should either hydrate with existing data
+  // or call the pull
 
   List<UserCommunity> get communities => _communities
-    .where((c) =>
-      c.hasLeft == false
-    ).toList();
+    .where((c) => c.isCurrentMember == true)
+    .toList();
 
   int get count => _communities == null ? 0 : _communities
-    .where((c) =>
-      c.hasLeft == false
-    ).length;
+    .where((c) => c.isCurrentMember == true)
+    .length;
 
 
   void getUserCommunities() async {
@@ -44,7 +47,6 @@ class UserCommunitiesModel extends BaseViewModel {
 
     try {
       _communities = _ds.getVal(USER_COMMUNITIES_KEY);
-      print('got communities from _ds');
       setLoading(false);
     } catch(e) {
       print(e.toString());
@@ -57,6 +59,10 @@ class UserCommunitiesModel extends BaseViewModel {
             (userComm) => UserCommunity.fromJSON(userComm)
           ).toList();
 
+          _communities.forEach((c) {
+            print(c.name);
+            print(UserCommunity.toJSON(c));
+          });
 
           _ds.upsert(USER_COMMUNITIES_KEY, _communities);
           _ds.observe(USER_COMMUNITIES_KEY, updateCommunities);

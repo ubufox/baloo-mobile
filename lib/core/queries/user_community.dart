@@ -10,7 +10,9 @@ String joinCommunty = """
         communityId: %scommunityId,
         role: "member",
       }
-    )
+    ) {
+      affected_rows
+    }
   }
 """;
 
@@ -24,6 +26,31 @@ MutationOptions JoinCommunityMutation(String userId, String communityId) => Muta
   )
 );
 
+String rejoinCommunity = """
+  mutation RejoinCommunity {
+    update_user_community(where: {
+      userId: {
+        _eq: "%suserId"
+      },
+      communityId: {
+        _eq: "%scommunityId"
+      }}, _set: {
+        leftAt:null
+      }) {
+      affected_rows
+    }
+  }
+""";
+
+MutationOptions RejoinCommunityMutation(String userId, String communityId) => MutationOptions(
+  document: ApplyValues(
+    rejoinCommunity,
+    {
+      "userId": userId,
+      "communityId": communityId,
+    },
+  )
+);
 
 
 String leaveCommunity = """

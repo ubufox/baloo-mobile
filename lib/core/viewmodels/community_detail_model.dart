@@ -9,6 +9,7 @@ import 'package:baloo/core/services/graphql.dart';
 import 'package:baloo/core/services/global_data_service.dart';
 
 // Models
+import 'package:baloo/core/models/user_community.dart';
 import 'package:baloo/core/models/community.dart';
 import 'package:baloo/core/models/user.dart';
 import 'package:baloo/core/viewmodels/base_view_model.dart';
@@ -114,7 +115,6 @@ class CommunityDetailModel extends BaseViewModel {
       print('leave community');
       print(Community.toJSON(_community));
 
-
       // leave community
       try {
         QueryResult result = await _gqls.runMutation(
@@ -126,9 +126,6 @@ class CommunityDetailModel extends BaseViewModel {
           print(result.data);
 
           _community.isMember = false;
-
-          // force reload on next user community view
-          _ds.expireVal(USER_COMMUNITIES_KEY);
         } else if (result.errors != null) {
           print('result erros');
           print(result.errors.toString());
@@ -140,14 +137,56 @@ class CommunityDetailModel extends BaseViewModel {
 
     } else {
       print('join community');
-      QueryResult result = await _gqls.runMutation(
-        JoinCommunityMutation(_user.id, _community.id)
-      );
+      print(Community.toJSON(_community));
 
-      _community.isMember = true;
+      // check user communities for a matching community
+      // if it exists, then update the leftAt value to null
+      // instead of creating a new userCommunity
+      List<UserCommunity> _userCommunities;
+      bool isRejoining = false;
 
-      // force reload on next user community view
-      _ds.expireVal(USER_COMMUNITIES_KEY);
+      try {
+        _userCommunities = _ds.getVal(USER_COMMUNITIES_KEY);
+        isRejoining = _userCommunities
+          .where((c) => c.id == _community.id)
+          .length == 1;
+      } catch (e) {
+        print('Error getting user communities from data service');
+        print(e.toString());
+      }
+
+      try {
+        QueryResult result;
+
+        if (isRejoining) {
+          result = await _gqls.runMutation(
+            JoinCommunityMutation(_user.id, _community.id)
+          );
+        } else {
+          result = await _gqls.runMutation(
+            RejoinCommunityMutation(_user.id, _community.id)
+          );
+        }
+
+        if (result != null && result.errors == null) {
+          print('affected rows');
+          print(result.data.toString());
+
+          _community.isMember = true;
+        } else if (result.errors != null) {
+          print('error with result');
+          print(result.errors.toString());
+        }
+      } catch(e) {
+        print('error joining community');
+        print(e.toString());
+      }
     }
+
+    // update community detail to render new member state
+    notifyListeners();
+
+    // force reload on next user community view
+    _ds.clearVal(USER_COMMUNITIES_KEY);
   }
 }
