@@ -13,6 +13,7 @@ class AuthenticationService {
 
   AuthenticationService({ Api api }) {
     _api = api;
+    // TODO mjf: this should be called asynchronously
     _initAuthentication();
   }
 
@@ -30,6 +31,7 @@ class AuthenticationService {
       Authentication token = Authentication(t);
       _jwtController.add(token);
     } else {
+      print('init authentication');
       _jwtController.add(null);
     }
   }

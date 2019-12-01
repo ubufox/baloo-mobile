@@ -1,11 +1,11 @@
 class UserCommunity {
   final String _communityId;
-  final bool _isCurrentMember;
+  bool _isCurrentMember;
   final String _name;
   final String _city;
   final String _state;
   final bool _isActive;
-  final int _members;
+  int _members;
   final String _imageURL;
 
 
@@ -37,6 +37,17 @@ class UserCommunity {
   bool get isActive => _isActive;
   int get members => _members;
   String get imageURL => _imageURL;
+
+
+  void updateMemberStatus(bool status) {
+    _isCurrentMember = status;
+
+    if (status == true) {
+      _members += 1;
+    } else {
+      _members -= 1;
+    }
+  }
 
 
   static UserCommunity fromJSON(Map<String, dynamic> jsonData) {

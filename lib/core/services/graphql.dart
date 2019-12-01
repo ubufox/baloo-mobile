@@ -9,10 +9,12 @@ import 'package:baloo/core/services/authentication_service.dart';
 
 // Models
 import 'package:baloo/core/models/authentication.dart';
+import 'package:baloo/core/models/stream_types/client_available.dart';
 
 
 class GraphQLService {
   AuthenticationService _authService;
+
   final StorageAccess _storage = StorageAccess();
 
   final HttpLink httpLink = HttpLink(
@@ -21,17 +23,11 @@ class GraphQLService {
 
   AuthLink _authLink;
   GraphQLClient _client;
-
-  bool _hasClient;
   Authentication _authentication;
 
 
   GraphQLService({ AuthenticationService authService }) {
-    _hasClient = false;
-    _authentication = null;
     _authService = authService;
-
-    initClient();
 
     // listen for changes on the state
     // of our authentication
@@ -39,15 +35,16 @@ class GraphQLService {
   }
 
 
-  GraphQLClient get client => _client;
-  bool get hasClient => _hasClient;
-  Authentication get authentication => _authentication;
+  StreamController<ClientAvailable> _hasClientController = StreamController.broadcast();
+  Stream<ClientAvailable> get hasClient => _hasClientController.stream;
 
 
   // TODO mjf: update name
   // this doesn't describe how it removes the client
   // when a user logs out
   void initClient([Authentication token]) async {
+    print('init graphql client');
+
     Authentication jwt;
     if (token != null) {
       jwt = token;
@@ -59,6 +56,7 @@ class GraphQLService {
     }
 
     if (jwt != null) {
+      print('jwt exists in gqls');
       _authentication = jwt;
 
       _authLink = AuthLink(
@@ -72,34 +70,28 @@ class GraphQLService {
         link: link,
       );
 
-      _hasClient = true;
+      print('adding client available true to client controller');
+      _hasClientController.add(ClientAvailable(true));
     } else {
       _client = null;
       _authentication = null;
-      _hasClient = false;
+      print('adding client available false to client controller');
+      _hasClientController.add(ClientAvailable(false));
     }
   }
 
   Future<QueryResult> runQuery(QueryOptions options) async {
-    if (_hasClient && _authentication.value != null) {
-      return await _client.query(options);
-    } else if (!_hasClient) {
-      throw('Client unavailable');
-    } else {
+    if (_authentication.value == null) {
       throw('Unauthorized query');
     }
+    return await _client.query(options);
   }
 
   Future<QueryResult> runMutation(MutationOptions options) async {
-    if (_hasClient && _authentication.value != null) {
-      print('document');
-      print(options.document);
-
-      return await _client.mutate(options);
-    } else if (!_hasClient) {
-      throw('Client unavailable');
-    } else {
+    if (_authentication.value == null) {
       throw('Unauthorized query');
     }
+
+    return await _client.mutate(options);
   }
 }

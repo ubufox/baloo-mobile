@@ -14,7 +14,7 @@ import 'package:baloo/ui/components/Animated/loading_widget.dart';
 
 // Models
 import 'package:baloo/core/models/accomplishment.dart';
-import 'package:baloo/core/viewmodels/profile_model.dart';
+import 'package:baloo/core/viewmodels/screenmodels/profile_model.dart';
 
 
 class ProfileScreen extends StatelessWidget {
@@ -29,11 +29,7 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         child: BaseDataWidget<ProfileModel>(
-          model: ProfileModel(
-            gqls: Provider.of(context),
-            ds: Provider.of(context),
-          ),
-          onModelReady: (model) => model.getUser(),
+          model: ProfileModel(uvm: Provider.of(context)),
           builder: (context, profile, child) =>
             profile.loading == true
               ? Column(
