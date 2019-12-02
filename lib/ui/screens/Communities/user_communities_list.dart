@@ -7,7 +7,7 @@ import 'package:baloo/ui/screens/Communities/community_card.dart';
 import 'package:baloo/ui/components/Animated/loading_widget.dart';
 
 // Models
-import 'package:baloo/core/viewmodels/user_communities_model.dart';
+import 'package:baloo/core/viewmodels/componentmodels/user_communities_list_model.dart';
 
 
 class UserCommunitiesList extends StatelessWidget {
@@ -29,12 +29,8 @@ class UserCommunitiesList extends StatelessWidget {
             ),
           ),
         ),
-        BaseDataWidget<UserCommunitiesModel>(
-          model: UserCommunitiesModel(
-            gqls: Provider.of(context),
-            ds: Provider.of(context),
-          ),
-          onModelReady: (model) => model.getUserCommunities(),
+        BaseDataWidget<UserCommunitiesListModel>(
+          model: UserCommunitiesListModel(ucvm: Provider.of(context)),
           builder: (context, model, child) =>
             model.loading == true
               ? Container(

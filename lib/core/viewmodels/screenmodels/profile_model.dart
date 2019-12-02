@@ -1,8 +1,7 @@
-import 'package:baloo/core/viewmodels/base_view_model.dart';
-
 // Models
-import 'package:baloo/core/models/user.dart';
+import 'package:baloo/core/viewmodels/base_view_model.dart';
 import 'package:baloo/core/viewmodels/global/user_view_model.dart';
+import 'package:baloo/core/models/user.dart';
 
 
 class ProfileModel extends BaseViewModel {

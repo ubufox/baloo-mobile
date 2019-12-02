@@ -45,6 +45,7 @@ class UserViewModel extends BaseGlobalViewModel {
         print('error initializing user');
         print(e.toString());
         setError(e.toString());
+        // setLoading(false);
       }
     }
   }

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:baloo/ui/components/Inputs/Search/search_row.dart';
 
+// Models
+import 'package:baloo/core/viewmodels/componentmodels/community_search_model.dart';
+
 
 class CommunitySearchBar extends StatelessWidget {
-  final Function search;
-
-  CommunitySearchBar({ @required this.search });
-
   @override
   Widget build(BuildContext context) {
+     // CommunitySearchModel csm = Provider.of<CommunitySearchModel>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -28,9 +30,13 @@ class CommunitySearchBar extends StatelessWidget {
             ),
           ),
         ),
-        SearchRow(
-          search: search,
-          filters: ['Nearby', 'Popular', 'Newest'],
+        Consumer<CommunitySearchModel>(
+          builder: (_, csm, child) =>
+            SearchRow(
+              updateQuery: csm.updateQuery,
+              updateFilter: csm.updateFilter,
+              filters: ['Nearby', 'Popular', 'Newest'],
+            ),
         ),
       ],
     );

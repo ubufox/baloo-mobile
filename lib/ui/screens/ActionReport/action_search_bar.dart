@@ -24,7 +24,8 @@ class ActionSearchBar extends StatelessWidget {
           ),
         ),
         SearchRow(
-          search: (query, filters) => { /* TODO mjf */ },
+          updateQuery: (String query) => { /* TODO mjf */ },
+          updateFilter: (String filter) => { /* TODO mjf */ },
           filters: [
             'Frequent',
             'Popular',

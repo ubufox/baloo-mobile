@@ -4,13 +4,14 @@ import 'package:baloo/ui/components/Inputs/Search/filter_row_item.dart';
 
 
 class SearchRow extends StatefulWidget {
-  // should take in filter options
-  // search callback
+  final Function updateQuery;
+  final Function updateFilter;
   final List<String> filters;
-  final Function search;
+
 
   SearchRow({
-    @required this.search,
+    @required this.updateQuery,
+    @required this.updateFilter,
     @required this.filters,
   });
 
@@ -22,15 +23,20 @@ class _SearchRowState extends State<SearchRow> {
   int activeFilterIdx = 0;
   bool isSearchFocused = false;
 
+
   void updateQueryVal(v) {
     searchQuery = v;
-    widget.search(widget.filters[activeFilterIdx], searchQuery);
+
+    widget.updateQuery(searchQuery);
     setState(() => {});
   }
 
   void setActiveFilter(idx) {
     if (idx != activeFilterIdx) {
       activeFilterIdx = idx;
+      widget.updateFilter(
+        widget.filters[idx]
+      );
       setState(() => {});
     }
   }
@@ -38,10 +44,8 @@ class _SearchRowState extends State<SearchRow> {
   void setSearchFocused() {
     isSearchFocused = !isSearchFocused;
     if (isSearchFocused) {
-      searchQuery = "";
-      widget.search(widget.filters[activeFilterIdx], searchQuery);
+      updateQueryVal("");
     }
-    setState(() => {});
   }
 
   Widget _searchBox() {
