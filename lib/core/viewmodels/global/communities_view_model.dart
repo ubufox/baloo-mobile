@@ -53,6 +53,17 @@ class CommunitiesViewModel extends BaseGlobalViewModel {
     }
   }
 
+
+  Community getCommunityById(String communityId) {
+    Community result = _communities.firstWhere(
+      (comm) => comm.id == communityId,
+      orElse: () => null,
+    );
+
+    return result;
+  }
+
+
   void clearCommunities() {
     _communities = null;
     notifyListeners();

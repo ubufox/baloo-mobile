@@ -7,7 +7,7 @@ class Community {
   final String _imageURL;
   final String _description;
   final DateTime _createdAt;
-  final int _members;
+  int _members;
   bool _isMember;
 
 
@@ -49,6 +49,10 @@ class Community {
 
   void set isMember(bool val) {
     _isMember = val;
+  }
+
+  void set members(int val) {
+    _members = val;
   }
 
 

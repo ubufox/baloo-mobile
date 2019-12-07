@@ -1,192 +1,82 @@
-import 'package:graphql_flutter/graphql_flutter.dart';
-
-import 'package:baloo/core/queries/community.dart';
-import 'package:baloo/core/queries/user.dart';
-import 'package:baloo/core/queries/user_community.dart';
-
-// Services
-import 'package:baloo/core/services/graphql.dart';
-import 'package:baloo/core/services/global_data_service.dart';
-
 // Models
 import 'package:baloo/core/models/user_community.dart';
 import 'package:baloo/core/models/community.dart';
 import 'package:baloo/core/models/user.dart';
+
 import 'package:baloo/core/viewmodels/base_view_model.dart';
+import 'package:baloo/core/viewmodels/global/user_view_model.dart';
+import 'package:baloo/core/viewmodels/global/communities_view_model.dart';
+import 'package:baloo/core/viewmodels/global/user_communities_view_model.dart';
 
 
 class CommunityDetailModel extends BaseViewModel {
-  final GraphQLService _gqls;
-  final GlobalDataService _ds;
+  // communities view model
+  // user communities view model
+  // user view model
+  CommunitiesViewModel _cvm;
+  UserCommunitiesViewModel _ucvm;
+  UserViewModel _uvm;
+  String _communityId;
+
   Community _community;
 
+
   CommunityDetailModel({
-    GraphQLService gqls,
-    GlobalDataService ds
+    CommunitiesViewModel cvm,
+    UserCommunitiesViewModel ucvm,
+    UserViewModel uvm,
+    String communityId,
   }) :
-    _gqls = gqls,
-    _ds = ds;
+    _cvm = cvm,
+    _ucvm = ucvm,
+    _uvm = uvm,
+    _communityId = communityId;
 
 
-  Community get community => _community;
+  Community get community => _community != null ? _community : getCommunity();
+  bool get loading => _cvm.loading || _uvm.loading;
+  String get error => _cvm.error; // TODO mjf: concat errors for all global models
 
 
-  void getCommunity(String id) async {
-    setLoading(true);
-    Map<String, Community> _communitiesById;
-    bool _dsHasCommunities = false;
 
-    // get the community from the global state
-    try {
-      _communitiesById = _ds.getVal(COMMUNITIES_BY_ID_KEY);
-      if (_communitiesById != null) {
-        _dsHasCommunities = true;
-      }
-
-      if (_dsHasCommunities && _communitiesById.containsKey(id)) {
-        print('community keys');
-        print(_communitiesById.keys.toString());
-
-        _community = _communitiesById[id];
-        setLoading(false);
-      } else {
-        throw('Community not available in data service');
-      }
-    } catch(e) {
-      // global state didn't have the community we're looking for
-      print(e.toString());
-
-      try {
-        QueryResult result = await _gqls.runQuery(GetCommunityQuery(id));
-
-        if (result != null && result.errors == null) {
-          print('data');
-          print(result.data);
-
-          _community = Community.fromJSON(result.data["community"][0]);
-
-          if (_dsHasCommunities) {
-            _communitiesById[id] = _community;
-          } else {
-            _communitiesById = {
-              '$id': _community,
-            };
-          }
-
-          _ds.upsert(COMMUNITIES_BY_ID_KEY, _communitiesById);
-          setLoading(false);
-        } else if (result != null) {
-          print(result.errors.toString());
-        }
-      } catch(e) {
-        print(e.toString());
-      }
+  Community getCommunity() {
+    if (_community != null) {
+      return _community;
     }
+    _community = _cvm.getCommunityById(_communityId);
+    return _community;
   }
 
-  Future<void> updateMemberStatus() async {
-    print('update member status');
-    User _user;
 
-    try {
-      _user = _ds.getVal(USER_KEY);
-      print('got user');
-    } catch(e) {
-      QueryResult uRes = await _gqls.runQuery(GetUserQuery());
-
-      if (uRes!= null && uRes.errors == null) {
-        _user = User.fromJSON(uRes.data["user"][0]);
-        print('user from query');
-        print(_user.toString());
-
-        DateTime userExpires = DateTime.now().add(
-          Duration(days: 1)
-        );
-        _ds.upsert(USER_KEY, _user, userExpires);
-      } else if (uRes.errors != null) {
-        print(uRes.errors.toString());
-        throw(uRes.errors.toString());
-      }
-    }
-
-    print('isMember ' + _community.isMember.toString());
+  void updateMemberStatus() async {
+    getCommunity(); // ensure _community is available
 
     if (_community.isMember) {
       print('leave community');
       print(Community.toJSON(_community));
 
-      // leave community
       try {
-        QueryResult result = await _gqls.runMutation(
-          LeaveCommunityMutation(_user.id, _community.id)
-        );
-
-        if (result != null && result.errors == null) {
-          print('affected rows');
-          print(result.data);
-
-          _community.isMember = false;
-        } else if (result.errors != null) {
-          print('result erros');
-          print(result.errors.toString());
-        }
-      } catch(e) {
+        await _ucvm.leaveCommunity(_uvm.user.id, _communityId);
+        _community.isMember = false;
+        _community.members -= 1;
+      } catch (err) {
         print('error leaving community');
-        print(e.toString());
+        print(err.toString());
       }
-
     } else {
       print('join community');
       print(Community.toJSON(_community));
 
-      // check user communities for a matching community
-      // if it exists, then update the leftAt value to null
-      // instead of creating a new userCommunity
-      List<UserCommunity> _userCommunities;
-      bool isRejoining = false;
-
       try {
-        _userCommunities = _ds.getVal(USER_COMMUNITIES_KEY);
-        isRejoining = _userCommunities
-          .where((c) => c.id == _community.id)
-          .length == 1;
-      } catch (e) {
-        print('Error getting user communities from data service');
-        print(e.toString());
-      }
-
-      try {
-        QueryResult result;
-
-        if (isRejoining) {
-          result = await _gqls.runMutation(
-            JoinCommunityMutation(_user.id, _community.id)
-          );
-        } else {
-          result = await _gqls.runMutation(
-            RejoinCommunityMutation(_user.id, _community.id)
-          );
-        }
-
-        if (result != null && result.errors == null) {
-          print('affected rows');
-          print(result.data.toString());
-
-          _community.isMember = true;
-        } else if (result.errors != null) {
-          print('error with result');
-          print(result.errors.toString());
-        }
-      } catch(e) {
+        await _ucvm.joinCommunity(_uvm.user.id, _communityId);
+        _community.isMember = true;
+        _community.members += 1;
+      } catch (err) {
         print('error joining community');
-        print(e.toString());
+        print(err.toString());
       }
     }
-
     // update community detail to render new member state
     notifyListeners();
-
-    // force reload on next user community view
-    _ds.clearVal(USER_COMMUNITIES_KEY);
   }
 }

@@ -126,10 +126,12 @@ class CommunityDetail extends StatelessWidget {
           ),
           BaseDataWidget<CommunityDetailModel>(
             model: CommunityDetailModel(
-              gqls: Provider.of(context),
-              ds: Provider.of(context),
+              cvm: Provider.of(context),
+              ucvm: Provider.of(context),
+              uvm: Provider.of(context),
+              communityId: communityId,
             ),
-            onModelReady: (model) => model.getCommunity(communityId),
+            onModelReady: (model) => model.getCommunity(),
             builder: (context, model, child) {
               if (model.loading != false) {
                 return Column(
