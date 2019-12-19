@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:baloo/ui/formatters/uppercase_formatter.dart';
 
 
 class LoginConfirmCode extends StatelessWidget {
@@ -81,7 +84,12 @@ class LoginConfirmCode extends StatelessWidget {
             Container(
               margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 60.0),
               child: TextField(
+                maxLength: 6,
                 onChanged: onChanged,
+                inputFormatters: <TextInputFormatter>[
+                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9]")),
+                  UppercaseFormatter(),
+                ],
                 decoration: InputDecoration(
                   hintText: 'Enter code here',
                 ),

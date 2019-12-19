@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:baloo/core/constants/routes.dart';
+import 'package:baloo/ui/formatters/phone_input_formatter.dart';
 
 
 class LoginPhoneForm extends StatelessWidget {
@@ -44,6 +46,11 @@ class LoginPhoneForm extends StatelessWidget {
               margin: new EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
               child: TextField(
                 onChanged: onChanged,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  WhitelistingTextInputFormatter(RegExp("[0-9^-]")),
+                  PhoneInputFormatter(),
+                ],
                 decoration: InputDecoration(
                   hintText: 'Phone number',
                 ),

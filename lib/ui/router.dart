@@ -20,6 +20,8 @@ import 'package:baloo/ui/screens/does_not_exist_screen.dart';
 // Models
 import 'package:baloo/core/models/community.dart';
 import 'package:baloo/core/models/authentication.dart';
+import 'package:baloo/core/models/user.dart';
+import 'package:baloo/core/viewmodels/global/user_view_model.dart';
 
 
 class Router {
@@ -28,8 +30,8 @@ class Router {
       case RoutePaths.CreateAccount:
         return MaterialPageRoute(
           builder: (ctx) {
-            final authenticated = Provider.of<Authentication>(ctx);
-            if (authenticated != null) {
+            final uvm = Provider.of<UserViewModel>(ctx);
+            if (uvm.user != null) {
               return ActionScreen();
             }
 
@@ -39,8 +41,8 @@ class Router {
       case RoutePaths.LogIn:
         return MaterialPageRoute(
           builder: (ctx) {
-            final authenticated = Provider.of<Authentication>(ctx);
-            if (authenticated != null) {
+            final uvm = Provider.of<UserViewModel>(ctx);
+            if (uvm.user != null) {
               return ActionScreen();
             }
 
@@ -50,12 +52,11 @@ class Router {
       case RoutePaths.Action:
         return MaterialPageRoute(
           builder: (ctx) {
-            final authenticated = Provider.of<Authentication>(ctx);
-            if (authenticated != null) {
+            final uvm = Provider.of<UserViewModel>(ctx);
+            if (uvm.user != null) {
               return ActionScreen();
-            } else {
-              return LogIn();
             }
+            return LogIn();
           }
         );
       case RoutePaths.Impact:
