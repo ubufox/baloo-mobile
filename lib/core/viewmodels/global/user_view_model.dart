@@ -33,13 +33,13 @@ class UserViewModel extends BaseGlobalViewModel {
       try {
         QueryResult result = await gqls.runQuery(GetUserQuery());
 
-        if (result != null && result.errors == null) {
+        if (result != null && result.exception == null) {
           _user = User.fromJSON(result.data["user"][0]);
 
           isReady = true;
           setLoading(false);
-        } else if(result.errors != null){
-          throw(result.errors.toString());
+        } else if(result.exception != null){
+          throw(result.exception.toString());
         }
       } catch(e) {
         print('error initializing user');

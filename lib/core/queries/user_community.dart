@@ -17,13 +17,13 @@ String joinCommunty = """
 """;
 
 MutationOptions JoinCommunityMutation(String userId, String communityId) => MutationOptions(
-  document: ApplyValues(
+  documentNode: gql(ApplyValues(
     joinCommunty,
     {
       "userId": userId,
       "communityId": communityId,
     },
-  )
+  ))
 );
 
 String rejoinCommunity = """
@@ -43,13 +43,13 @@ String rejoinCommunity = """
 """;
 
 MutationOptions RejoinCommunityMutation(String userId, String communityId) => MutationOptions(
-  document: ApplyValues(
+  documentNode: gql(ApplyValues(
     rejoinCommunity,
     {
       "userId": userId,
       "communityId": communityId,
     },
-  )
+  ))
 );
 
 
@@ -72,14 +72,14 @@ String leaveCommunity = """
 
 
 MutationOptions LeaveCommunityMutation(String userId, String communityId) => MutationOptions(
-  document: ApplyValues(
+  documentNode: gql(ApplyValues(
     leaveCommunity,
     {
       "userId": userId,
       "communityId": communityId,
       "timestamp": DateTime.now().toString(),
     },
-  ),
+  )),
 );
 
 
@@ -103,5 +103,5 @@ String getUserCommunities = """
 """;
 
 QueryOptions GetUserCommunities() => QueryOptions(
-  document: getUserCommunities,
+  documentNode: gql(getUserCommunities),
 );

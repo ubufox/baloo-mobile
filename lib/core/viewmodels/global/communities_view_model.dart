@@ -35,14 +35,14 @@ class CommunitiesViewModel extends BaseGlobalViewModel {
           throw('Failed communities request');
         }
 
-        if (result.errors == null) {
+        if (result.exception == null) {
           _communities = result.data['community']
             .map<Community>(
               (comm) => Community.fromJSON(comm)
             ).toList();
           setLoading(false);
         } else {
-          throw(result.errors.toString());
+          throw(result.exception.toString());
         }
       } catch (e) {
         print('error initializing communities');

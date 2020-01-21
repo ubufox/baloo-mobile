@@ -25,7 +25,7 @@ String getCommunity = """
 
 
 QueryOptions GetCommunityQuery(String id) => QueryOptions(
-  document: ApplyValues(getCommunity, {"community_id": id}),
+  documentNode: gql(ApplyValues(getCommunity, {"community_id": id})),
 );
 
 
@@ -56,5 +56,5 @@ String getCommunities = """
 
 
 QueryOptions GetCommunitiesQuery() => QueryOptions(
-  document: getCommunities,
+  documentNode: gql(getCommunities),
 );

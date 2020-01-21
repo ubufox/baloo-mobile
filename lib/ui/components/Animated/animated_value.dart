@@ -10,7 +10,7 @@ class AnimatedValue extends ImplicitlyAnimatedWidget {
     Key key,
     @required this.value,
     this.unit,
-    Duration duration = Duration(milliseconds: 1000),
+    Duration duration = const Duration(milliseconds: 1000),
     Curve curve = Curves.decelerate,
   }) : super (duration: duration, curve: curve, key: key);
 

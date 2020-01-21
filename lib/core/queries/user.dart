@@ -14,5 +14,5 @@ String getUser = """
 
 
 QueryOptions GetUserQuery() => QueryOptions(
-  document: getUser,
+  documentNode: gql(getUser),
 );

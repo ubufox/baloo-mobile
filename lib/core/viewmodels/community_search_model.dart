@@ -57,7 +57,7 @@ class CommunitySearchModel extends BaseViewModel {
         try {
           QueryResult result = await _gqls.runQuery(GetCommunitiesQuery());
 
-          if (result != null && result.errors == null) {
+          if (result != null && result.exception == null) {
             _rawCommunities = result.data['community'].map<Community>(
               (comm) => Community.fromJSON(comm)
             ).toList();
@@ -65,8 +65,8 @@ class CommunitySearchModel extends BaseViewModel {
             _ds.upsert(COMMUNITIES_LIST_KEY, _rawCommunities);
             setLoading(false);
           } else if (result != null) {
-            print('result errors');
-            print(result.errors.toString());
+            print('result exception');
+            print(result.exception.toString());
           }
         } catch(e) {
           print(e.toString());
@@ -84,7 +84,7 @@ class CommunitySearchModel extends BaseViewModel {
       } catch(e) {
         QueryResult uRes = await _gqls.runQuery(GetUserQuery());
 
-        if (uRes!= null && uRes.errors == null) {
+        if (uRes!= null && uRes.exception == null) {
           _user = User.fromJSON(uRes.data["user"][0]);
 
           DateTime userExpires = DateTime.now().add(
@@ -92,9 +92,9 @@ class CommunitySearchModel extends BaseViewModel {
           );
           _ds.upsert(USER_KEY, _user, userExpires);
           setLoading(false);
-        } else if (uRes.errors != null) {
-          print(uRes.errors.toString());
-          throw(uRes.errors.toString());
+        } else if (uRes.exception != null) {
+          print(uRes.exception.toString());
+          throw(uRes.exception.toString());
         }
       }
     }

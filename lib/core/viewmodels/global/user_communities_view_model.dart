@@ -37,7 +37,7 @@ class UserCommunitiesViewModel extends BaseGlobalViewModel {
 
       try {
         QueryResult result = await gqls.runQuery(GetUserCommunities());
-        if (result != null && result.errors == null) {
+        if (result != null && result.exception == null) {
           _userCommunities = result.data['user_community']
             .map<UserCommunity>(
               (userComm) => UserCommunity.fromJSON(userComm)
@@ -46,8 +46,8 @@ class UserCommunitiesViewModel extends BaseGlobalViewModel {
 
           isReady = true;
           setLoading(false);
-        } else if (result.errors != null) {
-          throw(result.errors.toString());
+        } else if (result.exception != null) {
+          throw(result.exception.toString());
         }
       } catch(e) {
         print('errors initializing user communities');
@@ -90,13 +90,13 @@ class UserCommunitiesViewModel extends BaseGlobalViewModel {
         }
 
         // update matching community
-        if (result.errors == null) {
+        if (result.exception == null) {
           UserCommunity matchingCommunity = _userCommunities
             .where((c) => c.id == communityId)
             .toList()[0];
           matchingCommunity.updateMemberStatus(true);
         } else {
-          throw(result.errors.toString());
+          throw(result.exception.toString());
         }
       // CREATE NEW USER COMMUNITY
       } else {
@@ -108,12 +108,12 @@ class UserCommunitiesViewModel extends BaseGlobalViewModel {
           throw('Failed join request');
         }
 
-        if (result.errors == null) {
+        if (result.exception == null) {
           UserCommunity newCommunity = UserCommunity
             .fromJSON(result.data["user_community"][0]);
           _userCommunities.insert(count, newCommunity);
         } else {
-          throw(result.errors.toString());
+          throw(result.exception.toString());
         }
       }
 
@@ -139,13 +139,13 @@ class UserCommunitiesViewModel extends BaseGlobalViewModel {
         throw('Failed leave request');
       }
 
-      if (result.errors == null) {
+      if (result.exception== null) {
         UserCommunity matchingCommunity = _userCommunities
           .where((c) => c.id == communityId)
           .toList()[0];
         matchingCommunity.updateMemberStatus(false);
       } else {
-        throw(result.errors.toString());
+        throw(result.exception.toString());
       }
 
       setLoading(false);
