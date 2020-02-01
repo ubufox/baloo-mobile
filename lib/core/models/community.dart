@@ -76,7 +76,7 @@ class Community {
       imageURL: jsonData['imageURL'],
       description: jsonData['description'],
       createdAt: DateTime.parse(jsonData['createdAt']),
-      members: jsonData['members']['count'],
+      members: int.tryParse(jsonData['members']['count']),
       isMember: userIsMember,
     );
   }

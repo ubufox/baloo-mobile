@@ -28,6 +28,9 @@ class CommunitySearchModel extends BaseViewModel {
 
 
   List<Community> get results {
+    print('search results');
+    print(_searchResults.toString());
+
     if (_searchResults == null) {
       _searchResults = new List<Community>.from(_cvm.communities);
       sortResults();

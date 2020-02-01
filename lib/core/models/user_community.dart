@@ -54,8 +54,6 @@ class UserCommunity {
     bool hasLeft = false;
 
     if (jsonData['leftAt'] != null) {
-      print('left at');
-      print(jsonData['leftAt']);
       hasLeft = true;
     }
 
@@ -67,7 +65,7 @@ class UserCommunity {
       state: jsonData['communityBycommunityId']['state'],
       imageURL: jsonData['communityBycommunityId']['imageURL'],
       isActive: jsonData['communityBycommunityId']['isActive'],
-      members: jsonData['communityBycommunityId']['members']['count'],
+      members: int.tryParse(jsonData['communityBycommunityId']['members']['count']),
     );
   }
 
