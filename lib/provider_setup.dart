@@ -23,8 +23,6 @@ List<SingleChildCloneableWidget> providers = [
 
 List<SingleChildCloneableWidget> independentServices = [
   Provider.value(value: Api()),
-  // TODO mjf: remove global data service
-  Provider.value(value: GlobalDataService()),
 ];
 
 List<SingleChildCloneableWidget> dependentServices = [

@@ -15,12 +15,10 @@ import 'package:baloo/core/models/community.dart';
 class CommunitySearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    UserViewModel uvm = Provider.of<UserViewModel>(context);
-
     return BaseDataWidget<CommunitySearchModel>(
       model: CommunitySearchModel(
         cvm: Provider.of(context),
-        user: uvm.user,
+        uvm: Provider.of(context),
       ),
       builder: (context, csm, child) =>
         SliverList(

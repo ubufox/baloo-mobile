@@ -1,116 +1,54 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 
-import 'package:baloo/core/queries/community.dart';
-import 'package:baloo/core/queries/user.dart';
-
-// Services
-import 'package:baloo/core/services/graphql.dart';
-import 'package:baloo/core/services/global_data_service.dart';
 
 // Models
 import 'package:baloo/core/viewmodels/base_view_model.dart';
+import 'package:baloo/core/viewmodels/global/communities_view_model.dart';
+import 'package:baloo/core/viewmodels/global/user_view_model.dart';
 import 'package:baloo/core/models/community.dart';
 import 'package:baloo/core/models/user.dart';
 
 
 class CommunitySearchModel extends BaseViewModel {
-  final GraphQLService _gqls;
-  final GlobalDataService _ds;
-  List<Community> _rawCommunities;
-  List<Community> _communities;
+  CommunitiesViewModel _cvm;
+  UserViewModel _uvm;
+
+  List<Community> _searchResults;
   String _sortBy = "NEARBY";
   String _search;
 
-  // Needed for search
-  User _user;
-
 
   CommunitySearchModel({
-    GraphQLService gqls,
-    GlobalDataService ds,
+    CommunitiesViewModel cvm,
+    UserViewModel uvm,
   }) :
-    _gqls = gqls,
-    _ds = ds;
+    _cvm = cvm,
+    _uvm = uvm;
 
 
-  List<Community> get communities {
-    if (_communities == null) {
-      _communities = new List<Community>.from(_rawCommunities);
-      sortCommunities();
+  List<Community> get results {
+    if (_searchResults == null) {
+      _searchResults = new List<Community>.from(_cvm.communities);
+      sortResults();
     }
-    return _communities;
-  }
-  int get count => _communities == null ? 0 : _communities.length;
 
-
-  void getCommunities() async {
-    if (_rawCommunities == null) {
-      setLoading(true);
-      try {
-        _rawCommunities = _ds.getVal(COMMUNITIES_LIST_KEY);
-        setLoading(false);
-      } catch(e) {
-        print(e.toString());
-
-        try {
-          QueryResult result = await _gqls.runQuery(GetCommunitiesQuery());
-
-          if (result != null && result.exception == null) {
-            _rawCommunities = result.data['community'].map<Community>(
-              (comm) => Community.fromJSON(comm)
-            ).toList();
-
-            _ds.upsert(COMMUNITIES_LIST_KEY, _rawCommunities);
-            setLoading(false);
-          } else if (result != null) {
-            print('result exception');
-            print(result.exception.toString());
-          }
-        } catch(e) {
-          print(e.toString());
-        }
-      }
-    }
+    return _searchResults;
   }
 
-  void getUser() async {
-    if (_user == null) {
-      setLoading(true);
-      try {
-        _user = _ds.getVal(USER_KEY);
-        setLoading(false);
-      } catch(e) {
-        QueryResult uRes = await _gqls.runQuery(GetUserQuery());
-
-        if (uRes!= null && uRes.exception == null) {
-          _user = User.fromJSON(uRes.data["user"][0]);
-
-          DateTime userExpires = DateTime.now().add(
-            Duration(days: 1)
-          );
-          _ds.upsert(USER_KEY, _user, userExpires);
-          setLoading(false);
-        } else if (uRes.exception != null) {
-          print(uRes.exception.toString());
-          throw(uRes.exception.toString());
-        }
-      }
-    }
-  }
+  int get count => _searchResults == null ? 0 : _searchResults.length;
 
 
-  List<Community> sortCommunities() {
+  List<Community> sortResults() {
     switch(_sortBy) {
       case 'POPULAR':
-        _communities.sort(sortByDistance);
+        _searchResults.sort(sortByDistance);
         break;
       case 'NEWEST':
-        _communities.sort(sortByDistance);
+        _searchResults.sort(sortByDistance);
         break;
       default:
-        _communities.sort(sortByDistance);
+        _searchResults.sort(sortByDistance);
         break;
     }
   }
@@ -118,7 +56,7 @@ class CommunitySearchModel extends BaseViewModel {
 
   int sortByDistance(Community a, Community b) {
     // get the first 5 numbers for zips with that extra shit at the end
-    int userZip = int.tryParse(_user.zipcode.substring(0, 5));
+    int userZip = int.tryParse(_uvm.user.zipcode.substring(0, 5));
     int zipAInt = int.tryParse(a.zipcode.substring(0, 5));
     int zipBInt = int.tryParse(b.zipcode.substring(0, 5));
 
@@ -140,17 +78,14 @@ class CommunitySearchModel extends BaseViewModel {
     _search = query;
 
     if (query != null) {
-      _communities = List<Community>.from(_rawCommunities);
-      _communities = _communities
+      _searchResults = List<Community>.from(_cvm.communities);
+      _searchResults = _searchResults
         .where((c) =>
           c.name.toLowerCase().contains(query.toLowerCase())
       ).toList();
     }
 
-    if (_user != null) {
-      sortCommunities();
-    }
-
+    sortCommunities();
     notifyListeners();
   }
 }
