@@ -12,6 +12,7 @@ import 'package:baloo/core/viewmodels/nav_bar_model.dart';
 import 'package:baloo/core/viewmodels/global/user_view_model.dart';
 import 'package:baloo/core/viewmodels/global/user_communities_view_model.dart';
 import 'package:baloo/core/viewmodels/global/communities_view_model.dart';
+import 'package:baloo/core/viewmodels/global/engagement_view_model.dart';
 
 
 List<SingleChildCloneableWidget> providers = [
@@ -57,8 +58,12 @@ List<SingleChildCloneableWidget> uiConsumableProviders = [
       UserCommunitiesViewModel(gqls: gqls),
   ),
   ChangeNotifierProxyProvider<GraphQLService, CommunitiesViewModel>(
-    builder: (context, gqls, userCommunities) =>
+    builder: (context, gqls, communities) =>
       CommunitiesViewModel(gqls: gqls),
+  ),
+  ChangeNotifierProxyProvider<GraphQLService, EngagementViewModel>(
+    builder: (context, gqls, engagement) =>
+      EngagementViewModel(gqls: gqls),
   ),
   ChangeNotifierProvider<NavBarModel>(
     builder: (_) => NavBarModel(),

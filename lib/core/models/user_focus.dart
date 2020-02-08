@@ -1,7 +1,10 @@
+import 'package:baloo/core/models/user_action.dart';
+
+
 class UserFocus {
   final String _id;
   final String _imperativeMessage;
-  List<UserAction> _actions;
+  List<UserAction> _actions = <UserAction>[];
   final DateTime _completedAt;
 
 
