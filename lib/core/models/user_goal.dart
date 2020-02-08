@@ -47,12 +47,31 @@ class UserGoal {
 
   // JSON STRUCTURE MATCHES GRAPHQL IN USER_GOAL QUERY FILE
   static UserGoal fromJSON(Map<String, dynamic> json) {
+    DateTime completedTime;
+    try {
+      completedTime = DateTime.tryParse(json['completedAt']);
+    } catch (e) {
+      // try parse still throws
+      completedTime = null;
+    }
+
+    List<GoalImpact> builtImpacts = json['userGoalbyGoalId']['goal_impacts']
+      .map<GoalImpact>((gi) => GoalImpact.fromJSON(gi))
+      .toList();
+    List<UserFocus> builtFocuses = json['userGoalFocusbyUserGoalId']
+      .map<UserFocus>((f) => UserFocus.fromUserGoalJSON(f))
+      .toList();
+
     return UserGoal(
       id: json['id'].toString(),
-      goalId: json['goalId'].toString(),
-      startedAt: json['startedAt'],
-      completedAt: json['completedAt'],
+      goalId: json['userGoalbyGoalId']['id'].toString(),
+      description: json['userGoalbyGoalId']['description'],
+      imperativeMessage: json['userGoalbyGoalId']['imperativeMessage'],
+      startedAt: DateTime.parse(json['startedAt']),
+      completedAt: completedTime,
       isActive: json['isActive'],
+      focuses: <UserFocus>[],
+      goalImpacts: builtImpacts
     );
   }
 }

@@ -9,6 +9,7 @@ String getUserGoals = """
         userGoalFocusbyUserFocusId {
           userFocusActionsbyUserFocusId {
             userFocusActionbyUserActionId {
+              id
               completedAt
               userActionbyActionId {
                 firstPersonMessage

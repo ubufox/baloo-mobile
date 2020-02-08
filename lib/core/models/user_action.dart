@@ -30,6 +30,28 @@ class UserAction {
   List<UserMaterialImpact> get impact => _impact;
 
 
+  static UserAction fromUserFocusJSON(Map<String, dynamic> json) {
+    Map<String, dynamic> userActionJSON = json['userFocusActionbyUserActionId'];
+    Map<String, dynamic> actionJSON = userActionJSON['userActionbyActionId'];
+
+    DateTime completedTime;
+    try {
+      completedTime = DateTime.tryParse(userActionJSON['completedAt']);
+    } catch (e) {
+      // try parse still throws
+      completedTime = null;
+    }
+
+    return UserAction(
+      id: userActionJSON['id'].toString(),
+      imperativeMessage: actionJSON['imperativeMessage'],
+      firstPersonMessage: actionJSON['firstPersonMessage'],
+      completedAt: completedTime,
+      impact: <UserMaterialImpact>[],
+    );
+  }
+
+  // this should use only focus
   static UserAction fromJSON(Map<String, dynamic> json) {
      // create a list of impacts from the graphql response
     List<UserMaterialImpact> builtImpacts;
@@ -38,6 +60,7 @@ class UserAction {
       id: json['id'].toString(),
       imperativeMessage: json['imperativeMessage'],
       firstPersonMessage: json['firstPersonMessage'],
+      completedAt: DateTime.parse(json['completedAt']),
       impact: builtImpacts,
     );
   }

@@ -18,10 +18,10 @@ import 'package:baloo/core/queries/user_goals.dart';
 class EngagementViewModel extends BaseGlobalViewModel {
   // Define required properties
   List<UserGoal> _userGoals;
-  List<UserFocus> _userFocuses;
-  List<UserAction> _userActions;
+
 
   EngagementViewModel({ GraphQLService gqls }) : super(gqls: gqls);
+
 
   // Getters and Setters
   UserGoal get activeGoal => _userGoals
@@ -52,8 +52,12 @@ class EngagementViewModel extends BaseGlobalViewModel {
         }
 
         if (result.exception == null) {
-          print('engagement results');
-          print(result.data.toString());
+          _userGoals = result.data['user_goal']
+            .map<UserGoal>(
+              (goal) => UserGoal.fromJSON(goal)
+            ).toList();
+
+          print('engagement initialized');
           setLoading(false);
         } else {
           throw(result.exception.toString());
@@ -79,7 +83,5 @@ class EngagementViewModel extends BaseGlobalViewModel {
   // additional methods
   void empty() {
     _userGoals = null;
-    _userFocuses = null;
-    _userActions = null;
   }
 }
