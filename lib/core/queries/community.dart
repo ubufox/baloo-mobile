@@ -28,7 +28,8 @@ QueryOptions GetCommunityQuery(String id) => QueryOptions(
   documentNode: gql(ApplyValues(getCommunity, {"community_id": id})),
 );
 
-
+// TODO mjf
+//   return community goals
 String getCommunities = """
   query GetCommunities {
     community(where: {

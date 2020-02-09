@@ -9,6 +9,8 @@ class Community {
   final DateTime _createdAt;
   int _members;
   bool _isMember;
+  // TODO mjf
+  //   add community goals
 
 
   Community({

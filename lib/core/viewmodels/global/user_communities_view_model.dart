@@ -38,8 +38,6 @@ class UserCommunitiesViewModel extends BaseGlobalViewModel {
       try {
         QueryResult result = await gqls.runQuery(GetUserCommunities());
         if (result != null && result.exception == null) {
-          print(result.data['user_community']);
-
           _userCommunities = result.data['user_community']
             .map<UserCommunity>(
               (userComm) => UserCommunity.fromJSON(userComm)
