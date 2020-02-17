@@ -3,15 +3,18 @@ class Focus {
   final String _imperativeMessage;
 
 
-  Focus(
+  Focus({
     String id,
     String imperativeMessage,
-  ) :
+  }) :
     _id = id,
     _imperativeMessage = imperativeMessage;
 
 
-  static Focus fromGoalJSON(Map<String, dynamic> json) {
-
+  static Focus fromJSON(Map<String, dynamic> json) {
+    return Focus(
+      id: json['id'].toString(),
+      imperativeMessage: json['imperativeMessage'],
+    );
   }
 }

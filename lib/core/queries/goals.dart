@@ -6,6 +6,7 @@ String getGoals = """
     goal(where: {isPrivate: {_eq: false}}) {
       id
       imperativeMessage
+      description
       zipcode
       type
       createdAt

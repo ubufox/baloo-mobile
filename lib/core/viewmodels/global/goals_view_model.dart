@@ -36,7 +36,11 @@ class GoalsViewModel extends BaseGlobalViewModel {
         QueryResult result = await gqls.runQuery(GetGoalsQuery());
 
         if (result != null && result.exception == null) {
-          print(result.data.toString());
+          _goals = result.data['goal']
+            .map<NewGoal>((g) => NewGoal.fromJSON(g))
+            .toList();
+
+          isReady = true;
           setLoading(false);
         } else if (result.exception != null) {
           throw(result.exception.toString());
@@ -49,10 +53,7 @@ class GoalsViewModel extends BaseGlobalViewModel {
     }
   }
 
-  // get goals sorted by distance
 
-  // get goals by community id
-  //
   void empty() {
     _goals = null;
   }

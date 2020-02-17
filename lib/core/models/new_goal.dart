@@ -15,7 +15,7 @@ class NewGoal {
   List<GoalImpact> _impacts;
 
 
-  NewGoal(
+  NewGoal({
     String id,
     String imperativeMessage,
     String description,
@@ -24,7 +24,7 @@ class NewGoal {
     DateTime createdAt,
     List<Focus> focuses,
     List<GoalImpact> impacts,
-  ) :
+  }) :
     _id = id,
     _imperativeMessage = imperativeMessage,
     _description = description,
@@ -37,6 +37,22 @@ class NewGoal {
 
   // JSON STRUCTURE MATCHES GRAPHQL IN GOAL QUERY FILE
   static NewGoal fromJSON(Map<String, dynamic> json) {
+    List<Focus> builtFocuses = json['goal_focuses']
+      .map<Focus>((f) => Focus.fromJSON(f['focusByfocusId']))
+      .toList();
+    List<GoalImpact> builtImpacts = json['goal_impacts']
+      .map<GoalImpact>((g) => GoalImpact.fromJSON(g))
+      .toList();
 
+    return NewGoal(
+      id: json['id'].toString(),
+      imperativeMessage: json['imperativeMessage'],
+      description: json['description'],
+      zipcode: json['zipcode'],
+      type: json['type'],
+      createdAt: DateTime.parse(json['createdAt']),
+      focuses: builtFocuses,
+      impacts: builtImpacts,
+    );
   }
 }
