@@ -1,5 +1,6 @@
 // Services
 import 'package:baloo/core/services/apis/auth.dart';
+import 'package:baloo/core/services/apis/engage.dart';
 import 'package:baloo/core/services/storage_access.dart';
 
 // Models
@@ -21,6 +22,7 @@ class AppData {
 
 class Api {
   AuthAPI _auth;
+  EngageAPI _engage;
   String _token;
 
 
@@ -30,10 +32,12 @@ class Api {
   Api() {
     _initializeAppData();
     _auth = AuthAPI();
+    _engage = EngageAPI();
   }
 
 
   AuthAPI get auth => _auth;
+  EngageAPI get engage => _engage;
 
   //
   //

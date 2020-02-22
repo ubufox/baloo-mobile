@@ -44,7 +44,6 @@ class _ReportState extends State<ActionReport> {
       body: BaseDataWidget<ImpactModel>(
         model: ImpactModel(
           api: Provider.of(context),
-          gql: Provider.of(context),
         ),
         onModelReady: (model) => { /* TODO mjf: fetch data */ },
         builder: (context, impact, child) =>

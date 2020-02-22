@@ -145,7 +145,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               ChangeNotifierProvider<ImpactModel>.value(
                 value: ImpactModel(
                   api: Provider.of(context),
-                  gql: Provider.of(context),
                 ),
                 child: Consumer<ImpactModel>(
                   builder: (context, impact, child) =>
