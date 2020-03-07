@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
+// Models
+import 'package:baloo/core/models/user_goal.dart';
+
+
 
 class ActiveGoalCard extends StatelessWidget {
+  final UserGoal goal;
+
+
+  ActiveGoalCard({ @required this.goal });
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +47,7 @@ class ActiveGoalCard extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 12.0),
               child: Text(
-                "Save a redwood's annual absorption of CO2 by eating more sustainably",
+                goal.text,
                 style: TextStyle(
                   color: Color(0xFF2F2F33),
                   fontFamily: 'Muli',
@@ -49,7 +59,7 @@ class ActiveGoalCard extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 32.0),
               child: Text(
-                "Eat two plant-based meals in one week",
+                goal.nextFocus.text,
                 style: TextStyle(
                   color: Color(0xFF595959),
                   fontFamily: 'Muli',
@@ -95,7 +105,7 @@ class ActiveGoalCard extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      '43%',
+                      goal.progress.toString() + '%',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFF2F2F33),
@@ -110,7 +120,7 @@ class ActiveGoalCard extends StatelessWidget {
                   height: 116.0,
                   width: 116.0,
                   child: CircularProgressIndicator(
-                    value: 0.48,
+                    value: goal.progress / 100,
                     valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1DC8F1)),
                     strokeWidth: 12.0,
                   ),

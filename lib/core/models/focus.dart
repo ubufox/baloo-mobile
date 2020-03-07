@@ -11,6 +11,10 @@ class Focus {
     _imperativeMessage = imperativeMessage;
 
 
+  String get id => _id;
+  String get imperativeMessage => _imperativeMessage;
+
+
   static Focus fromJSON(Map<String, dynamic> json) {
     return Focus(
       id: json['id'].toString(),

@@ -14,6 +14,11 @@ class GoalImpact {
     _unit = unit;
 
 
+  String get material => _material;
+  double get amount => _amount;
+  String get unit =>_unit;
+
+
   static GoalImpact fromJSON(Map<String, dynamic> json) {
     return GoalImpact(
       material: json['material'],

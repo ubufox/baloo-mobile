@@ -5,7 +5,6 @@ import 'package:baloo/core/models/user.dart';
 
 
 class ProfileModel extends BaseViewModel {
-  User _user;
   UserViewModel _uvm;
 
 

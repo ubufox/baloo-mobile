@@ -27,4 +27,17 @@ class CommunityGoal {
     _pausedAt = pausedAt,
     _targetEngagement = targetEngagement,
     _goal = goal;
+
+
+  String get id => _id;
+  String get communityId => _communityId;
+  DateTime get startedAt => _startedAt;
+  DateTime get completedAt => _completedAt;
+  DateTime get pausedAt => _pausedAt;
+  int get targetEngagement => _targetEngagement;
+  NewGoal get goal => _goal;
+
+
+ // TODO mjf:
+ //   add fromJSON to construct from GQL response
 }

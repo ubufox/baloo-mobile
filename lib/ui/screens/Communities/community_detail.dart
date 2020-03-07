@@ -11,7 +11,7 @@ import 'package:baloo/ui/components/Animated/loading_widget.dart';
 
 // Models
 import 'package:baloo/core/models/community.dart';
-import 'package:baloo/core/models/goal.dart';
+import 'package:baloo/core/models/new_goal.dart';
 import 'package:baloo/core/models/accomplishment.dart';
 import 'package:baloo/core/viewmodels/community_detail_model.dart';
 
@@ -161,7 +161,7 @@ class CommunityDetail extends StatelessWidget {
                       onFill: model.updateMemberStatus,
                     ),
                   ),
-                  _currentGoal(),
+                  // _currentGoal(),
                   SliverToBoxAdapter(
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
@@ -198,14 +198,11 @@ class CommunityDetail extends StatelessWidget {
 }
 
 class _currentGoal extends StatelessWidget {
-  final Goal goal = new Goal(
-    201,
-    'Help Surfrider pick up 20 trash cans worth of plastic',
-    'There are numerous threads to clean water and healthy beaches, including polluted runoff, offshore oil drilling, habitat loss, development, climate change, plastic in the ocean, and trash on the shore.',
-    'Attend a Venice Beach clean up event',
-    24,
-    [Color(0xFF8BEBE4), Color(0xFFD0FFEC)],
-  );
+  final NewGoal goal;
+
+
+  _currentGoal({ @required this.goal });
+
 
   @override
   Widget build(BuildContext context) {

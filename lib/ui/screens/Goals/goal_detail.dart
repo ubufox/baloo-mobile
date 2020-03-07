@@ -1,30 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:baloo/core/constants/routes.dart';
-import 'package:baloo/core/models/goal.dart';
+import 'package:baloo/core/models/new_goal.dart';
+import 'package:baloo/core/viewmodels/global/engagement_view_model.dart';
+import 'package:baloo/core/viewmodels/screenmodels/goal_detail_model.dart';
 
 import 'package:baloo/ui/components/Buttons/wide_button.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
+import 'package:baloo/ui/components/base_data_widget.dart';
 
 
 class GoalDetail extends StatelessWidget {
+  final NewGoal goal;
+
+
   GoalDetail({ @required this.goal });
 
-  final Goal goal;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverToBoxAdapter(child: _goalBox(goal: goal)),
-          SliverToBoxAdapter(
-            child: WideButton(
-              label: 'Focus on this goal',
-            ),
+      body: BaseDataWidget<GoalDetailModel>(
+        model: GoalDetailModel(evm: Provider.of<EngagementViewModel>(context)),
+        builder: (context, model, child) =>
+          CustomScrollView(
+            slivers: <Widget>[
+              SliverToBoxAdapter(child: _goalBox(goal: goal)),
+              SliverToBoxAdapter(
+                child: WideButton(
+                  label: model.loading == true
+                    ? 'Updating goal ... '
+                    : 'Focus on this goal',
+                  onFill: model.loading == true
+                    ? () => {}
+                    : () => model.setGoal(goal.id),
+                ),
+              ),
+              SliverToBoxAdapter(child: Container(height: 72)),
+            ],
           ),
-          SliverToBoxAdapter(child: Container(height: 72)),
-        ],
       ),
       bottomNavigationBar: BottomAppBar(
         child: Hero(
@@ -38,9 +53,11 @@ class GoalDetail extends StatelessWidget {
 
 
 class _goalBox extends StatelessWidget {
+  final NewGoal goal;
+
+
   _goalBox({ @required this.goal });
 
-  final Goal goal;
 
   Widget _topSection(BuildContext context) {
     return Container(
@@ -54,7 +71,7 @@ class _goalBox extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 12.0),
                   child: Text(
-                    goal.title,
+                    goal.imperativeMessage,
                     style: TextStyle(
                       color: Color(0xFF2F2F33),
                       fontSize: 22,
@@ -85,7 +102,7 @@ class _goalBox extends StatelessWidget {
           ),
           Container(
             child: Text(
-              goal.description,
+              goal.description == null ? '' : goal.description,
               style: TextStyle(
                 color: Color(0xFF595959),
                 fontSize: 16,
@@ -117,7 +134,7 @@ class _goalBox extends StatelessWidget {
             ),
           ),
           Text(
-            goal.focus,
+            goal.focuses[0].imperativeMessage,
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w700,

@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:baloo/core/constants/routes.dart';
 
 // Models
-import 'package:baloo/core/models/goal.dart';
+import 'package:baloo/core/models/new_goal.dart';
 
 
 class GoalCard extends StatelessWidget {
+  final NewGoal goal;
+
+
   GoalCard({ @required this.goal });
 
-  final Goal goal;
 
   Widget _topSection() {
     return Container(
@@ -20,7 +22,7 @@ class GoalCard extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 12.0),
             child: Text(
-              goal.title,
+              goal.imperativeMessage,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w600,
@@ -31,7 +33,7 @@ class GoalCard extends StatelessWidget {
           ),
           Container(
             child: Text(
-              goal.focus,
+              goal.focuses[0].imperativeMessage,
               style: TextStyle(
                 fontFamily: 'Muli',
                 fontWeight: FontWeight.w500,

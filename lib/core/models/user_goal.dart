@@ -12,6 +12,7 @@ class UserGoal {
   bool _isActive;
   List<UserFocus> _focuses = <UserFocus>[];
   List<GoalImpact> _goalImpacts = <GoalImpact>[];
+  int _progress;
 
 
   UserGoal({
@@ -33,7 +34,9 @@ class UserGoal {
     _completedAt = completedAt,
     _isActive = isActive,
     _focuses = focuses,
-    _goalImpacts = goalImpacts;
+    _goalImpacts = goalImpacts,
+    _progress = 0;
+
 
   String get goalId => _goalId;
   String get description => _description;
@@ -43,6 +46,15 @@ class UserGoal {
   bool get isActive => _isActive;
   List<UserFocus> get focuses => _focuses;
   List<GoalImpact> get impact => _goalImpacts;
+  int get progress => _progress;
+  // TODO: mjf
+  //   use focus position instead of created timestamp
+  //   sort definition on line 88
+  UserFocus get nextFocus => getNextFocus();
+
+  void set isActive(bool val) {
+    _isActive = val;
+  }
 
 
   // JSON STRUCTURE MATCHES GRAPHQL IN USER_GOAL QUERY FILE
@@ -70,8 +82,32 @@ class UserGoal {
       startedAt: DateTime.parse(json['startedAt']),
       completedAt: completedTime,
       isActive: json['isActive'],
-      focuses: <UserFocus>[],
+      focuses: builtFocuses,
       goalImpacts: builtImpacts
     );
   }
+
+  UserFocus getNextFocus() {
+    _focuses.sort(sortByCreatedAt);
+
+    List<UserFocus> incompleteFocuses = _focuses
+      .where((UserFocus f) => f.completedAt == null)
+      .toList();
+
+    if (incompleteFocuses.length == 0) {
+      return _focuses[0];
+    }
+
+    return incompleteFocuses[0];
+  }
+
+  int sortByCreatedAt(UserFocus a, UserFocus b) {
+    if (a.createdAt.millisecond > b.createdAt.millisecond) {
+      return 1;
+    } else if (a.createdAt.millisecond == b.createdAt.millisecond) {
+      return 0;
+    }
+    return -1;
+  }
+
 }

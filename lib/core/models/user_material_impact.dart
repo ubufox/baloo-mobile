@@ -18,4 +18,11 @@ class UserMaterialImpact {
     _amount = amount,
     _unit = unit,
     _createdAt = createdAt;
+
+
+  String get id => _id;
+  String get material => _material;
+  double get amount => _amount;
+  String get unit => _unit;
+  DateTime get createdAt => _createdAt;
 }

@@ -64,7 +64,10 @@ List<SingleChildCloneableWidget> uiConsumableProviders = [
   ),
   ChangeNotifierProxyProvider<GraphQLService, EngagementViewModel>(
     builder: (context, gqls, engagement) =>
-      EngagementViewModel(gqls: gqls),
+      EngagementViewModel(
+        gqls: gqls,
+        api: Provider.of<Api>(context),
+      ),
   ),
   ChangeNotifierProxyProvider<GraphQLService, GoalsViewModel>(
     builder: (context, gqls, goals) =>

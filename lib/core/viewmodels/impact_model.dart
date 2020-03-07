@@ -9,9 +9,10 @@ import 'package:baloo/core/services/storage_access.dart';
 import 'package:baloo/core/models/impact_action.dart';
 import 'package:baloo/core/models/authentication.dart';
 import 'package:baloo/core/models/user_impact.dart';
+import 'package:baloo/core/viewmodels/base_view_model.dart';
 
 
-class ImpactModel extends ChangeNotifier {
+class ImpactModel extends BaseViewModel {
   Api _api;
   final _storage = StorageAccess();
   String _token;
@@ -32,13 +33,36 @@ class ImpactModel extends ChangeNotifier {
 
 
   Future<void> loadUserStats() async {
+    setLoading(true);
     if (_token == null) {
       _token = await _storage.getJWT();
     }
 
-    String stats = await _api.engage.getUserStats(_token);
-    print('got user stats');
-    print(stats);
+    try {
+      String stats = await _api.engage.getUserStats(_token);
+      print('got user stats');
+      print(stats);
+    } catch (e) {
+      print('error getting stats');
+      print(e.toString());
+    }
+
+    setLoading(false);
+  }
+
+  Future<void> loadGloablStats() async {
+    setLoading(true);
+
+    try {
+      String stats = await _api.engage.getGlobalStats();
+      print('got global stats');
+      print(stats);
+    } catch (e) {
+      print('error getting stats');
+      print(e.toString());
+    }
+
+    setLoading(false);
   }
 
 

@@ -1,5 +1,9 @@
+// Focus is defined in this package as well
+import 'package:flutter/material.dart' hide Focus;
+
 import 'package:baloo/core/models/focus.dart';
 import 'package:baloo/core/models/goal_impact.dart';
+import 'package:baloo/core/models/goal_colors.dart';
 
 
 // TODO mjf
@@ -13,6 +17,8 @@ class NewGoal {
   final DateTime _createdAt;
   List<Focus> _focuses;
   List<GoalImpact> _impacts;
+  int _progress;
+  final List<Color> _colors;
 
 
   NewGoal({
@@ -24,6 +30,7 @@ class NewGoal {
     DateTime createdAt,
     List<Focus> focuses,
     List<GoalImpact> impacts,
+    List<Color> colors,
   }) :
     _id = id,
     _imperativeMessage = imperativeMessage,
@@ -32,7 +39,21 @@ class NewGoal {
     _type = type,
     _createdAt = createdAt,
     _focuses = focuses,
-    _impacts = impacts;
+    _impacts = impacts,
+    _progress = 0,
+    _colors = colors;
+
+
+  String get id => _id;
+  String get imperativeMessage => _imperativeMessage;
+  String get description => _description;
+  String get zipcode => _zipcode;
+  String get type => _type;
+  DateTime get createdAt => _createdAt;
+  List<Focus> get focuses => _focuses;
+  List<GoalImpact> get impact => _impacts;
+  int get progress => _progress;
+  List<Color> get colors => _colors;
 
 
   // JSON STRUCTURE MATCHES GRAPHQL IN GOAL QUERY FILE
@@ -43,6 +64,8 @@ class NewGoal {
     List<GoalImpact> builtImpacts = json['goal_impacts']
       .map<GoalImpact>((g) => GoalImpact.fromJSON(g))
       .toList();
+    List<Color> goalColors = new GoalColors().getColorByImpact(builtImpacts);
+
 
     return NewGoal(
       id: json['id'].toString(),
@@ -53,6 +76,7 @@ class NewGoal {
       createdAt: DateTime.parse(json['createdAt']),
       focuses: builtFocuses,
       impacts: builtImpacts,
+      colors: goalColors,
     );
   }
 }
