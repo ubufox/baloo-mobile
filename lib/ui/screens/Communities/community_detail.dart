@@ -4,15 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:baloo/ui/components/Navigation/nav_bar.dart';
 import 'package:baloo/ui/components/Navigation/back_navigation_bar.dart';
 import 'package:baloo/ui/components/Buttons/wide_button.dart';
-import 'package:baloo/ui/components/Shared/accomplishment_card.dart';
+import 'package:baloo/ui/components/Shared/community_accomplishment_card.dart';
 import 'package:baloo/ui/screens/Goals/goal_card.dart';
 import 'package:baloo/ui/components/base_data_widget.dart';
 import 'package:baloo/ui/components/Animated/loading_widget.dart';
 
 // Models
 import 'package:baloo/core/models/community.dart';
+import 'package:baloo/core/models/community_goal.dart';
 import 'package:baloo/core/models/new_goal.dart';
-import 'package:baloo/core/models/accomplishment.dart';
 import 'package:baloo/core/viewmodels/community_detail_model.dart';
 
 
@@ -161,7 +161,9 @@ class CommunityDetail extends StatelessWidget {
                       onFill: model.updateMemberStatus,
                     ),
                   ),
-                  // _currentGoal(),
+                  model.community.currentGoal != null
+                    ? _currentGoal(goal: model.community.currentGoal.goal)
+                    : SliverToBoxAdapter(child: Container()),
                   SliverToBoxAdapter(
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(20.0, 40.0, 20.0, 24.0),
@@ -176,7 +178,7 @@ class CommunityDetail extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SliverToBoxAdapter(child: _communityAccomplishments()),
+                  SliverToBoxAdapter(child: _communityAccomplishments(accomplishments: model.community.accomplishments)),
                   model.community.description != null
                     ? SliverToBoxAdapter(child: _about(model.community.description))
                     : SliverToBoxAdapter(child: Container()),
@@ -198,10 +200,9 @@ class CommunityDetail extends StatelessWidget {
 }
 
 class _currentGoal extends StatelessWidget {
-  final NewGoal goal;
+  final NewGoal _goal;
 
-
-  _currentGoal({ @required this.goal });
+  _currentGoal({ NewGoal goal }) : _goal = goal;
 
 
   @override
@@ -223,7 +224,7 @@ class _currentGoal extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(left: 20.0),
-            child: GoalCard(goal: goal),
+            child: GoalCard(goal: _goal),
           ),
         ],
       ),
@@ -232,32 +233,10 @@ class _currentGoal extends StatelessWidget {
 }
 
 class _communityAccomplishments extends StatelessWidget {
-  final List<Accomplishment> accomplishments = [
-    new Accomplishment(
-      'Reduce your plastic waste impact by five years',
-      'Accomplishment description text',
-      new DateTime.utc(2018, 4, 27),
-      new DateTime.utc(2018, 9, 5),
-      0.0,
-      73.7,
-      630.8,
-      241,
-      'plastic',
-      [Color(0xFFE1D0F9), Color(0xFFF7D5EB)],
-    ),
-    new Accomplishment(
-      "Save the average person's yearly water usage",
-      'Accomplishment description text',
-      new DateTime.utc(2018, 5, 11),
-      new DateTime.utc(2018, 10, 9),
-      14123.75,
-      64.0,
-      0.0,
-      149,
-      'water',
-      [Color(0xFFF8D6B2), Color(0xFFFCF4BC)],
-    ),
-  ];
+  final List<CommunityGoal> _accomplishments;
+
+  _communityAccomplishments({ List<CommunityGoal> accomplishments })
+    : _accomplishments = accomplishments;
 
   @override
   Widget build(BuildContext context) {
@@ -266,9 +245,9 @@ class _communityAccomplishments extends StatelessWidget {
       margin: const EdgeInsets.only(left: 20.0),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: accomplishments.length,
+        itemCount: _accomplishments.length,
         itemBuilder: (BuildContext context, int index) =>
-          AccomplishmentCard(accomplishments[index]),
+          CommunityAccomplishmentCard(_accomplishments[index]),
       ),
     );
   }

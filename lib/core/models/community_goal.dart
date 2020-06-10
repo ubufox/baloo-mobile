@@ -11,7 +11,7 @@ class CommunityGoal {
   final NewGoal _goal;
 
 
-  CommunityGoal(
+  CommunityGoal({
     String id,
     String communityId,
     DateTime startedAt,
@@ -19,7 +19,7 @@ class CommunityGoal {
     DateTime pausedAt,
     int targetEngagement,
     NewGoal goal,
-  ) :
+  }) :
     _id = id,
     _communityId = communityId,
     _startedAt = startedAt,
@@ -38,6 +38,35 @@ class CommunityGoal {
   NewGoal get goal => _goal;
 
 
- // TODO mjf:
- //   add fromJSON to construct from GQL response
+  static DateTime getTime(String timeString) {
+    DateTime newTime;
+    try {
+      newTime = DateTime.tryParse(timeString);
+    } catch (e) {
+      newTime = null;
+    }
+
+    return newTime;
+  }
+
+  static CommunityGoal fromJSON(Map<String, dynamic> json) {
+    NewGoal cGoal = NewGoal.fromJSON(json['communityGoalbyGoalId']);
+
+    int engagementTargetAmount;
+    try {
+      engagementTargetAmount = int.tryParse(json['targetEngagement']);
+    } catch (e) {
+      engagementTargetAmount = null;
+    }
+
+    return CommunityGoal(
+      id: json['id'].toString(),
+      communityId: json['communityId'],
+      startedAt: CommunityGoal.getTime(json['startedAt']),
+      completedAt: CommunityGoal.getTime(json['completedAt']),
+      pausedAt: CommunityGoal.getTime(json['pausedAt']),
+      targetEngagement: engagementTargetAmount,
+      goal: cGoal,
+    );
+  }
 }

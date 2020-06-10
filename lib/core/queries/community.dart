@@ -48,6 +48,37 @@ String getCommunities = """
       members {
         count
       }
+      community_goals(where: {
+        startedAt: {
+          _neq: null
+        }
+      }) {
+        id
+        communityId
+        startedAt
+        completedAt
+        pausedAt
+        targetEngagement
+        communityGoalbyGoalId {
+          id
+          imperativeMessage
+          description
+          zipcode
+          type
+          createdAt
+          goal_focuses {
+            focusByfocusId {
+              id
+              imperativeMessage
+            }
+          }
+          goal_impacts {
+            amount
+            material
+            unit
+          }
+        }
+      }
       userCommunityByCommunityId {
         leftAt
       }

@@ -10,16 +10,12 @@ import 'package:baloo/core/viewmodels/global/user_communities_view_model.dart';
 
 
 class CommunityDetailModel extends BaseViewModel {
-  // communities view model
-  // user communities view model
-  // user view model
   CommunitiesViewModel _cvm;
   UserCommunitiesViewModel _ucvm;
   UserViewModel _uvm;
   String _communityId;
 
   Community _community;
-
 
   CommunityDetailModel({
     CommunitiesViewModel cvm,
@@ -52,27 +48,19 @@ class CommunityDetailModel extends BaseViewModel {
     getCommunity(); // ensure _community is available
 
     if (_community.isMember) {
-      print('leave community');
-      print(Community.toJSON(_community));
-
       try {
         await _ucvm.leaveCommunity(_uvm.user.id, _communityId);
         _community.isMember = false;
         _community.members -= 1;
       } catch (err) {
-        print('error leaving community');
         print(err.toString());
       }
     } else {
-      print('join community');
-      print(Community.toJSON(_community));
-
       try {
         await _ucvm.joinCommunity(_uvm.user.id, _communityId);
         _community.isMember = true;
         _community.members += 1;
       } catch (err) {
-        print('error joining community');
         print(err.toString());
       }
     }

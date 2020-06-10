@@ -11,14 +11,19 @@ class AuthAPI {
   //
   // LOGIN
   Future<bool> sendLoginCode(String phone) async {
+    print('sending login code to $phone');
     Map<String, String> headers = {"Content-type": "application/json"};
     String json = '{"phone": "${phone}"}';
+
+    print('auth url');
+    print(AUTH_URL);
 
     Response response = await post('${AUTH_URL}/begin', headers: headers, body: json);
 
     int statusCode = response.statusCode;
 
     if (statusCode == 200) {
+      print('login code sent');
       return true;
     } else {
       return false;

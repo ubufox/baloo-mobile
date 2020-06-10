@@ -58,7 +58,7 @@ class LoginPhoneForm extends StatelessWidget {
             ),
             Container(
               height: 80,
-              margin: new EdgeInsets.fromLTRB(20.0, 120.0, 20.0, 0.0),
+              margin: new EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
