@@ -12,6 +12,7 @@ import 'package:baloo/ui/screens/Goals/goal_detail.dart';
 import 'package:baloo/ui/screens/accomplishment_detail.dart';
 import 'package:baloo/ui/screens/Profile/profile_screen.dart';
 import 'package:baloo/ui/screens/Communities/community_detail.dart';
+import 'package:baloo/ui/screens/Communities/community_accomplishment_detail.dart';
 import 'package:baloo/ui/screens/ActionReport/action_report_screen.dart';
 import 'package:baloo/ui/screens/LogIn/login_screen.dart';
 import 'package:baloo/ui/screens/CreateAccount/create_account_screen.dart';
@@ -89,6 +90,10 @@ class Router {
       case RoutePaths.Accomplishment:
         return MaterialPageRoute(
           builder: (_) => AccomplishmentDetail(accomplishment: settings.arguments),
+        );
+      case RoutePaths.CommunityAccomplishment:
+        return MaterialPageRoute(
+          builder: (_) => CommunityAccomplishmentDetail(accomplishment: settings.arguments),
         );
       case RoutePaths.ActionReport:
         return MaterialPageRoute(

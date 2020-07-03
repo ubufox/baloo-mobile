@@ -53,7 +53,7 @@ class CommunityAccomplishmentCard extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            RoutePaths.Accomplishment,
+            RoutePaths.CommunityAccomplishment,
             arguments: accomplishment,
           );
         },
