@@ -129,6 +129,20 @@ class EngagementViewModel extends BaseGlobalViewModel {
     }
   }
 
+  Future<void> completeFocusedAction(String userActionId) async {
+    setLoading(true);
+
+    try {
+      await _api.engage.completeAction(userActionId);
+      setLoading(false);
+
+    } catch (e) {
+      print('error completing action');
+      print(e);
+      setLoading(false);
+    }
+  }
+
   // additional methods
   void empty() {
     _userGoals = null;

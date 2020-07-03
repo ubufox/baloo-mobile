@@ -57,6 +57,30 @@ class UserGoal {
   }
 
 
+  UserFocus getNextFocus() {
+    _focuses.sort(sortByCreatedAt);
+
+    List<UserFocus> incompleteFocuses = _focuses
+      .where((UserFocus f) => f.completedAt == null)
+      .toList();
+
+    if (incompleteFocuses.length == 0) {
+      return _focuses[0];
+    }
+
+    return incompleteFocuses[0];
+  }
+
+  int sortByCreatedAt(UserFocus a, UserFocus b) {
+    if (a.createdAt.millisecond > b.createdAt.millisecond) {
+      return 1;
+    } else if (a.createdAt.millisecond == b.createdAt.millisecond) {
+      return 0;
+    }
+    return -1;
+  }
+
+
   // JSON STRUCTURE MATCHES GRAPHQL IN USER_GOAL QUERY FILE
   static UserGoal fromJSON(Map<String, dynamic> json) {
     DateTime completedTime;
@@ -86,28 +110,4 @@ class UserGoal {
       goalImpacts: builtImpacts
     );
   }
-
-  UserFocus getNextFocus() {
-    _focuses.sort(sortByCreatedAt);
-
-    List<UserFocus> incompleteFocuses = _focuses
-      .where((UserFocus f) => f.completedAt == null)
-      .toList();
-
-    if (incompleteFocuses.length == 0) {
-      return _focuses[0];
-    }
-
-    return incompleteFocuses[0];
-  }
-
-  int sortByCreatedAt(UserFocus a, UserFocus b) {
-    if (a.createdAt.millisecond > b.createdAt.millisecond) {
-      return 1;
-    } else if (a.createdAt.millisecond == b.createdAt.millisecond) {
-      return 0;
-    }
-    return -1;
-  }
-
 }

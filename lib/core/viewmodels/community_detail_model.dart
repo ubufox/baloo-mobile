@@ -34,7 +34,6 @@ class CommunityDetailModel extends BaseViewModel {
   String get error => _cvm.error; // TODO mjf: concat errors for all global models
 
 
-
   Community getCommunity() {
     if (_community != null) {
       return _community;

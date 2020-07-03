@@ -46,16 +46,6 @@ class Api {
     return appData.userCommunities;
   }
 
-  /* TODO mjf: Community API Endpoints
-  void joinCommunity(community) {
-    app.userCommunities.insert(app.userCommunities.length, community);
-  }
-
-  void leaveCommunity(community) {
-    app.userCommunities.insert(app.userCommunities.length, community);
-  }
-  */
-
   List<Community> searchCommunities([String query, String filter]) {
     return appData.communitySearchResults;
   }

@@ -2,9 +2,6 @@ import 'package:http/http.dart';
 
 import 'package:baloo/core/services/storage_access.dart';
 
-// JOIN GOAL
-// COMPLETE AN ACTION
-// GET GLOBAL TOTAL STATS
 
 class EngageAPI {
   final String ENGAGE_URL = 'https://us-central1-baloo-hasura.cloudfunctions.net/engage';
@@ -23,9 +20,6 @@ class EngageAPI {
       '${ENGAGE_URL}/userStats',
       headers: headers,
     );
-
-    print('response');
-    print(response.body);
 
     int statusCode = response.statusCode;
 
@@ -47,9 +41,6 @@ class EngageAPI {
       '${ENGAGE_URL}/globalStats',
       headers: headers,
     );
-
-    print('response');
-    print(response.body);
 
     int statusCode = response.statusCode;
 
@@ -82,6 +73,31 @@ class EngageAPI {
 
     if (statusCode != 200) {
       throw('Error joining goal');
+    }
+  }
+
+
+  // COMPLETE CURRENT ACTION
+  Future<void> completeAction(userActionId) async {
+    if (_token == null) {
+      _token = await _storage.getJWT();
+    }
+
+    Map<String, String> headers = {
+      "Content-type": "application/x-www-form-urlencoded",
+      "Authorization": _token,
+    };
+
+    Response response = await post(
+      '${ENGAGE_URL}/completeFocusAction',
+      headers: headers,
+      body: { 'userActionId': userActionId},
+    );
+
+    int statusCode = response.statusCode;
+
+    if (statusCode != 200) {
+      throw('Error completing action');
     }
   }
 }

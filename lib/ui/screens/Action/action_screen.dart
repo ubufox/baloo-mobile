@@ -10,10 +10,12 @@ import 'package:baloo/ui/screens/Action/action_button.dart';
 import 'package:baloo/ui/components/base_data_widget.dart';
 
 // Models
+import 'package:baloo/core/models/user_action.dart';
+
+// View Models
 import 'package:baloo/core/viewmodels/nav_bar_model.dart';
-import 'package:baloo/core/models/impact_action.dart';
-import 'package:baloo/core/viewmodels/impact_model.dart';
-import 'package:baloo/core/models/action_data.dart';
+import 'package:baloo/core/viewmodels/componentmodels/complete_action_button_model.dart';
+import 'package:baloo/core/viewmodels/global/engagement_view_model.dart';
 
 
 class ActionScreen extends StatelessWidget{
@@ -60,22 +62,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Future<void> _initializeVideoPlayerFuture;
   bool showPressAndHold = false;
   bool pressed = false;
-
-  // TODO mjf: get this action from an action button model
-  ImpactAction action = new ImpactAction(
-    [
-      new ActionData(
-        'water',
-        627.81,
-      ),
-      new ActionData(
-        'co2',
-        0.63,
-      ),
-    ],
-    true,
-    'I ate a plant-based meal',
-  );
 
   @override
   void initState() {
@@ -142,31 +128,29 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   ),
                 ),
               ),
-              ChangeNotifierProvider<ImpactModel>.value(
-                value: ImpactModel(
-                  api: Provider.of(context),
+              BaseDataWidget<CompleteActionButtonModel>(
+                model: CompleteActionButtonModel(
+                  evm: Provider.of<EngagementViewModel>(context),
                 ),
-                child: Consumer<ImpactModel>(
-                  builder: (context, impact, child) =>
-                    ActionButton(
-                      onPressed: () {
-                        pressed = true;
+                builder: (context, model, child) =>
+                  ActionButton(
+                    onPressed: () {
+                      pressed = true;
 
-                        setState(() {
-                          _controller.play();
-                          Future.delayed(
-                            const Duration(milliseconds: 2000),
-                            () {
-                              impact.completeActions([action]);
-                              nav.updateRoute(RoutePaths.Impact);
-                              Navigator.pushNamed(context, RoutePaths.Impact);
-                            }
-                          );
-                        });
-                      },
-                      message: action.message,
-                    ),
-                ),
+                      setState(() {
+                        _controller.play();
+                        Future.delayed(
+                          const Duration(milliseconds: 2000),
+                          () {
+                            model.complete();
+                            nav.updateRoute(RoutePaths.Impact);
+                            Navigator.pushNamed(context, RoutePaths.Impact);
+                          }
+                        );
+                      });
+                    },
+                    message: model.currentAction.firstPersonMessage,
+                  )
               ),
             ],
           ),
