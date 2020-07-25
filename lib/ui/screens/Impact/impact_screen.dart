@@ -12,8 +12,14 @@ import 'package:baloo/ui/components/base_data_widget.dart';
 
 // Models
 import 'package:baloo/core/viewmodels/impact_model.dart';
+import 'package:baloo/core/viewmodels/global/engagement_view_model.dart';
 import 'package:baloo/core/models/impact_action.dart';
 import 'package:baloo/core/models/action_data.dart';
+import 'package:baloo/core/models/user_focus.dart';
+import 'package:baloo/core/models/statistics.dart';
+
+// Extensions
+import 'package:baloo/core/extensions/capitalize.dart';
 
 
 class ImpactScreen extends StatefulWidget {
@@ -77,44 +83,55 @@ class _ImpactScreenState extends State<ImpactScreen> {
     );
   }
 
-  Widget _yourImpactListView(BuildContext context, ImpactModel impact) {
-    final impactCards = [
-      // new ImpactCard(
-      //   header: 'Eat two plant-based meals',
-      //   subheader: "This week's focus",
-      //   value: '1/2',
-      //   isFocus: true,
-      //   startColor: Color(0xFFFDEEE4),
-      //   endColor: Color(0xFFD9FCF4),
-      // ),
-      new ImpactCard(
-        header: 'Water Saved',
-        subheader: "You've completed 236 water saving actions",
-        value: impact.userImpact.water,
-        unit: 'L',
-        isFocus: false,
-        startColor: Color(0xFF9DE2F1),
-        endColor: Color(0xFFD7FCF4),
-      ),
-      new ImpactCard(
-        header: 'CO2 Saved',
-        subheader: "You've completed 132 CO2 saving actions",
-        value: impact.userImpact.co2,
-        unit: 'kg',
-        isFocus: false,
-        startColor: Color(0xFFA6EDB9),
-        endColor: Color(0xFFF2FABF),
-      ),
-      new ImpactCard(
-        header: 'Actions Completed',
-        subheader: '',
-        value: impact.userImpact.actionsCount.toDouble(),
-        isFocus: false,
-        startColor: Color(0xFFFEDBCA),
-        endColor: Color(0xFFFAF2C1),
-      ),
-      Container(width: 160),
-    ];
+  Widget _yourImpactListView(BuildContext context, Statistics statistics, UserFocus focus, bool isLoading) {
+    if (isLoading || statistics == null) {
+      return Text(
+        'Loading statistics',
+        textDirection: TextDirection.ltr,
+        style: TextStyle(
+          color: Color(0xFF2F2F33),
+          fontFamily: 'Muli',
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
+        ),
+      );
+    }
+
+    List<Widget> impactCards = focus != null
+      ? [
+        new ImpactCard(
+          header: "Current Focus",
+          subheader: focus.completedAt == null ? focus.text : '${focus.text} (Complete)',
+          value: (focus.actions.length - 1).toDouble(),
+          isFocus: false,
+          colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF)],
+        ),
+      ] : [];
+
+    statistics.stats.forEach((k, v) {
+      impactCards.insert(
+        impactCards.length,
+        new ImpactCard(
+          header:  "${k.capitalize()} Saved",
+          subheader: "You've completed ${v.actions} ${k} saving actions",
+          value: v.amount,
+          unit: v.unit,
+          isFocus: false,
+          colors: v.colors,
+        ),
+      );
+    });
+    impactCards.insert(impactCards.length, new ImpactCard(
+      header:  'Actions Completed',
+      subheader: '',
+      value: statistics.actionCount.toDouble(),
+      isFocus: false,
+      colors: [
+        Color(0xFFFEDBCA),
+        Color(0xFFFAF2C1),
+      ],
+    ));
+    impactCards.insert(impactCards.length, Container(width: 160));
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,
@@ -152,19 +169,19 @@ class _ImpactScreenState extends State<ImpactScreen> {
         ImpactAction action = pulledValue[1];
 
         // update action count with new action
-        model.userImpact.addAction();
+        // model.userImpact.addAction();
 
-        // get material action data
-        List<ActionData> material_impact = action.impact;
+        // // get material action data
+        // List<ActionData> material_impact = action.impact;
 
-        // add all material amounts to the user impact
-        material_impact.forEach((e) {
-          if (e.material == 'water') {
-            model.userImpact.addWater(e.amount);
-          } else if (e.material == 'co2') {
-            model.userImpact.addCO2(e.amount);
-          }
-        });
+        // // add all material amounts to the user impact
+        // material_impact.forEach((e) {
+        //   if (e.material == 'water') {
+        //     model.userImpact.addWater(e.amount);
+        //   } else if (e.material == 'co2') {
+        //     model.userImpact.addCO2(e.amount);
+        //   }
+        // });
       }
 
       Timer(Duration(milliseconds: 2000), () => recurringPull(model));
@@ -175,10 +192,11 @@ class _ImpactScreenState extends State<ImpactScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseDataWidget<ImpactModel>(
-      model: ImpactModel(api : Provider.of(context)),
+      model: ImpactModel(
+        api: Provider.of(context),
+        evm: Provider.of<EngagementViewModel>(context),
+      ),
       onModelReady: (model) {
-        model.loadUserStats();
-        /* TODO mjf: fetch data */
         Timer(Duration(milliseconds: 500), () => recurringPull(model));
       },
       builder: (context, impact, child) =>
@@ -198,7 +216,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
                 Container(
                   height: 280,
                   margin: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
-                  child: _yourImpactListView(context, impact),
+                  child: _yourImpactListView(context, impact.statistics, impact.currentFocus, impact.loading),
                 ),
               ]
             ),

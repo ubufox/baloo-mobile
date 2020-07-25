@@ -6,6 +6,7 @@ class UserFocus {
   List<UserAction> _actions = <UserAction>[];
   final DateTime _createdAt;
   final DateTime _completedAt;
+  final int _position;
 
 
   UserFocus({
@@ -13,22 +14,27 @@ class UserFocus {
     List<UserAction> actions,
     DateTime createdAt,
     DateTime completedAt,
+    int position,
   }) :
     _imperativeMessage = imperativeMessage,
     _actions = actions,
     _createdAt = createdAt,
-    _completedAt = completedAt;
+    _completedAt = completedAt,
+    _position = position;
 
 
   String get text => _imperativeMessage;
   List<UserAction> get actions => _actions;
   DateTime get createdAt => _createdAt;
   DateTime get completedAt => _completedAt;
+  int get position => _position;
 
 
   static UserFocus fromUserGoalJSON(Map<String, dynamic> json) {
     Map<String, dynamic> userFocusJSON = json['userGoalFocusbyUserFocusId'];
     Map<String, dynamic> focusJSON = userFocusJSON['userFocusbyFocusId'];
+
+    Map<String, dynamic> goalFocusJSON = json['goalFocusByGoalFocusId'];
 
     DateTime completedTime;
     try {
@@ -47,6 +53,7 @@ class UserFocus {
       actions: builtActions,
       createdAt: DateTime.parse(userFocusJSON['createdAt']),
       completedAt: completedTime,
+      position: goalFocusJSON['position'],
     );
   }
 }

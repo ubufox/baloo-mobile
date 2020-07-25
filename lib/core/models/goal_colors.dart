@@ -59,4 +59,18 @@ class GoalColors {
       return _orange;
     }
   }
+
+  List<Color> getColorByMaterial(String material) {
+    switch (material) {
+      case 'water':
+        return _blue;
+      case 'carbon':
+      case 'CO2':
+        return _green;
+      case 'plastic':
+        return _purple;
+      default:
+        return _orange;
+    }
+  }
 }

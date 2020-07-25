@@ -10,8 +10,7 @@ class ImpactCard extends StatelessWidget {
   final value;
   final String unit;
   final bool isFocus;
-  final Color startColor;
-  final Color endColor;
+  final List<Color> colors;
 
   ImpactCard({
     Key key,
@@ -20,8 +19,7 @@ class ImpactCard extends StatelessWidget {
     @required this.value,
     this.unit,
     this.isFocus,
-    @required this.startColor,
-    @required this.endColor,
+    @required this.colors,
   }) : super(key: key);
 
   @override
@@ -34,10 +32,7 @@ class ImpactCard extends StatelessWidget {
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
           stops: [0.0, 1.0],
-          colors: [
-            startColor,
-            endColor,
-          ],
+          colors: colors,
         ),
         borderRadius: BorderRadius.circular(16.0),
         boxShadow: [

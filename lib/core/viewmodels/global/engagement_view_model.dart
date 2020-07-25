@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 // Services
@@ -8,6 +10,7 @@ import 'package:baloo/core/services/api.dart';
 import 'package:baloo/core/models/user_goal.dart';
 import 'package:baloo/core/models/user_focus.dart';
 import 'package:baloo/core/models/user_action.dart';
+import 'package:baloo/core/models/statistics.dart';
 import 'package:baloo/core/models/stream_types/client_available.dart';
 import 'package:baloo/core/viewmodels/global/base_global_view_model.dart';
 
@@ -20,6 +23,8 @@ class EngagementViewModel extends BaseGlobalViewModel {
   // Define required properties
   List<UserGoal> _userGoals;
   UserGoal _activeGoal;
+  UserFocus _currentFocus;
+  Statistics _userStatistics;
   Api _api;
 
 
@@ -32,13 +37,73 @@ class EngagementViewModel extends BaseGlobalViewModel {
 
 
   // Getters and Setters
-  UserGoal get activeGoal => _activeGoal == null ? getActiveGoal() : _activeGoal;
-  UserFocus get currentFocus => activeGoal
-    .focuses
-    .firstWhere((f) => f.completedAt == null, orElse: () => null);
-  UserAction get currentAction => currentFocus
-    .actions
-    .firstWhere((a) => a.completedAt == null, orElse: () => null);
+  UserGoal get activeGoal => _activeGoal;
+  UserFocus get currentFocus => _currentFocus;
+  UserAction get currentAction => getCurrentAction();
+  Statistics get userStatistics => _userStatistics;
+
+  UserAction getCurrentAction() {
+    if (loading) {
+      return null;
+    }
+
+    return _currentFocus
+      .actions
+      .firstWhere((a) => a.completedAt == null, orElse: () => null);
+  }
+
+
+  UserGoal getActiveGoal() {
+    print('get active goal');
+
+    _activeGoal = _userGoals.firstWhere((g) => g.isActive, orElse: () => null);
+    print(activeGoal.text);
+
+    return _activeGoal;
+  }
+
+  UserFocus getCurrentFocus() {
+    print('get current focus');
+    List<UserFocus> focuses = [...activeGoal.focuses];
+
+    print('number of current goal focuses -> ${focuses.length}');
+    focuses.sort((UserFocus a, UserFocus b) =>
+      b.position.compareTo(a.position)
+    );
+
+    _currentFocus = focuses[0];
+    return focuses[0];
+  }
+
+  Future<void> loadUserStats() async {
+    setLoading(true);
+
+    try {
+      String stats = await _api.engage.getUserStats();
+      _userStatistics = Statistics.fromJSON(json.decode(stats));
+    } catch (e) {
+      print('error getting stats');
+      print(e.toString());
+    }
+
+    setLoading(false);
+  }
+
+  Future<void> loadGlobalStats() async {
+    setLoading(true);
+
+    try {
+      String stats = await _api.engage.getGlobalStats();
+      print('got global stats');
+      print(stats);
+    } catch (e) {
+      print('error getting stats');
+      print(e.toString());
+    }
+
+    setLoading(false);
+  }
+
 
 
   // Initialize Function
@@ -65,6 +130,10 @@ class EngagementViewModel extends BaseGlobalViewModel {
             ).toList();
 
           print('engagement initialized');
+          getActiveGoal();
+          getCurrentFocus();
+          await loadUserStats();
+
           setLoading(false);
         } else {
           throw(result.exception.toString());
@@ -103,12 +172,6 @@ class EngagementViewModel extends BaseGlobalViewModel {
       print(e.toString());
       setError(e.toString());
     }
-  }
-
-
-  UserGoal getActiveGoal() {
-    _activeGoal = _userGoals.firstWhere((g) => g.isActive, orElse: () => null);
-    return _activeGoal;
   }
 
 

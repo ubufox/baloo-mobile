@@ -1,53 +1,72 @@
+import 'package:flutter/material.dart' hide Focus;
+
+import 'package:baloo/core/models/goal_colors.dart';
+
+
 class Stat {
   final double _amount;
+  final int _actions;
   final String _unit;
+  List<Color> _colors;
 
 
   Stat({
     double amount,
+    int actions,
     String unit,
+    List<Color> colors,
   }) :
     _amount = amount,
-    _unit = unt;
+    _actions = actions,
+    _unit = unit,
+    _colors = colors;
 
 
-  double get amount = _amount;
-  String get unit = _unit;
+  double get amount => _amount;
+  int get actions => _actions;
+  String get unit => _unit;
+  List<Color> get colors => _colors;
 }
 
 
 class Statistics {
   Map<String, Stat> _stats;
+  int _actionCount;
 
 
   Statistics({
     Map<String, Stat> stats,
-  }) : _stats = stats;
+    int actionCount,
+  }) :
+    _stats = stats,
+    _actionCount = actionCount;
 
 
-  Map<String, Stat> get stats => _stats;
+  Map<String, dynamic> get stats => _stats;
+  int get actionCount => _actionCount;
 
-  // TODO mjf
-  //   Actually use the json to build the stat;
+
   static Statistics fromJSON(Map<String, dynamic> json) {
     print('Statistics JSON');
     print(json);
 
-    Stat water = Stat({
-      amount: 1393.82,
-      unit: 'L',
-    });
-    Stat carbon = Stat({
-      amount: 2.01,
-      unit: 'kg',
-    });
+    Map<String, Stat> builtStats = {};
+    json['statistics'].forEach((s) {
+      String material = s['material'];
+      Stat tempStat = new Stat(
+        actions: s['actions'],
+        amount: s['amount'],
+        unit: s['unit'],
+        colors: new GoalColors().getColorByMaterial(s['material']),
+      );
 
-    return Statistics({
-      stats: {
-        water: water,
-        carbon: carbon,
-        actionCount: 3948,
-      },
+      builtStats[material] = tempStat;
     });
+    int count = int.tryParse(json['actions']);
+
+    return Statistics(
+      stats: builtStats,
+      actionCount: count,
+    );
   }
 }

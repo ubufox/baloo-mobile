@@ -25,6 +25,9 @@ String getUserGoals = """
             id
           }
         }
+        goalFocusByGoalFocusId {
+          position
+        }
       }
       completedAt
       communityGoalId

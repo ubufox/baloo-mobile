@@ -133,24 +133,34 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   evm: Provider.of<EngagementViewModel>(context),
                 ),
                 builder: (context, model, child) =>
-                  ActionButton(
-                    onPressed: () {
-                      pressed = true;
+                  model.loading || model.currentAction == null
+                    ? Text(
+                        'Loading action',
+                        style: TextStyle(
+                          fontFamily: 'Muli',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF979797),
+                        ),
+                      )
+                    : ActionButton(
+                      onPressed: () {
+                        pressed = true;
 
-                      setState(() {
-                        _controller.play();
-                        Future.delayed(
-                          const Duration(milliseconds: 2000),
-                          () {
-                            model.complete();
-                            nav.updateRoute(RoutePaths.Impact);
-                            Navigator.pushNamed(context, RoutePaths.Impact);
-                          }
-                        );
-                      });
-                    },
-                    message: model.currentAction.firstPersonMessage,
-                  )
+                        setState(() {
+                          _controller.play();
+                          Future.delayed(
+                            const Duration(milliseconds: 2000),
+                            () {
+                              model.complete();
+                              nav.updateRoute(RoutePaths.Impact);
+                              Navigator.pushNamed(context, RoutePaths.Impact);
+                            }
+                          );
+                        });
+                      },
+                      message: model.currentAction.firstPersonMessage,
+                    )
               ),
             ],
           ),

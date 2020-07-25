@@ -4,16 +4,21 @@ import 'package:baloo/core/services/storage_access.dart';
 
 
 class EngageAPI {
-  final String ENGAGE_URL = 'https://us-central1-baloo-hasura.cloudfunctions.net/engage';
+  // final String ENGAGE_URL = 'https://us-central1-baloo-hasura.cloudfunctions.net/engage';
+  final String ENGAGE_URL = 'http://3d3649236769.ngrok.io';
   final _storage = StorageAccess();
   String _token;
 
 
   // GET USER'S TOTAL STATS
-  Future<String> getUserStats(String jwt) async {
+  Future<String> getUserStats() async {
+    if (_token == null) {
+      _token = await _storage.getJWT();
+    }
+
     Map<String, String> headers = {
-      "Content-type": "application/json",
-      "Authorization": jwt.toString(),
+      "Content-type": "application/application/json",
+      "Authorization": _token,
     };
 
     Response response = await get(
