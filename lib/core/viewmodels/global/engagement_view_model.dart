@@ -182,6 +182,8 @@ class EngagementViewModel extends BaseGlobalViewModel {
 
       _activeGoal = _userGoals.firstWhere((g) => g.goalId == goalId);
       _activeGoal.isActive = true;
+
+      getCurrentFocus();
     } catch (e) {
       print('error joining goal');
       print(e);
