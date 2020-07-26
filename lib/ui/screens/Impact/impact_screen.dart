@@ -83,7 +83,13 @@ class _ImpactScreenState extends State<ImpactScreen> {
     );
   }
 
-  Widget _yourImpactListView(BuildContext context, Statistics statistics, UserFocus focus, bool isLoading) {
+  Widget _yourImpactListView(
+    BuildContext context,
+    Statistics statistics,
+    UserFocus focus,
+    int numPendingActions,
+    bool isLoading,
+  ) {
     if (isLoading || statistics == null) {
       return Text(
         'Loading statistics',
@@ -102,7 +108,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
         new ImpactCard(
           header: "Current Focus",
           subheader: focus.completedAt == null ? focus.text : '${focus.text} (Complete)',
-          value: (focus.actions.length - 1).toDouble(),
+          value: (numPendingActions + focus.actions.length - 1).toDouble(),
           isFocus: false,
           colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF)],
         ),
@@ -124,7 +130,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
     impactCards.insert(impactCards.length, new ImpactCard(
       header:  'Actions Completed',
       subheader: '',
-      value: statistics.actionCount.toDouble(),
+      value: (numPendingActions + statistics.actionCount).toDouble(),
       isFocus: false,
       colors: [
         Color(0xFFFEDBCA),
@@ -198,6 +204,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
       ),
       onModelReady: (model) {
         Timer(Duration(milliseconds: 500), () => recurringPull(model));
+        Timer(Duration(milliseconds: 500), () => model.refresh());
       },
       builder: (context, impact, child) =>
         Scaffold(
@@ -216,7 +223,13 @@ class _ImpactScreenState extends State<ImpactScreen> {
                 Container(
                   height: 280,
                   margin: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
-                  child: _yourImpactListView(context, impact.statistics, impact.currentFocus, impact.loading),
+                  child: _yourImpactListView(
+                    context,
+                    impact.statistics,
+                    impact.currentFocus,
+                    impact.numPendingActions,
+                    impact.loading,
+                  ),
                 ),
               ]
             ),

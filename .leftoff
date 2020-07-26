@@ -1,6 +1,3 @@
-Just finished connecting the action completion button to the actual currentAction
+Just removed the complete action button once the action has been completed
 
-Everything froze on action submission with no errors being indicated in the console
-The hasura hooks also seem to not be firing
-  - potentially need to update the event settings
-  - could also try connecting the app to a local instance of the api
+Should be good to go

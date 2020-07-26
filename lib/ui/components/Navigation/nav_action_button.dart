@@ -12,6 +12,13 @@ class NavActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final nav = Provider.of<NavBarModel>(context);
 
+    if (nav.completed) {
+      return Container(
+        width: 0,
+        height: 0,
+      );
+    }
+
     return SizedBox(
       height: 60,
       width: 60,

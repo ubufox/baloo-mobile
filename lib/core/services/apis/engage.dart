@@ -4,8 +4,7 @@ import 'package:baloo/core/services/storage_access.dart';
 
 
 class EngageAPI {
-  // final String ENGAGE_URL = 'https://us-central1-baloo-hasura.cloudfunctions.net/engage';
-  final String ENGAGE_URL = 'http://3d3649236769.ngrok.io';
+  final String ENGAGE_URL = 'https://us-central1-baloo-hasura.cloudfunctions.net/engage';
   final _storage = StorageAccess();
   String _token;
 

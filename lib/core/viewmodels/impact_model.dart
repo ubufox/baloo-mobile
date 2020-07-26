@@ -35,6 +35,7 @@ class ImpactModel extends BaseViewModel {
   List<ImpactAction> get pendingActions => _pendingActions;
   UserFocus get currentFocus => _evm.currentFocus;
   Statistics get statistics => _evm.userStatistics;
+  int get numPendingActions => _evm.numPendingActions;
 
 
   List pullImpactAction() {
@@ -52,5 +53,13 @@ class ImpactModel extends BaseViewModel {
   void completeActions(List<ImpactAction> actions) {
     _pendingActions.insertAll(_pendingActions.length, actions);
     notifyListeners();
+  }
+
+  Future<void> refresh() async {
+    print('refresh');
+
+    await _evm.refresh();
+
+    print('refresh complete');
   }
 }

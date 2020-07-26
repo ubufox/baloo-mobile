@@ -153,6 +153,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             const Duration(milliseconds: 2000),
                             () {
                               model.complete();
+                              nav.setCompleted();
                               nav.updateRoute(RoutePaths.Impact);
                               Navigator.pushNamed(context, RoutePaths.Impact);
                             }

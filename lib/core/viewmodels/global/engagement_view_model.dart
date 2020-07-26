@@ -25,6 +25,7 @@ class EngagementViewModel extends BaseGlobalViewModel {
   UserGoal _activeGoal;
   UserFocus _currentFocus;
   Statistics _userStatistics;
+  int _numPendingActions = 0;
   Api _api;
 
 
@@ -41,6 +42,7 @@ class EngagementViewModel extends BaseGlobalViewModel {
   UserFocus get currentFocus => _currentFocus;
   UserAction get currentAction => getCurrentAction();
   Statistics get userStatistics => _userStatistics;
+  int get numPendingActions => _numPendingActions;
 
   UserAction getCurrentAction() {
     if (loading) {
@@ -54,8 +56,6 @@ class EngagementViewModel extends BaseGlobalViewModel {
 
 
   UserGoal getActiveGoal() {
-    print('get active goal');
-
     _activeGoal = _userGoals.firstWhere((g) => g.isActive, orElse: () => null);
     print(activeGoal.text);
 
@@ -63,10 +63,8 @@ class EngagementViewModel extends BaseGlobalViewModel {
   }
 
   UserFocus getCurrentFocus() {
-    print('get current focus');
     List<UserFocus> focuses = [...activeGoal.focuses];
 
-    print('number of current goal focuses -> ${focuses.length}');
     focuses.sort((UserFocus a, UserFocus b) =>
       b.position.compareTo(a.position)
     );
@@ -162,7 +160,6 @@ class EngagementViewModel extends BaseGlobalViewModel {
             (goal) => UserGoal.fromJSON(goal)
           ).toList();
 
-        print('engagement refreshed');
         setLoading(false);
       } else {
         throw(result.exception.toString());
@@ -197,6 +194,8 @@ class EngagementViewModel extends BaseGlobalViewModel {
 
     try {
       await _api.engage.completeAction(userActionId);
+
+      _numPendingActions += 1;
       setLoading(false);
 
     } catch (e) {
